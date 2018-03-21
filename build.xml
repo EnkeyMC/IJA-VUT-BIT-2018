@@ -11,6 +11,9 @@
     <target name="compile">
         <mkdir dir="${classes.dir}" />
         <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.dir}" includes="ija/project/ui/fxml/**"/>
+        </copy>
     </target>
 
     <target name="jar" depends="compile">
