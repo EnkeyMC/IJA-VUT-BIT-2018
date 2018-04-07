@@ -1,6 +1,9 @@
 package ija.project.schema;
 
-public class BlockPort implements InputPort, OutputPort {
+import ija.project.utils.XMLBuilder;
+import ija.project.utils.XMLRepresentable;
+
+public class BlockPort implements InputPort, OutputPort, XMLRepresentable {
 
 	private Block block;
 	private String port;
@@ -31,6 +34,16 @@ public class BlockPort implements InputPort, OutputPort {
 
 	@Override
 	public void setValue(String key, Double value) {
+
+	}
+
+	@Override
+	public void fromXML(XMLBuilder xmlDom) {
+
+	}
+
+	@Override
+	public void toXML(XMLBuilder xmlDom) {
 
 	}
 }

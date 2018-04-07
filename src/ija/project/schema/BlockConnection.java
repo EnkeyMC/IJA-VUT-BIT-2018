@@ -1,7 +1,10 @@
 package ija.project.schema;
 
 
-public class BlockConnection {
+import ija.project.utils.XMLBuilder;
+import ija.project.utils.XMLRepresentable;
+
+public class BlockConnection implements XMLRepresentable {
 	private BlockPort inputPort;
 	private BlockPort outputPort;
 
@@ -35,5 +38,15 @@ public class BlockConnection {
 
 	public void setOutputPort(BlockPort outputPort) {
 		this.outputPort = outputPort;
+	}
+
+	@Override
+	public void fromXML(XMLBuilder xmlDom) {
+
+	}
+
+	@Override
+	public void toXML(XMLBuilder xmlDom) {
+
 	}
 }

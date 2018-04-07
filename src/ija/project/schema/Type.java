@@ -1,6 +1,7 @@
 package ija.project.schema;
 
 import ija.project.utils.XMLBuilder;
+import ija.project.utils.XMLRepresentable;
 
 import java.util.Map;
 

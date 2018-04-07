@@ -1,6 +1,5 @@
-package ija.project.schema;
+package ija.project.utils;
 
-import ija.project.utils.XMLBuilder;
 
 public interface XMLRepresentable {
 
