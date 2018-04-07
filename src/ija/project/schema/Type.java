@@ -1,8 +1,10 @@
 package ija.project.schema;
 
+import ija.project.utils.XMLBuilder;
+
 import java.util.Map;
 
-public class Type {
+public class Type implements XMLRepresentable {
 
 	/** Type identificator */
 	private String id;
@@ -60,20 +62,13 @@ public class Type {
 		this.displayName = displayName;
 	}
 
-	/**
-	 * Parse type from xml file
-	 * @param filename file to parse
-	 * @return Type instance
-	 */
-	public static Type loadFromXML(String filename) {
-		return null;
+	@Override
+	public void fromXML(XMLBuilder xmlDom) {
+
 	}
 
-	/**
-	 * Save type in xml file
-	 * @param filename file to save to
-	 */
-	public static void saveToXML(String filename) {
+	@Override
+	public void toXML(XMLBuilder xmlDom) {
 
 	}
 }

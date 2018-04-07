@@ -1,13 +1,15 @@
 package ija.project.schema;
 
+import ija.project.utils.XMLBuilder;
+
 import java.util.ArrayList;
 
-public class Block {
+public class Block implements XMLRepresentable {
 
 	private String id;
 	private String displayName;
-	private ArrayList<BlockPort> inputPorts;
-	private ArrayList<BlockPort> outputPorts;
+	private ArrayList<InputPort> inputPorts;
+	private ArrayList<OutputPort> outputPorts;
 
 	/**
 	 * Create blank block
@@ -16,20 +18,13 @@ public class Block {
 
 	}
 
-	/**
-	 * Load block definition from XML file
-	 * @param filename file to parse
-	 * @return Block instance
-	 */
-	public static Block loadFromXML(String filename) {
-		return null;
+	@Override
+	public void fromXML(XMLBuilder xmlDom) {
+
 	}
 
-	/**
-	 * Save block definition to XML file
-	 * @param filename file to save to
-	 */
-	public static void saveToXML(String filename) {
+	@Override
+	public void toXML(XMLBuilder xmlDom) {
 
 	}
 
