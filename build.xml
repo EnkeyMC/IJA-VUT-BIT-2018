@@ -1,16 +1,16 @@
-<project name="BlockEditor" basedir="." default="run">
+<project name="ija-client" basedir="." default="run">
     <property name="src.dir"     value="src"/>
 
     <property name="build.dir"   value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
-    <property name="jar.dir"     value="${build.dir}/jar"/>
+    <property name="jar.dir"     value="dest-client/"/>
 
     <property name="main-class"  value="ija.project.BlockEditor"/>
 
 
     <target name="compile">
         <mkdir dir="${classes.dir}" />
-        <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="on"/>
         <copy todir="${classes.dir}">
             <fileset dir="${src.dir}" includes="ija/project/ui/fxml/**"/>
         </copy>

@@ -24,7 +24,7 @@ public class BlockEditor extends Application {
 			System.exit(1);
 		}
 		primaryStage.setTitle("Hello World");
-		primaryStage.setScene(new Scene(root, 300, 275));
+		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
 	}
 }
