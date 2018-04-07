@@ -3,6 +3,9 @@ package ija.project.schema;
 import ija.project.utils.XMLBuilder;
 import ija.project.utils.XMLRepresentable;
 
+import javax.management.openmbean.KeyAlreadyExistsException;
+import java.security.KeyException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Type implements XMLRepresentable {
@@ -18,7 +21,9 @@ public class Type implements XMLRepresentable {
 	 * Creates new blank type
 	 */
 	public Type() {
-
+		id = null;
+		displayName = null;
+		mapping = new HashMap<>();
 	}
 
 	/**
@@ -27,15 +32,32 @@ public class Type implements XMLRepresentable {
 	 * @param displayName type display name
 	 */
 	public Type(String id, String displayName) {
-
+		this.displayName = displayName;
+		this.id = id;
 	}
 
 	/**
 	 * Add key to type
 	 * @param key value key
 	 */
-	public void addKey(String key) {
+	public void addKey(String key) throws KeyException {
+		if (mapping.containsKey(key)) {
+			throw new KeyException("Type already contains given key");
+		}
+		mapping.put(key, null);
+	}
 
+	/**
+	 * Set key and value to type
+	 * @param key value key
+	 * @param value ---
+	 */
+	public void setValue(String key, Double value) throws KeyException {
+		if (mapping.containsKey(key)) {
+			mapping.put(key, value);
+		} else {
+			throw new KeyException("Not existing type with this key");
+		}
 	}
 
 	/**
@@ -47,18 +69,34 @@ public class Type implements XMLRepresentable {
 		return null;
 	}
 
+	/**
+	 * Get id value
+	 * @return id value
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * Get display name
+	 * @return display name value
+	 */
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	/**
+	 * Set id value
+	 * @param id id value to set
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 
+	/**
+	 * Set display name
+	 * @param displayName display name to set
+	 */
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}

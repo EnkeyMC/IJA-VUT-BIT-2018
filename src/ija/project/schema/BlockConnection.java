@@ -12,7 +12,8 @@ public class BlockConnection implements XMLRepresentable {
 	 * Create blank BlockConnection
 	 */
 	public BlockConnection() {
-
+		inputPort = null;
+		outputPort = null;
 	}
 
 	/**
@@ -21,21 +22,38 @@ public class BlockConnection implements XMLRepresentable {
 	 * @param outputPort block output port
 	 */
 	public BlockConnection(BlockPort inputPort, BlockPort outputPort) {
-
+		this.inputPort = inputPort;
+		this.outputPort = outputPort;
 	}
 
+	/**
+	 * Get input port
+	 * @return input port
+	 */
 	public BlockPort getInputPort() {
 		return inputPort;
 	}
 
+	/**
+	 * Set input port
+	 * @param inputPort input port to set
+	 */
 	public void setInputPort(BlockPort inputPort) {
 		this.inputPort = inputPort;
 	}
 
+	/**
+	 * Get output port
+	 * @return output port
+	 */
 	public BlockPort getOutputPort() {
 		return outputPort;
 	}
 
+	/**
+	 * Set output port
+	 * @param outputPort output port to set
+	 */
 	public void setOutputPort(BlockPort outputPort) {
 		this.outputPort = outputPort;
 	}
