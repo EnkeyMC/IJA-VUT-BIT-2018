@@ -1,5 +1,6 @@
-package ija.project.processor;
+package test.ija.project.processor;
 
+import ija.project.processor.Processor;
 import ija.project.schema.Block;
 import ija.project.schema.Type;
 import ija.project.schema.Schema;

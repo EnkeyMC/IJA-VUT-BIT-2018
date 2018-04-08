@@ -1,5 +1,6 @@
-package ija.project.register;
+package test.ija.project.register;
 
+import ija.project.register.TypeRegister;
 import ija.project.schema.Type;
 import org.junit.Test;
 

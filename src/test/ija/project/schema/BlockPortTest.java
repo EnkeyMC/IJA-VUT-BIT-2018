@@ -1,5 +1,8 @@
-package ija.project.schema;
+package test.ija.project.schema;
 
+import ija.project.schema.Block;
+import ija.project.schema.BlockPort;
+import ija.project.schema.Type;
 import org.junit.Test;
 
 import java.security.KeyException;

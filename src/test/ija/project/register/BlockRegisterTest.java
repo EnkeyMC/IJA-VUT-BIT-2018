@@ -1,7 +1,8 @@
-package ija.project.register;
+package test.ija.project.register;
 
+import ija.project.register.BlockRegister;
+import ija.project.register.BlockType;
 import ija.project.schema.Block;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

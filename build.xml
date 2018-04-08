@@ -1,6 +1,6 @@
 <project name="ija-client" basedir="." default="run">
     <property name="src.dir"     value="src"/>
-	<property name="test.dir"	 value="test" />
+	<property name="test.dir"	 value="src/test" />
 
     <property name="build.dir"   value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
@@ -12,11 +12,10 @@
 
     <target name="compile">
         <mkdir dir="${classes.dir}" />
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" />
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpath="${test.lib.cp}" />
         <copy todir="${classes.dir}">
             <fileset dir="${src.dir}" includes="ija/project/ui/fxml/**"/>
         </copy>
-		<javac classpath="${test.lib.cp}" srcdir="${test.dir}" destdir="${classes.dir}" />
     </target>
 
     <target name="jar" depends="compile">

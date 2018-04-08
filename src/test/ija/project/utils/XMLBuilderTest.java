@@ -1,6 +1,7 @@
-package ija.project.utils;
+package test.ija.project.utils;
 
 import ija.project.exception.XMLParsingException;
+import ija.project.utils.XMLBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
