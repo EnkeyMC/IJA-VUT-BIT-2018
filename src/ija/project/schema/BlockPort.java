@@ -29,7 +29,7 @@ public class BlockPort implements XMLRepresentable {
 		return type;
 	}
 
-	public Double getValue(String key) {
+	public Double getValue(String key) throws KeyException {
 		return type.getValue(key);
 	}
 

@@ -65,8 +65,12 @@ public class Type implements XMLRepresentable {
 	 * @param key value key
 	 * @return value
 	 */
-	public Double getValue(String key) {
-		return null;
+	public Double getValue(String key) throws KeyException {
+		if (mapping.containsKey(key)) {
+			return mapping.get(key);
+		} else {
+			throw new KeyException("Not existing type with this key");
+		}
 	}
 
 	/**
