@@ -4,7 +4,6 @@ import ija.project.utils.XMLBuilder;
 import ija.project.utils.XMLRepresentable;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Block implements XMLRepresentable {
 
@@ -111,7 +110,7 @@ public class Block implements XMLRepresentable {
 	public void connectOutToIn(String srcName, Block dstBlock, String dstName) {
 		BlockPort dstPort = null;
 		for (BlockPort port : dstBlock.getInputPorts()) {
-			if (port.getPort() == dstName) {
+			if (port.getPort().equals(dstName)) {
 				dstPort = port;
 				break;
 			}
@@ -122,7 +121,7 @@ public class Block implements XMLRepresentable {
 		}
 
 		for (BlockPort port : this.outputPorts) {
-			if (port.getPort() == srcName) {
+			if (port.getPort().equals(srcName)) {
 				port.setOpposite(dstPort);
 				dstPort.setOpposite(port);
 				break;
