@@ -11,7 +11,6 @@ public class Schema implements XMLRepresentable {
 	private String displayName;
 
 	private Collection<Block> blocks;
-	private Collection<BlockConnection> blockConnections;
 
 	@Override
 	public void fromXML(XMLBuilder xmlDom) {
@@ -21,5 +20,9 @@ public class Schema implements XMLRepresentable {
 	@Override
 	public void toXML(XMLBuilder xmlDom) {
 
+	}
+
+	public Collection<Block> getBlocks() {
+		return this.blocks;
 	}
 }

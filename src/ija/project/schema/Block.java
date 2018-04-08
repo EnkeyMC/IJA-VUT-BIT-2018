@@ -98,4 +98,12 @@ public class Block implements XMLRepresentable {
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
+
+	public ArrayList<BlockPort> getInputPorts() {
+		return this.inputPorts;
+	}
+
+	public ArrayList<BlockPort> getOutputPorts() {
+		return this.outputPorts;
+	}
 }

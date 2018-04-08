@@ -10,11 +10,13 @@ public class BlockPort implements XMLRepresentable {
 	private Block block;
 	private String port;
 	private Type type;
+	private BlockPort opposite;
 
 	public BlockPort(Block block, String port, Type type) {
 		this.block = block;
 		this.port = port;
 		this.type = type;
+		this.opposite = null;
 	}
 
 	public Block getBlock() {
@@ -33,8 +35,16 @@ public class BlockPort implements XMLRepresentable {
 		return type.getValue(key);
 	}
 
+	public BlockPort getOpposite() {
+		return this.opposite;
+	}
+
 	public void setValue(String key, Double value) throws KeyException {
 		type.setValue(key, value);
+	}
+
+	public void setOpposite(BlockPort opposite) {
+		this.opposite = opposite;
 	}
 
 	@Override
