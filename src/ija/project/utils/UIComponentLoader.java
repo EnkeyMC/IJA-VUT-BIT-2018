@@ -29,7 +29,7 @@ public class UIComponentLoader<T> {
 		String path = "";
 		try {
 			Method m = this.componentClass.getMethod("getFXMLPath");
-			path = (String) m.invoke(null, null);
+			path = (String) m.invoke(null);
 
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
 			e.printStackTrace();
