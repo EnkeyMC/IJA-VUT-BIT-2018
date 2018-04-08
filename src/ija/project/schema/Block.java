@@ -4,6 +4,7 @@ import ija.project.utils.XMLBuilder;
 import ija.project.utils.XMLRepresentable;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Block implements XMLRepresentable {
 

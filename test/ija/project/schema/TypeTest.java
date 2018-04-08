@@ -1,11 +1,8 @@
 package ija.project.schema;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.security.KeyException;
-import java.util.Iterator;
 
 import static org.junit.Assert.*;
 
