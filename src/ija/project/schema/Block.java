@@ -9,8 +9,8 @@ public class Block implements XMLRepresentable {
 
 	private String id;
 	private String displayName;
-	private ArrayList<InputPort> inputPorts;
-	private ArrayList<OutputPort> outputPorts;
+	private ArrayList<BlockPort> inputPorts;
+	private ArrayList<BlockPort> outputPorts;
 	private ArrayList<Formula> formula;
 
 	/**
@@ -21,6 +21,7 @@ public class Block implements XMLRepresentable {
 		displayName = null;
 		inputPorts = new ArrayList<>();
 		outputPorts = new ArrayList<>();
+		formula = new ArrayList<>();
 	}
 
 	@Override
@@ -53,9 +54,10 @@ public class Block implements XMLRepresentable {
 
 	/**
 	 * Add new formula to block
+	 * @param f formula to add
 	 */
-	public void addFormula() {
-		formula.add(new Formula());
+	public void addFormula(Formula f) {
+		formula.add(f);
 	}
 
 	/**

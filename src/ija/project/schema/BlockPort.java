@@ -5,7 +5,7 @@ import ija.project.utils.XMLRepresentable;
 
 import java.security.KeyException;
 
-public class BlockPort implements InputPort, OutputPort, XMLRepresentable {
+public class BlockPort implements XMLRepresentable {
 
 	private Block block;
 	private String port;
@@ -29,12 +29,10 @@ public class BlockPort implements InputPort, OutputPort, XMLRepresentable {
 		return type;
 	}
 
-	@Override
 	public Double getValue(String key) {
 		return type.getValue(key);
 	}
 
-	@Override
 	public void setValue(String key, Double value) throws KeyException {
 		type.setValue(key, value);
 	}

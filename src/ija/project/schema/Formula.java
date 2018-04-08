@@ -12,7 +12,7 @@ public class Formula implements XMLRepresentable {
 	 * @param inputPorts input ports with values
 	 * @param outputPorts output ports to transform values to
 	 */
-	public void transform(Collection<InputPort> inputPorts, Collection<OutputPort> outputPorts) {
+	public void transform(Collection<BlockPort> inputPorts, Collection<BlockPort> outputPorts) {
 
 	}
 
