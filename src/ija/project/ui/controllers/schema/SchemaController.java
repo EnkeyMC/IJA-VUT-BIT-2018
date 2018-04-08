@@ -18,4 +18,8 @@ public class SchemaController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.schema = new Schema();
 	}
+
+	public static String getFXMLPath() {
+		return "schema/Schema.fxml";
+	}
 }

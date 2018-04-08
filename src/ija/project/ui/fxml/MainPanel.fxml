@@ -40,8 +40,30 @@
 			</menus>
 		</MenuBar>
 	</children>
-	<TabPane fx:id="tabs">
-		<tabs>
-		</tabs>
-	</TabPane>
+	<SplitPane dividerPositions="0.2, 0.8" VBox.vgrow="ALWAYS">
+		<items>
+			<VBox>
+				<children>
+					<TitledPane text="Built-in blocks">
+						<content>
+							<ScrollPane>
+								<content>
+									<ListView>
+
+									</ListView>
+								</content>
+							</ScrollPane>
+						</content>
+					</TitledPane>
+				</children>
+			</VBox>
+			<TabPane fx:id="tabs">
+				<tabs>
+				</tabs>
+			</TabPane>
+			<AnchorPane>
+
+			</AnchorPane>
+		</items>
+	</SplitPane>
 </VBox>
