@@ -107,4 +107,26 @@ public class Block implements XMLRepresentable {
 	public ArrayList<BlockPort> getOutputPorts() {
 		return this.outputPorts;
 	}
+
+	public void connectOutToIn(String srcName, Block dstBlock, String dstName) {
+		BlockPort dstPort = null;
+		for (BlockPort port : dstBlock.getInputPorts()) {
+			if (port.getPort() == dstName) {
+				dstPort = port;
+				break;
+			}
+		}
+
+		if (dstPort == null) {
+			return;
+		}
+
+		for (BlockPort port : this.outputPorts) {
+			if (port.getPort() == srcName) {
+				port.setOpposite(dstPort);
+				dstPort.setOpposite(port);
+				break;
+			}
+		}
+	}
 }

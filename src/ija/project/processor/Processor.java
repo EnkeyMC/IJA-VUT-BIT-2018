@@ -17,7 +17,7 @@ public class Processor {
 		this.outputBlocks = new ArrayList<>();
 	}
 
-	private void findOutputBlocks() {
+	public void findOutputBlocks() {
 		for (Block block : schema.getBlocks()) {
 			for (BlockPort port : block.getOutputPorts()) {
 				if (port.getOpposite() == null) {
@@ -33,38 +33,38 @@ public class Processor {
 	}
 
 	private void findLoops(Block root) throws Exception {
-		ArrayList<Block> blocksVisited = new ArrayList<>();
-		Stack branch = new Stack();
-		Stack indexes = new Stack();
-		branch.push(root);
-		indexes.push(0);
+		//ArrayList<Block> blocksVisited = new ArrayList<>();
+		//Stack<Block> branch = new Stack();
+		//Stack<Integer> indexes = new Stack();
+		//branch.push(root);
+		//indexes.push(0);
 
-		Block block;
-		while(!branch.empty()) {
-			block = (Block)branch.pop();
-			int idx = (int)indexes.pop();
-			blocksVisited.subList(idx, blocksVisited.size() -1).clear();
-			blocksVisited.add(block);
-			for (BlockPort port : block.getInputPorts()) {
-				BlockPort otherPort = port.getOpposite();
-				if (otherPort != null) {
-					Block otherBlock = otherPort.getBlock();
-					if (blocksVisited.contains(otherBlock)) {
-						throw new Exception();
-					}
-					else {
-						branch.push(otherBlock);
-						indexes.push(blocksVisited.size());
-					}
-				}
-			}
-		}
+		//Block block;
+		//while(!branch.empty()) {
+			//block = branch.pop();
+			//Integer idx = indexes.pop();
+			//Integer size = blocksVisited.size();
+			//if (size > idx) {
+				//blocksVisited.subList(idx, size-1).clear();
+			//}
+			//blocksVisited.add(block);
+			//for (BlockPort port : block.getInputPorts()) {
+				//BlockPort otherPort = port.getOpposite();
+				//if (otherPort != null) {
+					//Block otherBlock = otherPort.getBlock();
+					//if (blocksVisited.contains(otherBlock)) {
+						//throw new Exception();
+					//}
+					//else {
+						//branch.push(otherBlock);
+						//indexes.push(blocksVisited.size());
+					//}
+				//}
+			//}
+		//}
 	}
 
-	public void startComputation() throws Exception {
-		findOutputBlocks();
-		for (Block block : outputBlocks) {
-			findLoops(block);
-		}
+	public ArrayList<Block> getOutputBlocks() {
+		return this.outputBlocks;
 	}
 }
