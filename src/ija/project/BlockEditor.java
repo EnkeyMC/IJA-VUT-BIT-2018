@@ -1,7 +1,7 @@
 package ija.project;
 
+import ija.project.utils.UIComponentLoader;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -18,7 +18,7 @@ public class BlockEditor extends Application {
 	public void start(Stage primaryStage) {
 		Parent root = null;
 		try {
-			root = FXMLLoader.load(getClass().getResource("ui/fxml/MainPanel.fxml"));
+			root = UIComponentLoader.loadComponent("MainPanel.fxml");
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 			System.exit(1);

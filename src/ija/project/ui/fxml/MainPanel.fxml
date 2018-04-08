@@ -21,6 +21,7 @@
 						<SeparatorMenuItem mnemonicParsing="false" />
 						<MenuItem text="Close" onAction="#handleCloseSchemaAction" />
 						<MenuItem text="_Save" />
+						<MenuItem text="Save All" />
 						<MenuItem text="Save _As..." />
 						<MenuItem text="_Quit" onAction="#handleQuitAction" />
 					</items>
@@ -41,10 +42,6 @@
 	</children>
 	<TabPane fx:id="tabs">
 		<tabs>
-			<Tab text="Test">
-				<content>
-				</content>
-			</Tab>
 		</tabs>
 	</TabPane>
 </VBox>
