@@ -6,12 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-enum BlockType {
-	BUILT_IN,
-	USER_DEFINED,
-	SCHEMA_BLOCKS
-}
-
 public class BlockRegister {
 	private static Map<BlockType, ArrayList<Block>> register = new HashMap<>();
 
