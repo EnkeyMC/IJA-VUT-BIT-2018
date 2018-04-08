@@ -11,6 +11,7 @@ public class Block implements XMLRepresentable {
 	private String displayName;
 	private ArrayList<InputPort> inputPorts;
 	private ArrayList<OutputPort> outputPorts;
+	private ArrayList<Formula> formula;
 
 	/**
 	 * Create blank block
@@ -48,6 +49,20 @@ public class Block implements XMLRepresentable {
 	 */
 	public void addOutputPort(String name, Type type) {
 		outputPorts.add(new BlockPort(this, name, type));
+	}
+
+	/**
+	 * Add new formula to block
+	 */
+	public void addFormula() {
+		formula.add(new Formula());
+	}
+
+	/**
+	 * Get certain formula
+	 */
+	public ArrayList<Formula> getFormula() {
+		return formula;
 	}
 
 	/**

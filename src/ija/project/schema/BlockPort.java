@@ -3,6 +3,8 @@ package ija.project.schema;
 import ija.project.utils.XMLBuilder;
 import ija.project.utils.XMLRepresentable;
 
+import java.security.KeyException;
+
 public class BlockPort implements InputPort, OutputPort, XMLRepresentable {
 
 	private Block block;
@@ -29,12 +31,12 @@ public class BlockPort implements InputPort, OutputPort, XMLRepresentable {
 
 	@Override
 	public Double getValue(String key) {
-		return null;
+		return type.getValue(key);
 	}
 
 	@Override
-	public void setValue(String key, Double value) {
-
+	public void setValue(String key, Double value) throws KeyException {
+		type.setValue(key, value);
 	}
 
 	@Override
