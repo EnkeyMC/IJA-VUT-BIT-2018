@@ -1,5 +1,6 @@
 package ija.project.ui.controllers;
 
+import ija.project.ui.controllers.schema.SchemaController;
 import ija.project.utils.UIComponentLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -50,9 +51,14 @@ public class MainPanelController implements Initializable {
 		Tab tab = new Tab(name);
 		tabs.getTabs().add(tab);
 		try {
-			tab.setContent(UIComponentLoader.loadComponent("schema/Schema.fxml"));
+			UIComponentLoader<SchemaController> loader = new UIComponentLoader<>(SchemaController.class);
+			tab.setContent(loader.load());
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
+	}
+
+	public static String getFXMLPath() {
+		return "MainPanel.fxml";
 	}
 }

@@ -1,5 +1,6 @@
 package ija.project;
 
+import ija.project.ui.controllers.MainPanelController;
 import ija.project.utils.UIComponentLoader;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -18,7 +19,8 @@ public class BlockEditor extends Application {
 	public void start(Stage primaryStage) {
 		Parent root = null;
 		try {
-			root = UIComponentLoader.loadComponent("MainPanel.fxml");
+			UIComponentLoader<MainPanelController> loader = new UIComponentLoader<>(MainPanelController.class);
+			root = loader.load();
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 			System.exit(1);
