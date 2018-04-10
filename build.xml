@@ -27,15 +27,15 @@
         </jar>
     </target>
 
-    <!--<target name="run" depends="jar">
+    <target name="run" depends="jar">
         <java jar="${jar.dir}/${ant.project.name}.jar" fork="true" />
-    </target> -->
+    </target>
 
     <target name="clean">
         <delete dir="${build.dir}" />
     </target>
 
-	<target name="run">
+	<target name="test">
 		<junit printsummary="yes" haltonfailure="no">
 			<classpath path="${test.lib.cp}" />
 			<classpath location="${classes.dir}" />
