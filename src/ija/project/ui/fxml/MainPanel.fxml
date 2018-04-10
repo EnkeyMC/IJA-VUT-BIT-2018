@@ -42,19 +42,9 @@
 	</children>
 	<SplitPane dividerPositions="0.2, 0.8" VBox.vgrow="ALWAYS">
 		<items>
-			<VBox>
+			<VBox fx:id="blockLists">
 				<children>
-					<TitledPane text="Built-in blocks">
-						<content>
-							<ScrollPane>
-								<content>
-									<ListView>
 
-									</ListView>
-								</content>
-							</ScrollPane>
-						</content>
-					</TitledPane>
 				</children>
 			</VBox>
 			<TabPane fx:id="tabs">

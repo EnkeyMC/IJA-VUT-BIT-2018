@@ -1,5 +1,7 @@
 package ija.project.ui.controllers;
 
+import ija.project.register.BlockType;
+import ija.project.ui.controllers.components.BlockListController;
 import ija.project.ui.controllers.schema.SchemaController;
 import ija.project.utils.UIComponentLoader;
 import javafx.application.Platform;
@@ -10,15 +12,22 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class MainPanelController implements Initializable {
+	@FXML
+	private VBox blockList;
 
 	@FXML
 	private TabPane tabs;
+
+	private Map<BlockType, BlockListController> blockListControllers;
 
 	@FXML
 	private void handleNewSchemaAction(ActionEvent event) {
@@ -45,6 +54,8 @@ public class MainPanelController implements Initializable {
 	@FXML
 	public void initialize(URL location, ResourceBundle resources) {
 		this.newScheme("Untitled");
+
+		this.blockListControllers = new HashMap<>();
 	}
 
 	private void newScheme(String name) {
