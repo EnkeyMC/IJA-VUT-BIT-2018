@@ -39,6 +39,5 @@ public class BlockEditor extends Application {
 		BlockRegister.reg("User", new Block("4", "Block4"));
 		BlockRegister.reg("User", new Block("5", "Block5"));
 		primaryStage.show();
-
 	}
 }
