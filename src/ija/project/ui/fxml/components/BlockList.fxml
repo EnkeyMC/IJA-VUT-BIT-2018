@@ -10,13 +10,9 @@
 			xmlns:fx="http://javafx.com/fxml"
 			fx:controller="ija.project.ui.controllers.components.BlockListController">
 	<content>
-		<ScrollPane>
-			<content>
-				<ListView fx:id="list">
-					<items>
-					</items>
-				</ListView>
-			</content>
-		</ScrollPane>
+		<ListView fx:id="list">
+			<items>
+			</items>
+		</ListView>
 </content>
 </TitledPane>

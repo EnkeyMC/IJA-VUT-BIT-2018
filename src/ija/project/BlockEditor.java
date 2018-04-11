@@ -1,5 +1,7 @@
 package ija.project;
 
+import ija.project.register.BlockRegister;
+import ija.project.schema.Block;
 import ija.project.ui.controllers.MainPanelController;
 import ija.project.utils.UIComponentLoader;
 import javafx.application.Application;
@@ -22,11 +24,21 @@ public class BlockEditor extends Application {
 			UIComponentLoader<MainPanelController> loader = new UIComponentLoader<>(MainPanelController.class);
 			root = loader.load();
 		} catch (IOException e) {
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 			System.exit(1);
 		}
-		primaryStage.setTitle("Hello World");
+		primaryStage.setTitle("Block Editor");
 		primaryStage.setScene(new Scene(root));
+		BlockRegister.reg("Built-in", new Block("1", "Block1"));
+		BlockRegister.reg("Built-in", new Block("2", "Block2"));
+		BlockRegister.reg("Built-in", new Block("3", "Block3"));
+		BlockRegister.reg("Built-in", new Block("3", "Block3"));
+		BlockRegister.reg("ASfd", new Block("3", "Block3"));
+		BlockRegister.reg("Built-insf", new Block("3", "Block3"));
+		BlockRegister.reg("Built-in", new Block("3", "Block3"));
+		BlockRegister.reg("User", new Block("4", "Block4"));
+		BlockRegister.reg("User", new Block("5", "Block5"));
 		primaryStage.show();
+
 	}
 }

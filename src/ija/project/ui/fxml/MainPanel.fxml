@@ -42,16 +42,15 @@
 	</children>
 	<SplitPane dividerPositions="0.2, 0.8" VBox.vgrow="ALWAYS">
 		<items>
-			<VBox fx:id="blockLists">
+			<VBox fx:id="blockList" SplitPane.resizableWithParent="false">
 				<children>
-
 				</children>
 			</VBox>
 			<TabPane fx:id="tabs">
 				<tabs>
 				</tabs>
 			</TabPane>
-			<AnchorPane>
+			<AnchorPane SplitPane.resizableWithParent="false">
 
 			</AnchorPane>
 		</items>

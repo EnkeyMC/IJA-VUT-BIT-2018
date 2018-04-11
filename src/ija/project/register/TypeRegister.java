@@ -16,7 +16,7 @@ public class TypeRegister {
 	}
 
 	public static void removeType(String id) {
-		for (Type t : getTypeRegistry()) {
+		for (Type t : register) {
 			if (t.getId().equals(id)) {
 				register.remove(t);
 				return;

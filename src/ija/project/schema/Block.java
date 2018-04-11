@@ -24,6 +24,14 @@ public class Block implements XMLRepresentable {
 		formula = new ArrayList<>();
 	}
 
+	public Block(String id, String displayName) {
+		this.id = id;
+		this.displayName = displayName;
+		inputPorts = new ArrayList<>();
+		outputPorts = new ArrayList<>();
+		formula = new ArrayList<>();
+	}
+
 	@Override
 	public void fromXML(XMLBuilder xmlDom) {
 

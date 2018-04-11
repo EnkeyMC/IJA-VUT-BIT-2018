@@ -1,17 +1,24 @@
 package ija.project.ui.controllers;
 
-import ija.project.register.BlockType;
+import ija.project.register.BlockRegister;
+import ija.project.schema.Block;
 import ija.project.ui.controllers.components.BlockListController;
 import ija.project.ui.controllers.schema.SchemaController;
 import ija.project.utils.UIComponentLoader;
 import javafx.application.Platform;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -27,7 +34,7 @@ public class MainPanelController implements Initializable {
 	@FXML
 	private TabPane tabs;
 
-	private Map<BlockType, BlockListController> blockListControllers;
+	private Map<String, BlockListController> blockListControllers;
 
 	@FXML
 	private void handleNewSchemaAction(ActionEvent event) {
@@ -56,6 +63,33 @@ public class MainPanelController implements Initializable {
 		this.newScheme("Untitled");
 
 		this.blockListControllers = new HashMap<>();
+		ObservableMap<String, ObservableList<Block>> registers = BlockRegister.getAllRegisters();
+		registers.addListener((MapChangeListener<String, ObservableList<Block>>) change -> {
+            if (change.wasAdded()) {  // Block type added
+                BlockListController controller;
+                UIComponentLoader<BlockListController> loader;
+
+                loader = new UIComponentLoader<>(BlockListController.class);
+                try {
+                    blockList.getChildren().add(loader.load());
+                    controller = loader.getController();
+                    controller.setBlockType(change.getKey());
+                    blockListControllers.put(change.getKey(), controller);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {  // Block type removed
+            	for (Node node : blockList.getChildren()) {
+            		if (node instanceof TitledPane) {
+						TitledPane pane = (TitledPane) node;
+						if (pane.getText().equals(change.getKey())) {
+							blockList.getChildren().remove(node);
+							break;
+						}
+					}
+				}
+			}
+        });
 	}
 
 	private void newScheme(String name) {
