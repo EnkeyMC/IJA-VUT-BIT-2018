@@ -1,11 +1,11 @@
 package ija.project.processor;
 
+import ija.project.schema.Block;
+import ija.project.schema.BlockType;
 import ija.project.schema.Schema;
 import ija.project.schema.BlockPort;
-import ija.project.schema.Block;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class Processor {
 
@@ -19,20 +19,16 @@ public class Processor {
 
 	public void findOutputBlocks() {
 		for (Block block : schema.getBlocks()) {
-			for (BlockPort port : block.getOutputPorts()) {
-				if (port.getOpposite() == null) {
-					this.outputBlocks.add(block);
-					break;
-				}
-			}
+			if (block.hasUnconnectedOutputPort())
+				outputBlocks.add(block);
 		}
 	}
 
-	private void computeBlock(Block block) {
+	private void computeBlock(BlockType block) {
 		return;
 	}
 
-	private void findLoops(Block root) throws Exception {
+	private void findLoops(BlockType root) throws Exception {
 		//ArrayList<Block> blocksVisited = new ArrayList<>();
 		//Stack<Block> branch = new Stack();
 		//Stack<Integer> indexes = new Stack();
@@ -51,7 +47,7 @@ public class Processor {
 			//for (BlockPort port : block.getInputPorts()) {
 				//BlockPort otherPort = port.getOpposite();
 				//if (otherPort != null) {
-					//Block otherBlock = otherPort.getBlock();
+					//BlockType otherBlock = otherPort.getBlockType();
 					//if (blocksVisited.contains(otherBlock)) {
 						//throw new Exception();
 					//}

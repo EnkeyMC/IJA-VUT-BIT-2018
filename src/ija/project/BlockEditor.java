@@ -1,7 +1,7 @@
 package ija.project;
 
 import ija.project.register.BlockRegister;
-import ija.project.schema.Block;
+import ija.project.schema.BlockType;
 import ija.project.ui.controllers.MainPanelController;
 import ija.project.utils.UIComponentLoader;
 import javafx.application.Application;
@@ -27,17 +27,17 @@ public class BlockEditor extends Application {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		primaryStage.setTitle("Block Editor");
+		primaryStage.setTitle("BlockType Editor");
 		primaryStage.setScene(new Scene(root));
-		BlockRegister.reg("Built-in", new Block("1", "Block1"));
-		BlockRegister.reg("Built-in", new Block("2", "Block2"));
-		BlockRegister.reg("Built-in", new Block("3", "Block3"));
-		BlockRegister.reg("Built-in", new Block("3", "Block3"));
-		BlockRegister.reg("ASfd", new Block("3", "Block3"));
-		BlockRegister.reg("Built-insf", new Block("3", "Block3"));
-		BlockRegister.reg("Built-in", new Block("3", "Block3"));
-		BlockRegister.reg("User", new Block("4", "Block4"));
-		BlockRegister.reg("User", new Block("5", "Block5"));
+		BlockRegister.reg("Built-in", new BlockType("1", "Block1"));
+		BlockRegister.reg("Built-in", new BlockType("2", "Block2"));
+		BlockRegister.reg("Built-in", new BlockType("3", "Block3"));
+		BlockRegister.reg("Built-in", new BlockType("3", "Block3"));
+		BlockRegister.reg("ASfd", new BlockType("3", "Block3"));
+		BlockRegister.reg("Built-insf", new BlockType("3", "Block3"));
+		BlockRegister.reg("Built-in", new BlockType("3", "Block3"));
+		BlockRegister.reg("User", new BlockType("4", "Block4"));
+		BlockRegister.reg("User", new BlockType("5", "Block5"));
 		primaryStage.show();
 	}
 }

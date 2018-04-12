@@ -1,7 +1,7 @@
 package ija.project.ui.controllers.components;
 
 import ija.project.register.BlockRegister;
-import ija.project.schema.Block;
+import ija.project.schema.BlockType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
@@ -17,7 +17,7 @@ public class BlockListController implements Initializable {
 	private TitledPane pane;
 
 	@FXML
-	private ListView<Block> list;
+	private ListView<BlockType> list;
 
 	public void setBlockType(String type) {
 		pane.setText(type);
@@ -31,12 +31,12 @@ public class BlockListController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		list.setCellFactory(new Callback<ListView<Block>, ListCell<Block>>() {
+		list.setCellFactory(new Callback<ListView<BlockType>, ListCell<BlockType>>() {
 			@Override
-			public ListCell<Block> call(ListView<Block> param) {
-				return new ListCell<Block>() {
+			public ListCell<BlockType> call(ListView<BlockType> param) {
+				return new ListCell<BlockType>() {
 					@Override
-					protected void updateItem(Block item, boolean empty) {
+					protected void updateItem(BlockType item, boolean empty) {
 						super.updateItem(item, empty);
 						if (empty || item == null) {
 							setText(null);

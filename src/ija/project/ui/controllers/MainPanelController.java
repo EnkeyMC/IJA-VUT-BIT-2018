@@ -1,7 +1,7 @@
 package ija.project.ui.controllers;
 
 import ija.project.register.BlockRegister;
-import ija.project.schema.Block;
+import ija.project.schema.BlockType;
 import ija.project.ui.controllers.components.BlockListController;
 import ija.project.ui.controllers.schema.SchemaController;
 import ija.project.utils.UIComponentLoader;
@@ -18,7 +18,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -28,6 +27,11 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class MainPanelController implements Initializable {
+
+	public static String getFXMLPath() {
+		return "MainPanel.fxml";
+	}
+
 	@FXML
 	private VBox blockList;
 
@@ -63,9 +67,9 @@ public class MainPanelController implements Initializable {
 		this.newScheme("Untitled");
 
 		this.blockListControllers = new HashMap<>();
-		ObservableMap<String, ObservableList<Block>> registers = BlockRegister.getAllRegisters();
-		registers.addListener((MapChangeListener<String, ObservableList<Block>>) change -> {
-            if (change.wasAdded()) {  // Block type added
+		ObservableMap<String, ObservableList<BlockType>> registers = BlockRegister.getAllRegisters();
+		registers.addListener((MapChangeListener<String, ObservableList<BlockType>>) change -> {
+            if (change.wasAdded()) {  // BlockType type added
                 BlockListController controller;
                 UIComponentLoader<BlockListController> loader;
 
@@ -78,7 +82,7 @@ public class MainPanelController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else {  // Block type removed
+            } else {  // BlockType type removed
             	for (Node node : blockList.getChildren()) {
             		if (node instanceof TitledPane) {
 						TitledPane pane = (TitledPane) node;
@@ -101,9 +105,5 @@ public class MainPanelController implements Initializable {
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
-	}
-
-	public static String getFXMLPath() {
-		return "MainPanel.fxml";
 	}
 }

@@ -1,35 +1,57 @@
 package ija.project.schema;
 
+import ija.project.exception.ApplicationException;
 import ija.project.utils.XMLBuilder;
 import ija.project.utils.XMLRepresentable;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Block implements XMLRepresentable {
 
-	private String id;
-	private String displayName;
-	private ArrayList<BlockPort> inputPorts;
-	private ArrayList<BlockPort> outputPorts;
-	private ArrayList<Formula> formula;
+	private BlockType blockType;
+	private HashMap<String, TypeValues> inputPorts;
+	private HashMap<String, TypeValues> outputPorts;
+	private HashMap<String, Block> connections;
 
-	/**
-	 * Create blank block
-	 */
+	private DoubleProperty x;
+	private DoubleProperty y;
+
 	public Block() {
-		id = null;
-		displayName = null;
-		inputPorts = new ArrayList<>();
-		outputPorts = new ArrayList<>();
-		formula = new ArrayList<>();
+		initEmpty();
 	}
 
-	public Block(String id, String displayName) {
-		this.id = id;
-		this.displayName = displayName;
-		inputPorts = new ArrayList<>();
-		outputPorts = new ArrayList<>();
-		formula = new ArrayList<>();
+	public Block(BlockType blockType) {
+		initEmpty();
+		initFromBlockType(blockType);
+	}
+
+	private void initEmpty() {
+		this.blockType = null;
+		this.inputPorts = new HashMap<>();
+		this.outputPorts = new HashMap<>();
+		this.connections = new HashMap<>();
+		x = new SimpleDoubleProperty(0);
+		y = new SimpleDoubleProperty(0);
+	}
+
+	private void initFromBlockType(BlockType blockType) {
+		this.blockType = blockType;
+
+		ArrayList<BlockPort> ports = blockType.getInputPorts();
+		for (BlockPort port : ports) {
+			inputPorts.put(port.getName(), new TypeValues(port.getType()));
+			connections.put(port.getName(), null);
+		}
+
+		ports = blockType.getOutputPorts();
+		for (BlockPort port : ports) {
+			outputPorts.put(port.getName(), new TypeValues(port.getType()));
+			connections.put(port.getName(), null);
+		}
 	}
 
 	@Override
@@ -42,98 +64,45 @@ public class Block implements XMLRepresentable {
 
 	}
 
-	/**
-	 * Add input port to block with given name and type
-	 * @param name port name
-	 * @param type type of port
-	 */
-	public void addInputPort(String name, Type type) {
-		inputPorts.add(new BlockPort(this, name, type));
+	public void connectTo(String srcPort, Block dstBlock, String dstPort) {
+		if (!connections.containsKey(srcPort))
+			throw new ApplicationException("Block '" + blockType.getId() + "' does not contain port '" + srcPort + "'");
+		if (!dstBlock.connections.containsKey(dstPort))
+			throw new ApplicationException("Block '" + dstBlock.blockType.getId() + "' does not contain port '" + dstPort + "'");
+
+		connections.put(srcPort, dstBlock);
+		dstBlock.connections.put(dstPort, this);
 	}
 
-	/**
-	 * Add output port to block with given name and type
-	 * @param name port name
-	 * @param type type of port
-	 */
-	public void addOutputPort(String name, Type type) {
-		outputPorts.add(new BlockPort(this, name, type));
-	}
-
-	/**
-	 * Add new formula to block
-	 * @param f formula to add
-	 */
-	public void addFormula(Formula f) {
-		formula.add(f);
-	}
-
-	/**
-	 * Get certain formula
-	 */
-	public ArrayList<Formula> getFormula() {
-		return formula;
-	}
-
-	/**
-	 * Get id value
-	 * @return id value
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * Set id value
-	 * @param id id value to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * Get name of block
-	 * @return name of block
-	 */
-	public String getDisplayName() {
-		return displayName;
-	}
-
-	/**
-	 * Set name of block
-	 * @param displayName new name to set
-	 */
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	public ArrayList<BlockPort> getInputPorts() {
-		return this.inputPorts;
-	}
-
-	public ArrayList<BlockPort> getOutputPorts() {
-		return this.outputPorts;
-	}
-
-	public void connectOutToIn(String srcName, Block dstBlock, String dstName) {
-		BlockPort dstPort = null;
-		for (BlockPort port : dstBlock.getInputPorts()) {
-			if (port.getPort().equals(dstName)) {
-				dstPort = port;
-				break;
-			}
+	public boolean hasUnconnectedOutputPort() {
+		for (Map.Entry<String, TypeValues> port : outputPorts.entrySet()) {
+			if (connections.get(port.getKey()) == null)
+				return true;
 		}
+		return false;
+	}
 
-		if (dstPort == null) {
-			return;
-		}
+	public double getX() {
+		return x.get();
+	}
 
-		for (BlockPort port : this.outputPorts) {
-			if (port.getPort().equals(srcName)) {
-				port.setOpposite(dstPort);
-				dstPort.setOpposite(port);
-				break;
-			}
-		}
+	public DoubleProperty xProperty() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x.set(x);
+	}
+
+	public double getY() {
+		return y.get();
+	}
+
+	public DoubleProperty yProperty() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y.set(y);
 	}
 }

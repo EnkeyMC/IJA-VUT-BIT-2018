@@ -14,6 +14,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SchemaController implements Initializable {
+
+	public static String getFXMLPath() {
+		return "schema/Schema.fxml";
+	}
+
 	@FXML
 	private AnchorPane schemaPane;
 
@@ -22,10 +27,6 @@ public class SchemaController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.schema = new Schema();
-	}
-
-	public static String getFXMLPath() {
-		return "schema/Schema.fxml";
 	}
 
 	@FXML

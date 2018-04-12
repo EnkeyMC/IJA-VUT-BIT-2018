@@ -3,10 +3,9 @@ package ija.project.schema;
 import ija.project.utils.XMLBuilder;
 import ija.project.utils.XMLRepresentable;
 
-import javax.management.openmbean.KeyAlreadyExistsException;
 import java.security.KeyException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Type implements XMLRepresentable {
 
@@ -15,7 +14,7 @@ public class Type implements XMLRepresentable {
 	/** Type display name */
 	private String displayName;
 	/** Type mapped values */
-	private Map<String, Double> mapping;
+	private ArrayList<String> keys;
 
 	/**
 	 * Creates new blank type
@@ -23,7 +22,7 @@ public class Type implements XMLRepresentable {
 	public Type() {
 		id = null;
 		displayName = null;
-		mapping = new HashMap<>();
+		keys = new ArrayList<>();
 	}
 
 	/**
@@ -41,36 +40,14 @@ public class Type implements XMLRepresentable {
 	 * @param key value key
 	 */
 	public void addKey(String key) throws KeyException {
-		if (mapping.containsKey(key)) {
+		if (keys.contains(key)) {
 			throw new KeyException("Type already contains given key");
 		}
-		mapping.put(key, null);
+		keys.add(key);
 	}
 
-	/**
-	 * Set key and value to type
-	 * @param key value key
-	 * @param value ---
-	 */
-	public void setValue(String key, Double value) throws KeyException {
-		if (mapping.containsKey(key)) {
-			mapping.put(key, value);
-		} else {
-			throw new KeyException("Not existing type with this key");
-		}
-	}
-
-	/**
-	 * Get key value
-	 * @param key value key
-	 * @return value
-	 */
-	public Double getValue(String key) throws KeyException {
-		if (mapping.containsKey(key)) {
-			return mapping.get(key);
-		} else {
-			throw new KeyException("Not existing type with this key");
-		}
+	public ArrayList<String> getKeys() {
+		return keys;
 	}
 
 	/**

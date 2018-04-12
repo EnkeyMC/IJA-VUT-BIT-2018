@@ -1,22 +1,28 @@
 package ija.project.ui.controllers.schema;
 
+import ija.project.schema.BlockType;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 
 public class BlockController {
 
+	public static String getFXMLPath() {
+		return "schema/BlockType.fxml";
+	}
+
 	@FXML
-	private BorderPane block;
+	private BorderPane blockPane;
+
 
 	public void setX(double x) {
-		block.setLayoutX(x);
+		blockPane.layoutXProperty();
 	}
 
 	public void setY(double y) {
-		block.setLayoutY(y);
+		blockPane.setLayoutY(y);
 	}
 
-	public static String getFXMLPath() {
-		return "schema/Block.fxml";
+	public void setBlockType(BlockType blockType) {
+
 	}
 }

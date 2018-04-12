@@ -1,16 +1,16 @@
 package test.ija.project.register;
 
 import ija.project.register.BlockRegister;
-import ija.project.schema.Block;
+import ija.project.schema.BlockType;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class BlockRegisterTest {
+public class BlockTypeRegisterTest {
 
 	@Test
 	public void registerBlockBuiltinTest() {
-		Block b = new Block();
+		BlockType b = new BlockType();
 		b.setId("q");
 		BlockRegister.reg("type1", b);
 		assertTrue(BlockRegister.getBlockRegistry("type1").contains(b));
@@ -19,7 +19,7 @@ public class BlockRegisterTest {
 
 	@Test
 	public void removeBlockTest() {
-		Block b = new Block();
+		BlockType b = new BlockType();
 		b.setId("a");
 		BlockRegister.reg("type1", b);
 		try {
@@ -31,7 +31,7 @@ public class BlockRegisterTest {
 
 	@Test(expected = RuntimeException.class)
 	public void removeInvalidBlock() {
-		Block b = new Block();
+		BlockType b = new BlockType();
 		b.setId("b");
 		BlockRegister.reg("type1", b);
 		BlockRegister.removeBlock("type1", "invalid");
