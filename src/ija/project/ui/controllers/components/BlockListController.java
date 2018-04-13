@@ -1,6 +1,6 @@
 package ija.project.ui.controllers.components;
 
-import ija.project.register.BlockRegister;
+import ija.project.register.BlockTypeRegister;
 import ija.project.schema.BlockType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,7 +22,7 @@ public class BlockListController implements Initializable {
 	public void setBlockType(String type) {
 		pane.setText(type);
 
-		list.setItems(BlockRegister.getBlockRegistry(type));
+		list.setItems(BlockTypeRegister.getBlockRegistry(type));
 	}
 
 	public static String getFXMLPath() {

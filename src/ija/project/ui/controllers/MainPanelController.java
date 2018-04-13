@@ -1,6 +1,6 @@
 package ija.project.ui.controllers;
 
-import ija.project.register.BlockRegister;
+import ija.project.register.BlockTypeRegister;
 import ija.project.schema.BlockType;
 import ija.project.ui.controllers.components.BlockListController;
 import ija.project.ui.controllers.schema.SchemaController;
@@ -67,7 +67,7 @@ public class MainPanelController implements Initializable {
 		this.newScheme("Untitled");
 
 		this.blockListControllers = new HashMap<>();
-		ObservableMap<String, ObservableList<BlockType>> registers = BlockRegister.getAllRegisters();
+		ObservableMap<String, ObservableList<BlockType>> registers = BlockTypeRegister.getAllRegisters();
 		registers.addListener((MapChangeListener<String, ObservableList<BlockType>>) change -> {
             if (change.wasAdded()) {  // BlockType type added
                 BlockListController controller;

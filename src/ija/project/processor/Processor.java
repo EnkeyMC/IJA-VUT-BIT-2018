@@ -3,20 +3,33 @@ package ija.project.processor;
 import ija.project.schema.Block;
 import ija.project.schema.BlockType;
 import ija.project.schema.Schema;
-import ija.project.schema.BlockPort;
 
 import java.util.ArrayList;
 
 public class Processor {
 
+	/**
+	 * Processed schema
+	 */
 	private Schema schema;
+
+	/**
+	 * Blocks that have unconnected output ports
+	 */
 	private ArrayList<Block> outputBlocks;
 
+	/**
+	 * Construct object
+	 * @param schema schema to process
+	 */
 	public Processor(Schema schema) {
 		this.schema = schema;
 		this.outputBlocks = new ArrayList<>();
 	}
 
+	/**
+	 * Find blocks that have unconnected output ports
+	 */
 	public void findOutputBlocks() {
 		for (Block block : schema.getBlocks()) {
 			if (block.hasUnconnectedOutputPort())

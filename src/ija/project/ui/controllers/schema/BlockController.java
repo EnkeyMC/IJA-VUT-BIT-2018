@@ -1,5 +1,6 @@
 package ija.project.ui.controllers.schema;
 
+import ija.project.schema.Block;
 import ija.project.schema.BlockType;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
@@ -7,15 +8,16 @@ import javafx.scene.layout.BorderPane;
 public class BlockController {
 
 	public static String getFXMLPath() {
-		return "schema/BlockType.fxml";
+		return "schema/Block.fxml";
 	}
 
 	@FXML
 	private BorderPane blockPane;
 
+	private Block block;
 
 	public void setX(double x) {
-		blockPane.layoutXProperty();
+		blockPane.setLayoutX(x);
 	}
 
 	public void setY(double y) {
@@ -23,6 +25,8 @@ public class BlockController {
 	}
 
 	public void setBlockType(BlockType blockType) {
-
+		block = new Block(blockType);
+		block.xProperty().bindBidirectional(blockPane.layoutXProperty());
+		block.yProperty().bindBidirectional(blockPane.layoutYProperty());
 	}
 }

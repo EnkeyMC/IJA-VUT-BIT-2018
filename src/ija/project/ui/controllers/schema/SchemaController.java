@@ -1,5 +1,6 @@
 package ija.project.ui.controllers.schema;
 
+import ija.project.register.BlockTypeRegister;
 import ija.project.schema.Schema;
 import ija.project.utils.UIComponentLoader;
 import javafx.fxml.FXML;
@@ -36,9 +37,9 @@ public class SchemaController implements Initializable {
 				UIComponentLoader<BlockController> loader = new UIComponentLoader<>(BlockController.class);
 				schemaPane.getChildren().add(loader.load());
 				BlockController controller = loader.getController();
+				controller.setBlockType(BlockTypeRegister.getBlockRegistry("Built-in").get(0));
 				controller.setX(event.getX());
 				controller.setY(event.getY());
-				System.out.println("Placed block");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

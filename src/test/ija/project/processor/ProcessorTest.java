@@ -1,6 +1,7 @@
 package test.ija.project.processor;
 
 import ija.project.processor.Processor;
+import ija.project.schema.Block;
 import ija.project.schema.BlockType;
 import ija.project.schema.Type;
 import ija.project.schema.Schema;
@@ -12,124 +13,124 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 public class ProcessorTest {
-/*
+
 	@Test
 	public void testFindOutputBlocks1() {
-		ArrayList<BlockType> outputBlocks = new ArrayList<>();
+		ArrayList<Block> outputBlocks = new ArrayList<>();
 		Type type = new Type();
+		BlockType blockType = new BlockType();
 
-		BlockType block1 = new BlockType();
+		blockType.addInputPort("blk1-input-1", type);
+		blockType.addOutputPort("blk1-output-1", type);
 
-		block1.addInputPort("blk1-input-1", type);
-		block1.addOutputPort("blk1-output-1", type);
-
+		Block b1 = new Block(blockType);
 		Schema schema = new Schema();
-		schema.addBlock(block1);
+		schema.addBlock(b1);
 
-		outputBlocks.add(block1);
+		outputBlocks.add(b1);
 
 		Processor proc = new Processor(schema);
 		proc.findOutputBlocks();
-		ArrayList<BlockType> blocks = proc.getOutputBlocks();
-		for (BlockType blk : outputBlocks) {
-			assertEquals(blocks.contains(blk), true);
+		ArrayList<Block> blocks = proc.getOutputBlocks();
+		for (Block blk : outputBlocks) {
+			assertTrue(blocks.contains(blk));
 		}
 	}
 
 	@Test
 	public void testFindOutputBlocks2() {
-		ArrayList<BlockType> outputBlocks = new ArrayList<>();
+		ArrayList<Block> outputBlocks = new ArrayList<>();
 		Type type = new Type();
 
-		BlockType block1 = new BlockType();
-		BlockType block2 = new BlockType();
+		BlockType blockType1 = new BlockType();
+		BlockType blockType2 = new BlockType();
 
-		block1.addInputPort("blk1-input-1", type);
-		block1.addOutputPort("blk1-output-1", type);
+		blockType1.addInputPort("blk1-input-1", type);
+		blockType1.addOutputPort("blk1-output-1", type);
 
-		block2.addInputPort("blk2-input-1", type);
-		block2.addOutputPort("blk2-output-1", type);
-		block1.connectOutToIn("blk1-output-1", block2, "blk2-input-1");
+		blockType2.addInputPort("blk2-input-1", type);
+		blockType2.addOutputPort("blk2-output-1", type);
+
+		Block b1 = new Block(blockType1);
+		Block b2 = new Block(blockType2);
+		b1.connectTo("blk1-output-1", b2, "blk2-input-1");
 
 		Schema schema = new Schema();
-		schema.addBlock(block1);
-		schema.addBlock(block2);
+		schema.addBlock(b1);
+		schema.addBlock(b2);
 
-		outputBlocks.add(block2);
+		outputBlocks.add(b2);
 
 		Processor proc = new Processor(schema);
 		proc.findOutputBlocks();
-		ArrayList<BlockType> blocks = proc.getOutputBlocks();
-		for (BlockType blk : outputBlocks) {
+		ArrayList<Block> blocks = proc.getOutputBlocks();
+		for (Block blk : outputBlocks) {
 			assertEquals(blocks.contains(blk), true);
 		}
 	}
 
 	@Test
 	public void testFindOutputBlocks3() {
-		ArrayList<BlockType> outputBlocks = new ArrayList<>();
+		ArrayList<Block> outputBlocks = new ArrayList<>();
 		Type type = new Type();
 
-		BlockType block1 = new BlockType();
-		BlockType block2 = new BlockType();
-		BlockType block3 = new BlockType();
-		BlockType block4 = new BlockType();
+		BlockType blockType1 = new BlockType();
+		BlockType blockType2 = new BlockType();
+		BlockType blockType3 = new BlockType();
 
-		block1.addInputPort("blk1-input-1", type);
-		block1.addOutputPort("blk1-output-1", type);
-		block1.addOutputPort("blk1-output-2", type);
+		blockType1.addInputPort("input-1", type);
+		blockType1.addOutputPort("output-1", type);
+		blockType1.addOutputPort("output-2", type);
 
-		block2.addInputPort("blk2-input-1", type);
-		block2.addOutputPort("blk2-output-1", type);
+		blockType2.addInputPort("input-1", type);
+		blockType2.addOutputPort("output-1", type);
 
-		block3.addInputPort("blk3-input-1", type);
-		block3.addOutputPort("blk3-output-1", type);
+		blockType3.addInputPort("input-1", type);
+		blockType3.addInputPort("input-2", type);
+		blockType3.addOutputPort("output-1", type);
 
-		block4.addInputPort("blk4-input-1", type);
-		block4.addInputPort("blk4-input-2", type);
-		block4.addOutputPort("blk4-output-1", type);
+		Block b1 = new Block(blockType1);
+		Block b2 = new Block(blockType2);
+		Block b3 = new Block(blockType2);
+		Block b4 = new Block(blockType3);
 
-		block1.connectOutToIn("blk1-output-1", block2, "blk2-input-1");
-		block1.connectOutToIn("blk1-output-2", block3, "blk3-input-1");
-		block2.connectOutToIn("blk2-output-1", block4, "blk4-input-1");
-		block3.connectOutToIn("blk3-output-1", block4, "blk4-input-2");
+		b1.connectTo("output-1", b2, "input-1");
+		b1.connectTo("output-2", b3, "input-1");
+		b2.connectTo("output-1", b4, "input-1");
+		b3.connectTo("output-1", b4, "input-2");
 
 		Schema schema = new Schema();
-		schema.addBlock(block1);
-		schema.addBlock(block2);
-		schema.addBlock(block3);
-		schema.addBlock(block4);
+		schema.addBlock(b1);
+		schema.addBlock(b2);
+		schema.addBlock(b3);
+		schema.addBlock(b4);
 
-		outputBlocks.add(block4);
+		outputBlocks.add(b4);
 
 		Processor proc = new Processor(schema);
 		proc.findOutputBlocks();
-		ArrayList<BlockType> blocks = proc.getOutputBlocks();
-		for (BlockType blk : outputBlocks) {
+		ArrayList<Block> blocks = proc.getOutputBlocks();
+		for (Block blk : outputBlocks) {
 			assertEquals(blocks.contains(blk), true);
 		}
 	}
 
 	@Test
 	public void testFindOutputBlocks4() {
-		ArrayList<BlockType> outputBlocks = new ArrayList<>();
+		ArrayList<Block> outputBlocks = new ArrayList<>();
 		Type type = new Type();
 
-		BlockType block1 = new BlockType();
-		BlockType block2 = new BlockType();
-		BlockType block3 = new BlockType();
+		BlockType blockType1 = new BlockType();
 
-		block1.addInputPort("blk1-input-1", type);
-		block1.addOutputPort("blk1-output-1", type);
+		blockType1.addInputPort("input-1", type);
+		blockType1.addOutputPort("output-1", type);
 
-		block2.addInputPort("blk2-input-1", type);
-		block2.addOutputPort("blk2-output-1", type);
+		Block block1 = new Block(blockType1);
+		Block block2 = new Block(blockType1);
+		Block block3 = new Block(blockType1);
 
-		block3.addInputPort("blk3-input-1", type);
-		block3.addOutputPort("blk3-output-1", type);
-
-		block1.connectOutToIn("blk1-output-1", block2, "blk2-input-1");
-		block2.connectOutToIn("blk2-output-1", block3, "blk3-input-1");
+		block1.connectTo("output-1", block2, "input-1");
+		block2.connectTo("output-1", block3, "input-1");
 
 		Schema schema = new Schema();
 		schema.addBlock(block1);
@@ -140,9 +141,9 @@ public class ProcessorTest {
 
 		Processor proc = new Processor(schema);
 		proc.findOutputBlocks();
-		ArrayList<BlockType> blocks = proc.getOutputBlocks();
-		for (BlockType blk : outputBlocks) {
+		ArrayList<Block> blocks = proc.getOutputBlocks();
+		for (Block blk : outputBlocks) {
 			assertEquals(blocks.contains(blk), true);
 		}
-	}*/
+	}
 }

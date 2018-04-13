@@ -10,14 +10,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Block that can be placed in schema. Ports are defined by BlockType.
+ */
 public class Block implements XMLRepresentable {
 
+	/**
+	 * BlockType of this Block
+	 */
 	private BlockType blockType;
+	/**
+	 * Input ports to TypeValues mapping
+	 */
 	private HashMap<String, TypeValues> inputPorts;
+	/**
+	 * Output ports to TypeValues mapping
+	 */
 	private HashMap<String, TypeValues> outputPorts;
+	/**
+	 * Blocks connected on ports
+	 */
 	private HashMap<String, Block> connections;
 
+	/**
+	 * X coordinate in schema
+	 */
 	private DoubleProperty x;
+	/**
+	 * Y coordinate in schema
+	 */
 	private DoubleProperty y;
 
 	public Block() {
