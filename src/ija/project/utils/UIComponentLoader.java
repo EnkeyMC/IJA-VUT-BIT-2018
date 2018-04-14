@@ -17,6 +17,10 @@ public class UIComponentLoader<T> {
 		loader = new FXMLLoader(UIComponentLoader.class.getResource("/ija/project/ui/fxml/" + this.getComponentFXML()));
 	}
 
+	public FXMLLoader getLoader() {
+		return loader;
+	}
+
 	public Parent load() throws IOException {
 		return loader.load();
 	}

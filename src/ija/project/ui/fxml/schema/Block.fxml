@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
+<fx:root type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ija.project.ui.controllers.schema.BlockController"
-            prefHeight="40.0" prefWidth="60.0" fx:id="blockPane">
+            prefHeight="40.0" prefWidth="60.0">
 	<top>
 	</top>
-</BorderPane>
+</fx:root>

@@ -2,6 +2,8 @@ package ija.project.schema;
 
 import ija.project.utils.XMLBuilder;
 import ija.project.utils.XMLRepresentable;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
 
@@ -10,13 +12,13 @@ import java.util.ArrayList;
  */
 public class Schema implements XMLRepresentable {
 	/**
-	 * Schema ID
+	 * Schema file name
 	 */
-	private String id;
+	private String filename;
 	/**
 	 * Schema display name
 	 */
-	private String displayName;
+	private StringProperty displayName;
 	/**
 	 * Schema blocks
 	 */
@@ -27,6 +29,7 @@ public class Schema implements XMLRepresentable {
 	 */
 	public Schema() {
 		this.blocks = new ArrayList<>();
+		displayName = new SimpleStringProperty("Untitled");
 	}
 
 	/**
@@ -53,5 +56,17 @@ public class Schema implements XMLRepresentable {
 	@Override
 	public void toXML(XMLBuilder xmlDom) {
 
+	}
+
+	public String getDisplayName() {
+		return displayName.get();
+	}
+
+	public StringProperty displayNameProperty() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName.set(displayName);
 	}
 }

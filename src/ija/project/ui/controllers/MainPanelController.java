@@ -3,7 +3,7 @@ package ija.project.ui.controllers;
 import ija.project.register.BlockTypeRegister;
 import ija.project.schema.BlockType;
 import ija.project.ui.controllers.components.BlockListController;
-import ija.project.ui.controllers.schema.SchemaController;
+import ija.project.ui.control.schema.SchemaControl;
 import ija.project.utils.UIComponentLoader;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
@@ -99,11 +99,8 @@ public class MainPanelController implements Initializable {
 	private void newScheme(String name) {
 		Tab tab = new Tab(name);
 		tabs.getTabs().add(tab);
-		try {
-			UIComponentLoader<SchemaController> loader = new UIComponentLoader<>(SchemaController.class);
-			tab.setContent(loader.load());
-		} catch (IOException e) {
-			System.err.println(e.getMessage());
-		}
+		SchemaControl schemaControl = new SchemaControl();
+		tab.setContent(schemaControl);
+		schemaControl.bindDisplayNameTo(tab.textProperty());
 	}
 }
