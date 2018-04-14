@@ -30,6 +30,20 @@ public class TypeRegister {
 	}
 
 	/**
+	 * Get registered type by id
+	 * @param id type id
+	 * @return type
+	 * @throws RuntimeException if type with given id does not exist
+	 */
+	public static Type getTypeById(String id) throws RuntimeException {
+		for (Type t : register) {
+			if (t.getId().equals(id))
+				return t;
+		}
+		throw new RuntimeException("Type " + id + " is not in registry");
+	}
+
+	/**
 	 * Remove type from registry
 	 * @param id type id
 	 */

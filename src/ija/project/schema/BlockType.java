@@ -1,14 +1,15 @@
 package ija.project.schema;
 
-import ija.project.utils.XMLBuilder;
-import ija.project.utils.XMLRepresentable;
+import ija.project.exception.XMLParsingException;
+import ija.project.utils.XmlActiveNode;
+import ija.project.utils.XmlRepresentable;
 
 import java.util.ArrayList;
 
 /**
  * Block type defines block's input/output ports, formulas, id and display name
  */
-public class BlockType implements XMLRepresentable {
+public class BlockType implements XmlRepresentable {
 
 	/**
 	 * Block type ID
@@ -53,16 +54,6 @@ public class BlockType implements XMLRepresentable {
 		inputPorts = new ArrayList<>();
 		outputPorts = new ArrayList<>();
 		formulas = new ArrayList<>();
-	}
-
-	@Override
-	public void fromXML(XMLBuilder xmlDom) {
-
-	}
-
-	@Override
-	public void toXML(XMLBuilder xmlDom) {
-
 	}
 
 	/**
@@ -144,5 +135,73 @@ public class BlockType implements XMLRepresentable {
 	 */
 	public ArrayList<BlockPort> getOutputPorts() {
 		return this.outputPorts;
+	}
+
+	@Override
+	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
+		xmlDom.getCurrentNode("blocktype");
+		this.id = xmlDom.getAttribute("id");
+		this.displayName = xmlDom.getAttribute("display-name");
+
+		for (XmlActiveNode typeChildren : xmlDom.childIterator()) {
+			switch (typeChildren.getTag()) {
+				case "inputs": {
+					BlockPort blockPort;
+					for (XmlActiveNode node : typeChildren.childIterator()) {
+						blockPort = new BlockPort(this);
+						blockPort.fromXML(node);
+						this.inputPorts.add(blockPort);
+					}
+					break;
+				}
+
+				case "outputs": {
+					BlockPort blockPort;
+					for (XmlActiveNode node : typeChildren.childIterator()) {
+						blockPort = new BlockPort(this);
+						blockPort.fromXML(node);
+						this.outputPorts.add(blockPort);
+					}
+					break;
+				}
+
+				case "formulas": {
+					Formula formula;
+					for (XmlActiveNode node : typeChildren.childIterator()) {
+						formula = new Formula();
+						formula.fromXML(node);
+						this.formulas.add(formula);
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	@Override
+	public void toXML(XmlActiveNode xmlDom) {
+		xmlDom.createChildElement("blocktype");
+		xmlDom.setAttribute("id", this.id);
+		xmlDom.setAttribute("display-name", this.displayName);
+
+		xmlDom.createChildElement("inputs");
+		for (BlockPort port : this.inputPorts) {
+			port.toXML(xmlDom);
+		}
+		xmlDom.parentNode();
+
+		xmlDom.createChildElement("outputs");
+		for (BlockPort port : this.outputPorts) {
+			port.toXML(xmlDom);
+		}
+		xmlDom.parentNode();
+
+		xmlDom.createChildElement("formulas");
+		for (Formula formula : this.formulas) {
+			formula.toXML(xmlDom);
+		}
+		xmlDom.parentNode();
+
+		xmlDom.parentNode();
 	}
 }

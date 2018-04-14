@@ -1,14 +1,15 @@
 package ija.project.schema;
 
-import ija.project.utils.XMLBuilder;
-import ija.project.utils.XMLRepresentable;
+import ija.project.exception.XMLParsingException;
+import ija.project.utils.XmlActiveNode;
+import ija.project.utils.XmlRepresentable;
 
 import java.util.Map;
 
 /**
  * Formula represents a way to transform input values to output value
  */
-public class Formula implements XMLRepresentable {
+public class Formula implements XmlRepresentable {
 
 	/**
 	 * Transform input values to output values
@@ -20,12 +21,12 @@ public class Formula implements XMLRepresentable {
 	}
 
 	@Override
-	public void fromXML(XMLBuilder xmlDom) {
+	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
 
 	}
 
 	@Override
-	public void toXML(XMLBuilder xmlDom) {
+	public void toXML(XmlActiveNode xmlDom) {
 
 	}
 }

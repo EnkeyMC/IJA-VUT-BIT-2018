@@ -2,8 +2,10 @@ package ija.project;
 
 import ija.project.register.BlockTypeRegister;
 import ija.project.schema.BlockType;
+import ija.project.schema.Type;
 import ija.project.ui.controllers.MainPanelController;
 import ija.project.utils.UIComponentLoader;
+import ija.project.utils.XmlDom;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -37,6 +39,7 @@ public class BlockEditor extends Application {
 		BlockTypeRegister.reg("Built-insf", new BlockType("3", "Block3"));
 		BlockTypeRegister.reg("User", new BlockType("4", "Block4"));
 		BlockTypeRegister.reg("User", new BlockType("5", "Block5"));
+
 		primaryStage.show();
 	}
 }

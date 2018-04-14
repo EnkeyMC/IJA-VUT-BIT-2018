@@ -1,8 +1,9 @@
 package ija.project.schema;
 
 import ija.project.exception.ApplicationException;
-import ija.project.utils.XMLBuilder;
-import ija.project.utils.XMLRepresentable;
+import ija.project.exception.XMLParsingException;
+import ija.project.utils.XmlActiveNode;
+import ija.project.utils.XmlRepresentable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * Block that can be placed in schema. Ports are defined by BlockType.
  */
-public class Block implements XMLRepresentable {
+public class Block implements XmlRepresentable {
 
 	/**
 	 * BlockType of this Block
@@ -90,12 +91,12 @@ public class Block implements XMLRepresentable {
 	}
 
 	@Override
-	public void fromXML(XMLBuilder xmlDom) {
+	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
 
 	}
 
 	@Override
-	public void toXML(XMLBuilder xmlDom) {
+	public void toXML(XmlActiveNode xmlDom) {
 
 	}
 

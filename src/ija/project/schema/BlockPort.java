@@ -1,12 +1,14 @@
 package ija.project.schema;
 
-import ija.project.utils.XMLBuilder;
-import ija.project.utils.XMLRepresentable;
+import ija.project.exception.XMLParsingException;
+import ija.project.register.TypeRegister;
+import ija.project.utils.XmlActiveNode;
+import ija.project.utils.XmlRepresentable;
 
 /**
  * Block's port definition
  */
-public class BlockPort implements XMLRepresentable {
+public class BlockPort implements XmlRepresentable {
 
 	/**
 	 * Reference to parent BlockType
@@ -22,6 +24,19 @@ public class BlockPort implements XMLRepresentable {
 	 * Data type of port
 	 */
 	private Type type;
+
+	/**
+	 * Construct blank block port
+	 */
+	public BlockPort() {}
+
+	/**
+	 * Construct block port with reference to block type
+	 * @param blockType parent block type
+	 */
+	public BlockPort(BlockType blockType) {
+		this.blockType = blockType;
+	}
 
 	/**
 	 * Construct object with given name and type
@@ -60,12 +75,17 @@ public class BlockPort implements XMLRepresentable {
 	}
 
 	@Override
-	public void fromXML(XMLBuilder xmlDom) {
-
+	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
+		xmlDom.getCurrentNode("blockport");
+		this.name = xmlDom.getAttribute("name");
+		this.type = TypeRegister.getTypeById(xmlDom.getAttribute("type"));
 	}
 
 	@Override
-	public void toXML(XMLBuilder xmlDom) {
-
+	public void toXML(XmlActiveNode xmlDom) {
+		xmlDom.createChildElement("blockport");
+		xmlDom.setAttribute("name", this.name);
+		xmlDom.setAttribute("type", this.type.getId());
+		xmlDom.parentNode();
 	}
 }

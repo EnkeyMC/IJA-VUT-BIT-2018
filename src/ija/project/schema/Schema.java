@@ -1,7 +1,8 @@
 package ija.project.schema;
 
-import ija.project.utils.XMLBuilder;
-import ija.project.utils.XMLRepresentable;
+import ija.project.exception.XMLParsingException;
+import ija.project.utils.XmlActiveNode;
+import ija.project.utils.XmlRepresentable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Schema represents block graph
  */
-public class Schema implements XMLRepresentable {
+public class Schema implements XmlRepresentable {
 	/**
 	 * Schema file name
 	 */
@@ -49,12 +50,12 @@ public class Schema implements XMLRepresentable {
 	}
 
 	@Override
-	public void fromXML(XMLBuilder xmlDom) {
+	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
 
 	}
 
 	@Override
-	public void toXML(XMLBuilder xmlDom) {
+	public void toXML(XmlActiveNode xmlDom) {
 
 	}
 

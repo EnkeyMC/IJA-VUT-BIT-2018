@@ -1,16 +1,16 @@
 package ija.project.schema;
 
-import ija.project.utils.XMLBuilder;
-import ija.project.utils.XMLRepresentable;
+import ija.project.exception.XMLParsingException;
+import ija.project.utils.XmlActiveNode;
+import ija.project.utils.XmlRepresentable;
 
 import java.security.KeyException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Type defines set of keys for values
  */
-public class Type implements XMLRepresentable {
+public class Type implements XmlRepresentable {
 
 	/** Type identificator */
 	private String id;
@@ -90,12 +90,12 @@ public class Type implements XMLRepresentable {
 	}
 
 	@Override
-	public void fromXML(XMLBuilder xmlDom) {
+	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
 
 	}
 
 	@Override
-	public void toXML(XMLBuilder xmlDom) {
+	public void toXML(XmlActiveNode xmlDom) {
 
 	}
 }

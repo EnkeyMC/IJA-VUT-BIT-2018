@@ -1,17 +1,20 @@
 package ija.project.utils;
 
 
-public interface XMLRepresentable {
+import ija.project.exception.XMLParsingException;
+
+public interface XmlRepresentable {
 
 	/**
 	 * Load object from XML DOM
 	 * @param xmlDom XML DOM representation
+	 * @throws XMLParsingException if error occurred during parsing
 	 */
-	void fromXML(XMLBuilder xmlDom);
+	void fromXML(XmlActiveNode xmlDom) throws XMLParsingException;
 
 	/**
 	 * Save object to XML DOM
 	 * @param xmlDom XML DOM representation
 	 */
-	void toXML(XMLBuilder xmlDom);
+	void toXML(XmlActiveNode xmlDom);
 }

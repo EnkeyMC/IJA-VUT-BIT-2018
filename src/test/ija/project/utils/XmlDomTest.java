@@ -1,19 +1,19 @@
 package test.ija.project.utils;
 
 import ija.project.exception.XMLParsingException;
-import ija.project.utils.XMLBuilder;
+import ija.project.utils.XmlDom;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class XMLBuilderTest {
+public class XmlDomTest {
 
-	private XMLBuilder builder;
+	private XmlDom builder;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new XMLBuilder();
+		builder = new XmlDom();
 	}
 
 	@Test(expected = XMLParsingException.class)
@@ -98,5 +98,12 @@ public class XMLBuilderTest {
 		String xml = "<schema attr=\"ibute\"></schema>";
 		builder.parseString(xml);
 		builder.getAttribute("invalid");
+	}
+
+	@Test
+	public void firstChildNodeInvalidWithAttr() {
+		String xml = "<schema attr=\"val\"></schema>";
+		builder.parseString(xml);
+		assertNull(builder.firstChildNode());
 	}
 }
