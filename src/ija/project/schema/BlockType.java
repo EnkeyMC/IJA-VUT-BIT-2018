@@ -5,12 +5,30 @@ import ija.project.utils.XMLRepresentable;
 
 import java.util.ArrayList;
 
+/**
+ * Block type defines block's input/output ports, formulas, id and display name
+ */
 public class BlockType implements XMLRepresentable {
 
+	/**
+	 * Block type ID
+	 */
 	private String id;
+	/**
+	 * Display name
+	 */
 	private String displayName;
+	/**
+	 * Input port definitions
+	 */
 	private ArrayList<BlockPort> inputPorts;
+	/**
+	 * Output port definitions
+	 */
 	private ArrayList<BlockPort> outputPorts;
+	/**
+	 * Blocks formulas
+	 */
 	private ArrayList<Formula> formulas;
 
 	/**
@@ -24,6 +42,11 @@ public class BlockType implements XMLRepresentable {
 		formulas = new ArrayList<>();
 	}
 
+	/**
+	 * Create block type with id and display name
+	 * @param id id
+	 * @param displayName display name
+	 */
 	public BlockType(String id, String displayName) {
 		this.id = id;
 		this.displayName = displayName;
@@ -107,10 +130,18 @@ public class BlockType implements XMLRepresentable {
 		this.displayName = displayName;
 	}
 
+	/**
+	 * Get input port definitions
+	 * @return list of input ports
+	 */
 	public ArrayList<BlockPort> getInputPorts() {
 		return this.inputPorts;
 	}
 
+	/**
+	 * Get output port definitions
+	 * @return list of output ports
+	 */
 	public ArrayList<BlockPort> getOutputPorts() {
 		return this.outputPorts;
 	}

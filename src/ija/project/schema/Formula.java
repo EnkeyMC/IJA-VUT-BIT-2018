@@ -3,9 +3,11 @@ package ija.project.schema;
 import ija.project.utils.XMLBuilder;
 import ija.project.utils.XMLRepresentable;
 
-import java.util.Collection;
 import java.util.Map;
 
+/**
+ * Formula represents a way to transform input values to output value
+ */
 public class Formula implements XMLRepresentable {
 
 	/**

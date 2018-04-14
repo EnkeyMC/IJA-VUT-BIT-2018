@@ -7,6 +7,9 @@ import java.security.KeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Type defines set of keys for values
+ */
 public class Type implements XMLRepresentable {
 
 	/** Type identificator */
@@ -46,6 +49,10 @@ public class Type implements XMLRepresentable {
 		keys.add(key);
 	}
 
+	/**
+	 * Get type keys
+	 * @return list of keys
+	 */
 	public ArrayList<String> getKeys() {
 		return keys;
 	}

@@ -3,10 +3,19 @@ package ija.project.schema;
 import java.security.KeyException;
 import java.util.HashMap;
 
+/**
+ * Values for given Type
+ */
 public class TypeValues {
+	/** Mapped values by keys from Type */
 	private HashMap<String, Double> valuesMap;
+	/** Type */
 	private Type type;
 
+	/**
+	 * Construct values from given type
+	 * @param fromType type
+	 */
 	public TypeValues(Type fromType) {
 		this.type = fromType;
 		this.valuesMap = new HashMap<>();
@@ -42,6 +51,10 @@ public class TypeValues {
 		}
 	}
 
+	/**
+	 * Get type definition for values
+	 * @return type
+	 */
 	public Type getType() {
 		return type;
 	}
