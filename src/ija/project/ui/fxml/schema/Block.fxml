@@ -4,7 +4,9 @@
 
 <fx:root type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            prefHeight="40.0" prefWidth="60.0">
+            prefHeight="40.0" prefWidth="60.0"
+			onMouseDragged="#onMouseDragged"
+			onMousePressed="#onMousePressed">
 	<top>
 	</top>
 </fx:root>

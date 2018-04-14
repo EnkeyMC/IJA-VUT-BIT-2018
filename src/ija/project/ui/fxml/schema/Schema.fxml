@@ -13,7 +13,7 @@
 		</ToolBar>
 		<ScrollPane>
 			<content>
-				<AnchorPane fx:id="schemaPane" prefHeight="3000.0" prefWidth="3000.0" onMouseClicked="#mouseClicked">
+				<AnchorPane fx:id="schemaPane" prefHeight="3000.0" prefWidth="3000.0" onDragOver="#onDragOver" onDragDropped="#onDragDropped">
 
 				</AnchorPane>
 			</content>

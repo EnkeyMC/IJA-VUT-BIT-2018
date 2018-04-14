@@ -77,7 +77,7 @@ public class MainPanelController implements Initializable {
                 try {
                     blockList.getChildren().add(loader.load());
                     controller = loader.getController();
-                    controller.setBlockType(change.getKey());
+                    controller.setCategory(change.getKey());
                     blockListControllers.put(change.getKey(), controller);
                 } catch (IOException e) {
                     e.printStackTrace();

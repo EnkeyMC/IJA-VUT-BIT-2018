@@ -2,6 +2,7 @@ package ija.project.ui.control.schema;
 
 import ija.project.register.BlockTypeRegister;
 import ija.project.schema.Block;
+import ija.project.schema.BlockType;
 import ija.project.schema.Schema;
 import ija.project.utils.UIComponentLoader;
 import ija.project.utils.UIContolLoader;
@@ -10,8 +11,7 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
@@ -35,6 +35,11 @@ public class SchemaControl extends VBox {
 		UIContolLoader.load(this);
 
 		schema = new Schema();
+
+		BlockControl blockControl = new BlockControl(new BlockType());
+		schemaPane.getChildren().add(blockControl);
+		blockControl.setLayoutX(50);
+		blockControl.setLayoutY(50);
 	}
 
 	public void bindDisplayNameTo(Property property) {
@@ -42,12 +47,35 @@ public class SchemaControl extends VBox {
 	}
 
 	@FXML
-	public void mouseClicked(MouseEvent event) {
-		if (event.getButton() == MouseButton.PRIMARY) {
-			BlockControl blockControl = new BlockControl(BlockTypeRegister.getBlockRegistry("Built-in").get(0));
+	private void onDragOver(DragEvent event) {
+		Dragboard db = event.getDragboard();
+		if (db.hasString()) {
+			event.acceptTransferModes(TransferMode.COPY);
+		}
+	}
+
+	@FXML
+	private void onDragDropped(DragEvent event) {
+		Dragboard db = event.getDragboard();
+		if (db.hasString()) {
+			String[] parts = db.getString().split(":");
+			BlockType type;
+			try {
+				type = BlockTypeRegister.getBlockTypeById(parts[0], parts[1]);
+			} catch (RuntimeException e) {
+				e.printStackTrace();
+				event.setDropCompleted(false);
+				return;
+			}
+
+			BlockControl blockControl = new BlockControl(type);
 			schemaPane.getChildren().add(blockControl);
-			blockControl.setLayoutX(event.getX());
-			blockControl.setLayoutY(event.getY());
+			blockControl.setLayoutX(event.getX() - blockControl.getPrefWidth()/2);
+			blockControl.setLayoutY(event.getY() - blockControl.getPrefHeight()/2);
+			schema.addBlock(blockControl.getBlock());
+			event.setDropCompleted(true);
+		} else {
+			event.setDropCompleted(false);
 		}
 	}
 }

@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.util.Callback;
 
 import java.net.URL;
@@ -19,10 +22,10 @@ public class BlockListController implements Initializable {
 	@FXML
 	private ListView<BlockType> list;
 
-	public void setBlockType(String type) {
-		pane.setText(type);
+	public void setCategory(String category) {
+		pane.setText(category);
 
-		list.setItems(BlockTypeRegister.getBlockRegistry(type));
+		list.setItems(BlockTypeRegister.getBlockRegistry(category));
 	}
 
 	public static String getFXMLPath() {
@@ -34,7 +37,7 @@ public class BlockListController implements Initializable {
 		list.setCellFactory(new Callback<ListView<BlockType>, ListCell<BlockType>>() {
 			@Override
 			public ListCell<BlockType> call(ListView<BlockType> param) {
-				return new ListCell<BlockType>() {
+				ListCell<BlockType> cell = new ListCell<BlockType>() {
 					@Override
 					protected void updateItem(BlockType item, boolean empty) {
 						super.updateItem(item, empty);
@@ -46,6 +49,20 @@ public class BlockListController implements Initializable {
 						}
 					}
 				};
+
+				cell.setOnDragDetected(event -> {
+						if (!cell.isEmpty()) {
+							Dragboard db = cell.startDragAndDrop(TransferMode.COPY);
+							ClipboardContent content = new ClipboardContent();
+							BlockType blockType = cell.getItem();
+							content.putString(pane.getText() + ":" + blockType.getId());
+							db.setContent(content);
+							event.consume();
+						}
+					}
+				);
+
+				return cell;
 			}
 		});
 	}
