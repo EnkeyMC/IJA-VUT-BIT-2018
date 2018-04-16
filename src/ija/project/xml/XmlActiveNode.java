@@ -1,10 +1,7 @@
-package ija.project.utils;
+package ija.project.xml;
 
-import com.sun.istack.internal.NotNull;
 import ija.project.exception.XMLParsingException;
 import org.w3c.dom.Node;
-
-import java.util.Iterator;
 
 public interface XmlActiveNode {
 

@@ -1,7 +1,7 @@
 package test.ija.project.utils;
 
 import ija.project.exception.XMLParsingException;
-import ija.project.utils.XmlDom;
+import ija.project.xml.XmlDom;
 import org.junit.Before;
 import org.junit.Test;
 

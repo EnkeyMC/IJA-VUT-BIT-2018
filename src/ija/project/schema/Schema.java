@@ -1,8 +1,8 @@
 package ija.project.schema;
 
 import ija.project.exception.XMLParsingException;
-import ija.project.utils.XmlActiveNode;
-import ija.project.utils.XmlRepresentable;
+import ija.project.xml.XmlActiveNode;
+import ija.project.xml.XmlRepresentable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 

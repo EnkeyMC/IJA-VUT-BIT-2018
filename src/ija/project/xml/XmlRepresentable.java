@@ -1,4 +1,4 @@
-package ija.project.utils;
+package ija.project.xml;
 
 
 import ija.project.exception.XMLParsingException;

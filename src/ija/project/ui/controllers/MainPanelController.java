@@ -4,7 +4,7 @@ import ija.project.register.BlockTypeRegister;
 import ija.project.schema.BlockType;
 import ija.project.ui.controllers.components.BlockListController;
 import ija.project.ui.control.schema.SchemaControl;
-import ija.project.utils.UIComponentLoader;
+import ija.project.ui.utils.UIComponentLoader;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;

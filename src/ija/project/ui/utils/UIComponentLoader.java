@@ -1,4 +1,4 @@
-package ija.project.utils;
+package ija.project.ui.utils;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

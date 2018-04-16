@@ -2,8 +2,8 @@ package ija.project.schema;
 
 import ija.project.exception.ApplicationException;
 import ija.project.exception.XMLParsingException;
-import ija.project.utils.XmlActiveNode;
-import ija.project.utils.XmlRepresentable;
+import ija.project.xml.XmlActiveNode;
+import ija.project.xml.XmlRepresentable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -126,6 +126,15 @@ public class Block implements XmlRepresentable {
 				return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Is given port connected
+	 * @param port port name
+	 * @return true if connected, false otherwise
+	 */
+	public boolean isConnected(String port) {
+		return connections.get(port) != null;
 	}
 
 	/**
