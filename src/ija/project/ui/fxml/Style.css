@@ -1,0 +1,34 @@
+.newScrollBar .scroll-bar .thumb{
+	-fx-background-color: derive(black,90%);
+	-fx-background-insets: 2, 0, 0;
+	-fx-background-radius: 0em;
+}
+
+.newScrollBar .scroll-bar:hover .thumb,
+.newScrollBar .scroll-bar:pressed .thumb {
+	-fx-background-color: derive(black,75%);
+}
+
+.newScrollBar .scroll-bar:horizontal .increment-button ,
+.newScrollBar .scroll-bar:horizontal .decrement-button {
+	-fx-background-color:transparent;
+	-fx-background-radius: 0em;
+	-fx-padding:0 0 10 0;
+}
+.newScrollBar .scroll-bar:vertical .increment-button ,
+.newScrollBar .scroll-bar:vertical .decrement-button {
+	-fx-background-color:transparent;
+	-fx-background-radius: 0em;
+	-fx-padding:0 10 0 0;
+}
+
+.newScrollBar .scroll-bar .increment-arrow,
+.newScrollBar .scroll-bar .decrement-arrow {
+	-fx-shape: " ";
+	-fx-padding:0;
+}
+
+.tab-header-area .tab,
+.titled-pane .title {
+	-fx-background-radius: 0em;
+}
