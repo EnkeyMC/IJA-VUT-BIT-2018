@@ -47,6 +47,8 @@ public class BlockEditor extends Application {
 		bt.addInputPort("input5", t);
 		bt.addOutputPort("output1", t);
 		bt.addOutputPort("output2", t);
+		bt.addOutputPort("output3", t);
+		bt.addOutputPort("output4", t);
 		BlockTypeRegister.reg("Built-in", bt);
 
 		primaryStage.show();

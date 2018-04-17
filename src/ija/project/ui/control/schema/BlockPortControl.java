@@ -57,6 +57,10 @@ public class BlockPortControl extends AnchorPane {
 		return blockPort;
 	}
 
+	public BlockControl getBlockControl() {
+		return blockControl;
+	}
+
 	public ReadOnlyDoubleProperty connectionXProperty() {
 		if (connectionX == null) {
 			DoubleProperty property = new SimpleDoubleProperty();
