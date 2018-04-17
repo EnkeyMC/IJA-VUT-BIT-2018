@@ -1,34 +1,86 @@
-.newScrollBar .scroll-bar .thumb{
+.root {
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+}
+
+/*Changing scroll bar style*/
+.scroll-bar .thumb{
 	-fx-background-color: derive(black,90%);
 	-fx-background-insets: 2, 0, 0;
 	-fx-background-radius: 0em;
 }
 
-.newScrollBar .scroll-bar:hover .thumb,
-.newScrollBar .scroll-bar:pressed .thumb {
+.scroll-bar:hover .thumb,
+.scroll-bar:pressed .thumb {
 	-fx-background-color: derive(black,75%);
 }
 
-.newScrollBar .scroll-bar:horizontal .increment-button ,
-.newScrollBar .scroll-bar:horizontal .decrement-button {
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
 	-fx-background-color:transparent;
 	-fx-background-radius: 0em;
 	-fx-padding:0 0 10 0;
 }
-.newScrollBar .scroll-bar:vertical .increment-button ,
-.newScrollBar .scroll-bar:vertical .decrement-button {
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
 	-fx-background-color:transparent;
 	-fx-background-radius: 0em;
 	-fx-padding:0 10 0 0;
 }
 
-.newScrollBar .scroll-bar .increment-arrow,
-.newScrollBar .scroll-bar .decrement-arrow {
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
 	-fx-shape: " ";
 	-fx-padding:0;
 }
 
+/* Making from round items square items */
 .tab-header-area .tab,
 .titled-pane .title {
 	-fx-background-radius: 0em;
+}
+
+.tab-header-area .tab {
+	-fx-border-style: solid solid hidden solid;
+	-fx-border-color: #BABABA;
+	-fx-background-color: #DBDBDB;
+}
+
+.tab-header-area .tab:selected {
+	-fx-border-style: solid;
+	-fx-border-color: #EFEFEF;
+	-fx-background-color: #EFEFEF;
+}
+
+.tab-pane .tool-bar {
+	-fx-background-color: #EFEFEF;
+}
+
+.titled-pane .title {
+	-fx-background-color: #EAEAEA;
+	-fx-border-style: solid hidden solid hidden;
+	-fx-border-color: #C6C6C6;
+}
+
+.titled-pane .content {
+	-fx-padding: 0;
+	-fx-border-style: hidden;
+}
+
+.tab-pane .scroll-pane {
+	-fx-border-style: hidden;
+	-fx-padding: 0;
+}
+
+.tab-pane .scroll-pane .viewport {
+	-fx-background-color: #FFF;
+}
+
+.tab-header-background,
+.tab-header-area {
+	-fx-border-style: hidden;
+}
+
+.menu-bar {
+	-fx-border-color: #CECECE;
 }
