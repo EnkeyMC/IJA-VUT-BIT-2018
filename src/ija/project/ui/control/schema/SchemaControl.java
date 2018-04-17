@@ -68,11 +68,11 @@ public class SchemaControl extends VBox {
 		}
 	}
 
-	public void startConnection(BlockControl srcBlock, String srcPort) {
+	public void startConnection(BlockControl srcBlock, BlockPortControl srcPort) {
 		connector = new BlockConnector(this, srcBlock, srcPort);
 	}
 
-	public void endConnection(BlockControl dstBlock, String dstPort) {
+	public void endConnection(BlockControl dstBlock, BlockPortControl dstPort) {
 		assert connector != null;
 		connector.connect(dstBlock, dstPort);
 		connector = null;
