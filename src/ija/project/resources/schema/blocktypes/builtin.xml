@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<register>
+	<category name="Built-in">
+		<blocktype id="double_add" displayName="Add">
+			<inputs>
+
+			</inputs>
+			<outputs>
+
+			</outputs>
+			<formulas>
+
+			</formulas>
+		</blocktype>
+	</category>
+</register>

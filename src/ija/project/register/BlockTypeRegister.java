@@ -1,6 +1,8 @@
 package ija.project.register;
 
 import ija.project.schema.BlockType;
+import ija.project.xml.XmlActiveNode;
+import ija.project.xml.XmlDom;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -89,5 +91,25 @@ public class BlockTypeRegister {
 				return blockType;
 		}
 		throw new RuntimeException("BlockType " + id + " (" + category + ") is not in registry");
+	}
+
+	public static void loadFromXML(String path) {
+		XmlDom xmlDom = new XmlDom();
+		xmlDom.parseFile(path);
+		xmlDom.getCurrentNode("register");
+
+		String catName;
+		BlockType blockType;
+		for (XmlActiveNode category : xmlDom.childIterator()) {
+			if (category.getTag().equals("category")) {
+				catName = category.getAttribute("name");
+
+				for (XmlActiveNode blockTypeNode : xmlDom.childIterator()) {
+					blockType = new BlockType();
+					blockType.fromXML(blockTypeNode);
+					reg(catName, blockType);
+				}
+			}
+		}
 	}
 }
