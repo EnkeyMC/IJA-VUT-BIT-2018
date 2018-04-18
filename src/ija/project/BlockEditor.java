@@ -4,6 +4,7 @@ import ija.project.ui.controllers.MainPanelController;
 import ija.project.ui.utils.UIComponentLoader;
 import javafx.application.Application;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,6 +25,10 @@ public class BlockEditor extends Application {
 			e.printStackTrace();
 			System.exit(1);
 		}
+
+		primaryStage.setScene(new Scene(root));
+		primaryStage.setTitle("Block editor");
+
 
 		primaryStage.show();
 	}
