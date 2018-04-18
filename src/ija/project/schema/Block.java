@@ -117,6 +117,14 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
+	 * Disconnect input port, does not disconnect port on the other side of the connection
+	 * @param portName port name
+	 */
+	public void disconnectPort(String portName) {
+		connections.put(portName, null);
+	}
+
+	/**
 	 * Block has unconnected output port
 	 * @return true if block has unconnected output port, false otherwise
 	 */

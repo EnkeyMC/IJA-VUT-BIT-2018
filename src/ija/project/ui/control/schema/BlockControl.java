@@ -3,6 +3,7 @@ package ija.project.ui.control.schema;
 import ija.project.schema.Block;
 import ija.project.schema.BlockPort;
 import ija.project.schema.BlockType;
+import ija.project.ui.control.Spacer;
 import ija.project.ui.utils.UIContolLoader;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
@@ -11,14 +12,17 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -30,14 +34,8 @@ public class BlockControl extends BorderPane {
 
 	private SchemaControl schemaControl;
 
-	private ContextMenu inputPortsMenu;
-	private ContextMenu outputPortsMenu;
-
 	private double dragStartX;
 	private double dragStartY;
-
-	private ReadOnlyDoubleProperty centerX;
-	private ReadOnlyDoubleProperty centerY;
 
 	public static String getFXMLPath() {
 		return "schema/Block.fxml";
@@ -48,75 +46,38 @@ public class BlockControl extends BorderPane {
 		UIContolLoader.load(this);
 		this.schemaControl = schemaControl;
 
-		// Input port menu
-		inputPortsMenu = new ContextMenu();
+		Label label = new Label(blockType.getDisplayName());
+		this.setCenter(label);
+
+		HBox inputPorts = new HBox(5);
+		HBox outputPorts = new HBox(5);
+		this.setTop(inputPorts);
+		this.setBottom(outputPorts);
+
 		ArrayList<BlockPort> ports = blockType.getInputPorts();
-		MenuItem item;
-		// Add ports to menu
+		BlockPortControl blockPortControl;
+		inputPorts.getChildren().add(new Spacer());
 		for (BlockPort port : ports) {
-			item = new MenuItem(port.getName());
-			// Set action
-			item.setOnAction(event -> {
-				MenuItem src = (MenuItem) event.getSource();
-				schemaControl.endConnection(this, src.getText());
-			});
-			// Add to menu
-			inputPortsMenu.getItems().add(item);
+			blockPortControl = new BlockPortControl(this, port, true);
+			inputPorts.getChildren().add(blockPortControl);
+			inputPorts.getChildren().add(new Spacer());
 		}
-		// Set event listener on showing
-		inputPortsMenu.setOnShowing(event -> {
-			ContextMenu menu = (ContextMenu) event.getSource();
-			for (MenuItem menuItem : menu.getItems()) {
-				menuItem.setDisable(this.getBlock().isConnected(menuItem.getText()));
-			}
-		});
 
-		// Output port menu
-		outputPortsMenu = new ContextMenu();
 		ports = blockType.getOutputPorts();
-		// Add ports to menu
+		outputPorts.getChildren().add(new Spacer());
 		for (BlockPort port : ports) {
-			item = new MenuItem(port.getName());
-			// Set action
-			item.setOnAction(event -> {
-				MenuItem src = (MenuItem) event.getSource();
-				schemaControl.startConnection(this, src.getText());
-			});
-			// Add to menu
-			outputPortsMenu.getItems().add(item);
+			blockPortControl = new BlockPortControl(this, port, false);
+			outputPorts.getChildren().add(blockPortControl);
+			outputPorts.getChildren().add(new Spacer());
 		}
-		// Set event listener on showing
-		outputPortsMenu.setOnShowing(event -> {
-			ContextMenu menu = (ContextMenu) event.getSource();
-			for (MenuItem menuItem : menu.getItems()) {
-				menuItem.setDisable(this.getBlock().isConnected(menuItem.getText()));
-			}
-		});
-
-		this.setOnContextMenuRequested(event -> {
-			if (this.schemaControl.isBlockConnectingActive()) {
-				inputPortsMenu.show(this, event.getScreenX(), event.getScreenY());
-			} else {
-				outputPortsMenu.show(this, event.getScreenX(), event.getScreenY());
-			}
-			event.consume();
-		});
 
 		block = new Block(blockType);
 		block.xProperty().bindBidirectional(this.layoutXProperty());
 		block.yProperty().bindBidirectional(this.layoutYProperty());
-		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+		this.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
 		this.setCursor(Cursor.MOVE);
 		dragStartX = 0;
 		dragStartY = 0;
-
-		DoubleProperty property = new SimpleDoubleProperty();
-		property.bind(this.layoutXProperty().add(this.widthProperty().divide(2)));
-		centerX = property;
-
-		property = new SimpleDoubleProperty();
-		property.bind(this.layoutYProperty().add(this.heightProperty().divide(2)));
-		centerY = property;
 	}
 
 	public Block getBlock() {
@@ -146,19 +107,7 @@ public class BlockControl extends BorderPane {
 		}
 	}
 
-	public double getCenterX() {
-		return centerX.get();
-	}
-
-	public ReadOnlyDoubleProperty centerXProperty() {
-		return centerX;
-	}
-
-	public double getCenterY() {
-		return centerY.get();
-	}
-
-	public ReadOnlyDoubleProperty centerYProperty() {
-		return centerY;
+	public SchemaControl getSchemaControl() {
+		return schemaControl;
 	}
 }
