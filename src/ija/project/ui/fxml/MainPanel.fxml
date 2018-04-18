@@ -3,10 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ija.project.ui.controllers.MainPanelController"
-            prefHeight="600.0" prefWidth="900.0">
+	  xmlns:fx="http://javafx.com/fxml"
+	  fx:controller="ija.project.ui.controllers.MainPanelController"
+	  prefHeight="600.0" prefWidth="900.0">
 
 	<children>
 		<MenuBar VBox.vgrow="NEVER">
@@ -52,4 +53,7 @@
 			</AnchorPane>
 		</items>
 	</SplitPane>
+	<stylesheets>
+		<URL value="@Style.css" />
+	</stylesheets>
 </VBox>

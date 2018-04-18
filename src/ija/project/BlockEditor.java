@@ -28,7 +28,7 @@ public class BlockEditor extends Application {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		primaryStage.setTitle("BlockType Editor");
+		primaryStage.setTitle("Block Editor");
 		primaryStage.setScene(new Scene(root));
 		BlockTypeRegister.reg("Built-in", new BlockType("1", "Block1"));
 		BlockTypeRegister.reg("Built-in", new BlockType("2", "Block2"));
