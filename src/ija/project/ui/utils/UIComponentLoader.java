@@ -14,7 +14,7 @@ public class UIComponentLoader<T> {
 
 	public UIComponentLoader(Class<T> componentClass) {
 		this.componentClass = componentClass;
-		loader = new FXMLLoader(UIComponentLoader.class.getResource("/ija/project/ui/fxml/" + this.getComponentFXML()));
+		loader = new FXMLLoader(UIComponentLoader.class.getResource("/ija/project/resources/fxml/" + this.getComponentFXML()));
 	}
 
 	public FXMLLoader getLoader() {
