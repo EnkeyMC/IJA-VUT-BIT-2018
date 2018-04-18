@@ -26,7 +26,11 @@ public class BlockConnector {
 			dstPort.getBlockPort().getName()
 		);
 
-		ConnectionLine line = new ConnectionLine(schemaControl.getSchemaPane(), srcPort, dstPort);
+		ConnectionLine line;
+		if (srcPort.isInput())
+			line = new ConnectionLine(schemaControl.getSchemaPane(), dstPort, srcPort);
+		else
+			line = new ConnectionLine(schemaControl.getSchemaPane(), srcPort, dstPort);
 		schemaControl.getSchemaPane().getChildren().add(line);
 		return true;
 	}

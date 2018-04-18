@@ -24,20 +24,27 @@ public class BlockPortControl extends AnchorPane {
 	private ReadOnlyDoubleProperty connectionX;
 	private ReadOnlyDoubleProperty connectionY;
 
+	private boolean input;
+
 	public static String getFXMLPath() {
 		return "schema/BlockPort.fxml";
 	}
 
-	public BlockPortControl(BlockControl blockControl, BlockPort port) {
+	public BlockPortControl(BlockControl blockControl, BlockPort port, boolean input) {
 		super();
 		UIContolLoader.load(this);
 		this.blockControl = blockControl;
 		this.blockPort = port;
+		this.input = input;
 
 		Tooltip tooltip = new Tooltip(port.getName());
 		Tooltip.install(this, tooltip);
 
-		this.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+		if (input)
+			this.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+		else
+			this.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
+
 		this.setCursor(Cursor.CROSSHAIR);
 	}
 
@@ -83,9 +90,13 @@ public class BlockPortControl extends AnchorPane {
 					.add(this.blockControl.layoutYProperty())
 					.add(this.layoutYProperty())
 					.add(this.heightProperty()
-						.divide(2)));
+						.multiply(input ? 0 : 1)));
 			connectionY = property;
 		}
 		return connectionY;
+	}
+
+	public boolean isInput() {
+		return input;
 	}
 }

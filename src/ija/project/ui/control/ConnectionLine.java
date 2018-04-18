@@ -14,6 +14,9 @@ public class ConnectionLine extends Path {
 
 	private Pane parent;
 
+	private static final int arrowX = 7;
+	private static final int arrowY = 10;
+
 	public ConnectionLine(Pane parent, BlockPortControl outputPort, BlockPortControl inputPort) {
 		super();
 		this.outputPort = outputPort;
@@ -50,6 +53,26 @@ public class ConnectionLine extends Path {
 		vline = new VLineTo();
 		vline.yProperty().bind(midY.add(midY));
 		elements.add(vline);
+
+		MoveTo moveTo = new MoveTo();
+		moveTo.xProperty().bind(hline.xProperty());
+		moveTo.yProperty().bind(vline.yProperty());
+		elements.add(moveTo);
+
+		LineTo arrowLine = new LineTo();
+		arrowLine.xProperty().bind(hline.xProperty().subtract(arrowX));
+		arrowLine.yProperty().bind(vline.yProperty().subtract(arrowY));
+		elements.add(arrowLine);
+
+		moveTo = new MoveTo();
+		moveTo.xProperty().bind(hline.xProperty());
+		moveTo.yProperty().bind(vline.yProperty());
+		elements.add(moveTo);
+
+		arrowLine = new LineTo();
+		arrowLine.xProperty().bind(hline.xProperty().add(arrowX));
+		arrowLine.yProperty().bind(vline.yProperty().subtract(arrowY));
+		elements.add(arrowLine);
 	}
 
 	private void removeConnection() {

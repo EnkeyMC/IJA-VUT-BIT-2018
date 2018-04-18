@@ -58,7 +58,7 @@ public class BlockControl extends BorderPane {
 		BlockPortControl blockPortControl;
 		inputPorts.getChildren().add(new Spacer());
 		for (BlockPort port : ports) {
-			blockPortControl = new BlockPortControl(this, port);
+			blockPortControl = new BlockPortControl(this, port, true);
 			inputPorts.getChildren().add(blockPortControl);
 			inputPorts.getChildren().add(new Spacer());
 		}
@@ -66,7 +66,7 @@ public class BlockControl extends BorderPane {
 		ports = blockType.getOutputPorts();
 		outputPorts.getChildren().add(new Spacer());
 		for (BlockPort port : ports) {
-			blockPortControl = new BlockPortControl(this, port);
+			blockPortControl = new BlockPortControl(this, port, false);
 			outputPorts.getChildren().add(blockPortControl);
 			outputPorts.getChildren().add(new Spacer());
 		}
