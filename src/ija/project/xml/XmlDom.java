@@ -5,6 +5,7 @@ import ija.project.exception.XMLWritingException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -15,7 +16,9 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Wrapper for DocumentBuilder, simplifies api, remembers current position in document
@@ -144,14 +147,18 @@ public class XmlDom implements XmlActiveNode {
 
 			@Override
 			public boolean hasNext() {
-				return currentNode.getChildNodes().getLength() > currentChildIdx + 1;
+				return getChildNodes().getLength() > currentChildIdx;
 			}
 
 			@Override
 			public XmlActiveNode next() {
-				return new XmlDom(dom, currentNode.getChildNodes().item(currentChildIdx++));
+				return new XmlDom(dom, getChildNodes().item(currentChildIdx++));
 			}
 		};
+	}
+
+	protected NodeList getChildNodes() {
+		return new XmlNodeList(currentNode.getChildNodes());
 	}
 
 	///////////////////
@@ -208,5 +215,48 @@ public class XmlDom implements XmlActiveNode {
 	@Override
 	public void setText(String text) {
 		currentNode.setTextContent(text);
+	}
+
+	/**
+	 * This fixes whitespace text nodes with elements in it
+	 *
+	 * Code for this class taken from this answer on StackOverflow: https://stackoverflow.com/a/5851888/4551645
+ 	 */
+	private static class XmlNodeList implements NodeList, Iterable<Node> {
+
+		private List<Node> nodes;
+
+		public XmlNodeList(NodeList list) {
+			nodes = new ArrayList<>();
+			for (int i = 0; i < list.getLength(); i++) {
+				if (!isWhitespaceNode(list.item(i))) {
+					nodes.add(list.item(i));
+				}
+			}
+		}
+
+		@Override
+		public Node item(int index) {
+			return nodes.get(index);
+		}
+
+		@Override
+		public int getLength() {
+			return nodes.size();
+		}
+
+		private static boolean isWhitespaceNode(Node n) {
+			if (n.getNodeType() == Node.TEXT_NODE) {
+				String val = n.getNodeValue();
+				return val.trim().length() == 0;
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		public Iterator<Node> iterator() {
+			return nodes.iterator();
+		}
 	}
 }

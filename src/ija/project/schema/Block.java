@@ -50,8 +50,8 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
-	 * Construct object from given block type
-	 * @param blockType block type
+	 * Construct object from given block types
+	 * @param blockType block types
 	 */
 	public Block(BlockType blockType) {
 		initEmpty();
@@ -71,8 +71,8 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
-	 * Init block from block type
-	 * @param blockType block type
+	 * Init block from block types
+	 * @param blockType block types
 	 */
 	private void initFromBlockType(BlockType blockType) {
 		this.blockType = blockType;

@@ -20,7 +20,7 @@ public class Type implements XmlRepresentable {
 	private ArrayList<String> keys;
 
 	/**
-	 * Creates new blank type
+	 * Creates new blank types
 	 */
 	public Type() {
 		id = null;
@@ -29,9 +29,9 @@ public class Type implements XmlRepresentable {
 	}
 
 	/**
-	 * Create type with given id and display name
-	 * @param id unique type id
-	 * @param displayName type display name
+	 * Create types with given id and display name
+	 * @param id unique types id
+	 * @param displayName types display name
 	 */
 	public Type(String id, String displayName) {
 		this.displayName = displayName;
@@ -39,7 +39,7 @@ public class Type implements XmlRepresentable {
 	}
 
 	/**
-	 * Add key to type
+	 * Add key to types
 	 * @param key value key
 	 */
 	public void addKey(String key) throws KeyException {
@@ -50,7 +50,7 @@ public class Type implements XmlRepresentable {
 	}
 
 	/**
-	 * Get type keys
+	 * Get types keys
 	 * @return list of keys
 	 */
 	public ArrayList<String> getKeys() {
@@ -91,11 +91,28 @@ public class Type implements XmlRepresentable {
 
 	@Override
 	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
+		xmlDom.getCurrentNode("type");
+		this.id = xmlDom.getAttribute("id");
+		this.displayName = xmlDom.getAttribute("display-name");
 
+		for (XmlActiveNode key : xmlDom.childIterator()) {
+			if (key.getTag().equals("key")) {
+				this.keys.add(key.getText());
+			}
+		}
 	}
 
 	@Override
 	public void toXML(XmlActiveNode xmlDom) {
+		xmlDom.createChildElement("type");
+		xmlDom.setAttribute("id", this.id);
+		xmlDom.setAttribute("display-name", this.displayName);
 
+		for (String key : this.keys) {
+			xmlDom.createChildElement("key");
+			xmlDom.setText(key);
+			xmlDom.parentNode();
+		}
+		xmlDom.parentNode();
 	}
 }

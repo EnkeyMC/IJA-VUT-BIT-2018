@@ -37,7 +37,7 @@ public class BlockPortControl extends AnchorPane {
 		this.blockPort = port;
 		this.input = input;
 
-		Tooltip tooltip = new Tooltip(port.getName());
+		Tooltip tooltip = new Tooltip(port.getName() + " (" + port.getType().getDisplayName() + ")");
 		Tooltip.install(this, tooltip);
 
 		if (input)
@@ -52,9 +52,11 @@ public class BlockPortControl extends AnchorPane {
 	private void onMouseClicked(MouseEvent event) {
 		if (event.getButton().equals(MouseButton.PRIMARY)) {
 			if (this.blockControl.getSchemaControl().isBlockConnectingActive()) {
-				this.blockControl.getSchemaControl().endConnection(this.blockControl, this);
+				if (input)
+					this.blockControl.getSchemaControl().endConnection(this.blockControl, this);
 			} else {
-				this.blockControl.getSchemaControl().startConnection(this.blockControl, this);
+				if (!input)
+					this.blockControl.getSchemaControl().startConnection(this.blockControl, this);
 			}
 			event.consume();
 		}

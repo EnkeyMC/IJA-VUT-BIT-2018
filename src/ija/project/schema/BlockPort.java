@@ -21,7 +21,7 @@ public class BlockPort implements XmlRepresentable {
 	private String name;
 
 	/**
-	 * Data type of port
+	 * Data types of port
 	 */
 	private Type type;
 
@@ -31,18 +31,18 @@ public class BlockPort implements XmlRepresentable {
 	public BlockPort() {}
 
 	/**
-	 * Construct block port with reference to block type
-	 * @param blockType parent block type
+	 * Construct block port with reference to block types
+	 * @param blockType parent block types
 	 */
 	public BlockPort(BlockType blockType) {
 		this.blockType = blockType;
 	}
 
 	/**
-	 * Construct object with given name and type
+	 * Construct object with given name and types
 	 * @param blockType parent BlockType
 	 * @param name port name
-	 * @param type port data type
+	 * @param type port data types
 	 */
 	public BlockPort(BlockType blockType, String name, Type type) {
 		this.blockType = blockType;
@@ -51,8 +51,8 @@ public class BlockPort implements XmlRepresentable {
 	}
 
 	/**
-	 * Get parent block type
-	 * @return parent block type
+	 * Get parent block types
+	 * @return parent block types
 	 */
 	public BlockType getBlockType() {
 		return blockType;
@@ -67,8 +67,8 @@ public class BlockPort implements XmlRepresentable {
 	}
 
 	/**
-	 * Get port data type
-	 * @return type
+	 * Get port data types
+	 * @return types
 	 */
 	public Type getType() {
 		return type;

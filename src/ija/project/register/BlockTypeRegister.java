@@ -22,7 +22,7 @@ public class BlockTypeRegister {
 	/**
 	 * Register BlockType in given category. BlockType id has to be unique in category.
 	 * @param category category to register block in
-	 * @param blockType block type to register
+	 * @param blockType block types to register
 	 */
 	public static void reg(String category, BlockType blockType) throws RuntimeException {
 		if (!register.containsKey(category))
@@ -56,9 +56,9 @@ public class BlockTypeRegister {
 	}
 
 	/**
-	 * Remove block type from register given by id
-	 * @param category category of the block type
-	 * @param id block type id
+	 * Remove block types from register given by id
+	 * @param category category of the block types
+	 * @param id block types id
 	 */
 	public static void removeBlock(String category, String id) throws RuntimeException {
 		for (BlockType b : getBlockRegistry(category)) {
@@ -71,19 +71,19 @@ public class BlockTypeRegister {
 	}
 
 	/**
-	 * Remove given block type from register
-	 * @param category category of the block type
-	 * @param blockType block type to remove
+	 * Remove given block types from register
+	 * @param category category of the block types
+	 * @param blockType block types to remove
 	 */
 	public static void removeBlock(String category, BlockType blockType) throws RuntimeException {
 		getBlockRegistry(category).remove(blockType);
 	}
 
 	/**
-	 * Get block type by id
-	 * @param category category of block type
-	 * @param id id of block type
-	 * @return block type
+	 * Get block types by id
+	 * @param category category of block types
+	 * @param id id of block types
+	 * @return block types
 	 */
 	public static BlockType getBlockTypeById(String category, String id) throws RuntimeException {
 		for (BlockType blockType : register.get(category)) {
@@ -104,7 +104,7 @@ public class BlockTypeRegister {
 			if (category.getTag().equals("category")) {
 				catName = category.getAttribute("name");
 
-				for (XmlActiveNode blockTypeNode : xmlDom.childIterator()) {
+				for (XmlActiveNode blockTypeNode : category.childIterator()) {
 					blockType = new BlockType();
 					blockType.fromXML(blockTypeNode);
 					reg(catName, blockType);

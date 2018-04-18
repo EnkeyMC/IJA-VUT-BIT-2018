@@ -69,7 +69,7 @@ public class MainPanelController implements Initializable {
 		this.blockListControllers = new HashMap<>();
 		ObservableMap<String, ObservableList<BlockType>> registers = BlockTypeRegister.getAllRegisters();
 		registers.addListener((MapChangeListener<String, ObservableList<BlockType>>) change -> {
-            if (change.wasAdded()) {  // BlockType type added
+            if (change.wasAdded()) {  // BlockType types added
                 BlockListController controller;
                 UIComponentLoader<BlockListController> loader;
 
@@ -82,7 +82,7 @@ public class MainPanelController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else {  // BlockType type removed
+            } else {  // BlockType types removed
             	for (Node node : blockList.getChildren()) {
             		if (node instanceof TitledPane) {
 						TitledPane pane = (TitledPane) node;

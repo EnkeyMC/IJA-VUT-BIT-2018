@@ -13,8 +13,8 @@ public class TypeValues {
 	private Type type;
 
 	/**
-	 * Construct values from given type
-	 * @param fromType type
+	 * Construct values from given types
+	 * @param fromType types
 	 */
 	public TypeValues(Type fromType) {
 		this.type = fromType;
@@ -26,7 +26,7 @@ public class TypeValues {
 	}
 
 	/**
-	 * Set key and value to type
+	 * Set key and value to types
 	 * @param key value key
 	 * @param value value
 	 */
@@ -34,7 +34,7 @@ public class TypeValues {
 		if (valuesMap.containsKey(key)) {
 			valuesMap.put(key, value);
 		} else {
-			throw new KeyException("Not existing type with this key");
+			throw new KeyException("Not existing types with this key");
 		}
 	}
 
@@ -47,13 +47,13 @@ public class TypeValues {
 		if (valuesMap.containsKey(key)) {
 			return valuesMap.get(key);
 		} else {
-			throw new KeyException("Not existing type with this key");
+			throw new KeyException("Not existing types with this key");
 		}
 	}
 
 	/**
-	 * Get type definition for values
-	 * @return type
+	 * Get types definition for values
+	 * @return types
 	 */
 	public Type getType() {
 		return type;

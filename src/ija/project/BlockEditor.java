@@ -1,5 +1,7 @@
 package ija.project;
 
+import ija.project.register.BlockTypeRegister;
+import ija.project.register.TypeRegister;
 import ija.project.ui.controllers.MainPanelController;
 import ija.project.ui.utils.UIComponentLoader;
 import javafx.application.Application;
@@ -29,7 +31,9 @@ public class BlockEditor extends Application {
 		primaryStage.setScene(new Scene(root));
 		primaryStage.setTitle("Block editor");
 
-
 		primaryStage.show();
+
+		TypeRegister.loadFromXML(getClass().getResource("/schema/types/builtin-types.xml").getPath());
+		BlockTypeRegister.loadFromXML(getClass().getResource("/ija/project/resources/schema/blocktypes/builtin.xml").getPath());
 	}
 }

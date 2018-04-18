@@ -1,6 +1,8 @@
 package ija.project.register;
 
 import ija.project.schema.Type;
+import ija.project.xml.XmlActiveNode;
+import ija.project.xml.XmlDom;
 
 import java.util.ArrayList;
 
@@ -14,8 +16,8 @@ public class TypeRegister {
 	private static ArrayList<Type> register = new ArrayList<>();
 
 	/**
-	 * Register a type
-	 * @param type type
+	 * Register a types
+	 * @param type types
 	 */
 	public static void reg(Type type) {
 		register.add(type);
@@ -30,10 +32,10 @@ public class TypeRegister {
 	}
 
 	/**
-	 * Get registered type by id
-	 * @param id type id
-	 * @return type
-	 * @throws RuntimeException if type with given id does not exist
+	 * Get registered types by id
+	 * @param id types id
+	 * @return types
+	 * @throws RuntimeException if types with given id does not exist
 	 */
 	public static Type getTypeById(String id) throws RuntimeException {
 		for (Type t : register) {
@@ -44,8 +46,8 @@ public class TypeRegister {
 	}
 
 	/**
-	 * Remove type from registry
-	 * @param id type id
+	 * Remove types from registry
+	 * @param id types id
 	 */
 	public static void removeType(String id) throws RuntimeException {
 		for (Type t : register) {
@@ -58,12 +60,25 @@ public class TypeRegister {
 	}
 
 	/**
-	 * Remove type from registry
-	 * @param type type
+	 * Remove types from registry
+	 * @param type types
 	 */
 	public static void removeType(Type type) throws RuntimeException {
 		if (register.remove(type)) {
 			throw new RuntimeException("Type " + type.getId() + " is not in registry");
+		}
+	}
+
+	public static void loadFromXML(String path) {
+		XmlDom xmlDom = new XmlDom();
+		xmlDom.parseFile(path);
+		xmlDom.getCurrentNode("register");
+
+		Type type;
+		for (XmlActiveNode typeNode : xmlDom.childIterator()) {
+			type = new Type();
+			type.fromXML(typeNode);
+			reg(type);
 		}
 	}
 }
