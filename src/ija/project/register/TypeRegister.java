@@ -4,6 +4,7 @@ import ija.project.schema.Type;
 import ija.project.xml.XmlActiveNode;
 import ija.project.xml.XmlDom;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -69,7 +70,7 @@ public class TypeRegister {
 		}
 	}
 
-	public static void loadFromXML(String path) {
+	public static void loadFromXML(URL path) {
 		XmlDom xmlDom = new XmlDom();
 		xmlDom.parseFile(path);
 		xmlDom.getCurrentNode("register");

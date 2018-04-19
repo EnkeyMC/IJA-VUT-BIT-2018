@@ -34,7 +34,7 @@ public class SchemaControl extends VBox implements Initializable {
 	}
 
 	public void bindDisplayNameTo(Property property) {
-		property.bindBidirectional(schema.displayNameProperty());
+		schema.displayNameProperty().bindBidirectional(property);
 	}
 
 	@FXML

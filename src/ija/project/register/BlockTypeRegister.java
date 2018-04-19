@@ -7,6 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
+import java.net.URL;
+
 /**
  * Static class containing all registered block types in their categories
  */
@@ -93,7 +95,7 @@ public class BlockTypeRegister {
 		throw new RuntimeException("BlockType " + id + " (" + category + ") is not in registry");
 	}
 
-	public static void loadFromXML(String path) {
+	public static void loadFromXML(URL path) {
 		XmlDom xmlDom = new XmlDom();
 		xmlDom.parseFile(path);
 		xmlDom.getCurrentNode("register");

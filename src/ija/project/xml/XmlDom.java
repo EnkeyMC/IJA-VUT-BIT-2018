@@ -16,6 +16,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -56,12 +57,24 @@ public class XmlDom implements XmlActiveNode {
 	 */
 	public void parseFile(String file) {
 		try {
-			DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			dom = docBuilder.parse(file);
-			currentNode = dom.getDocumentElement();
+			parseFromStream(new FileInputStream(file));
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			throw new XMLParsingException("Failed parsing XML file (" + file + "): " + e.getMessage());
 		}
+	}
+
+	public void parseFile(URL file) {
+		try {
+			parseFromStream(file.openStream());
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			throw new XMLParsingException("Failed parsing XML file (" + file.getPath() + "): " + e.getMessage());
+		}
+	}
+
+	private void parseFromStream(InputStream stream) throws IOException, SAXException, ParserConfigurationException {
+		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		dom = docBuilder.parse(stream);
+		currentNode = dom.getDocumentElement();
 	}
 
 	/**

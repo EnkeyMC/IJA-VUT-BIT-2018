@@ -6,6 +6,7 @@ import ija.project.xml.XmlActiveNode;
 import ija.project.xml.XmlRepresentable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class Block implements XmlRepresentable {
 	/**
 	 * Blocks connected on ports
 	 */
-	private HashMap<String, Block> connections;
+	private HashMap<String, Pair<Block, String>> connections;
 
 	/**
 	 * X coordinate in schema
@@ -112,8 +113,8 @@ public class Block implements XmlRepresentable {
 		if (!dstBlock.connections.containsKey(dstPort))
 			throw new ApplicationException("Block '" + dstBlock.blockType.getId() + "' does not contain port '" + dstPort + "'");
 
-		connections.put(srcPort, dstBlock);
-		dstBlock.connections.put(dstPort, this);
+		connections.put(srcPort, new Pair<>(dstBlock, dstPort));
+		dstBlock.connections.put(dstPort, new Pair<>(this, srcPort));
 	}
 
 	/**

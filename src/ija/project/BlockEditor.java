@@ -35,7 +35,7 @@ public class BlockEditor extends Application {
 
 		primaryStage.show();
 
-		TypeRegister.loadFromXML(getClass().getResource("/ija/project/resources/schema/types/builtin-types.xml").getPath());
-		BlockTypeRegister.loadFromXML(getClass().getResource("/ija/project/resources/schema/blocktypes/builtin.xml").getPath());
+		TypeRegister.loadFromXML(getClass().getResource("/ija/project/resources/schema/types/builtin-types.xml"));
+		BlockTypeRegister.loadFromXML(getClass().getResource("/ija/project/resources/schema/blocktypes/builtin.xml"));
 	}
 }
