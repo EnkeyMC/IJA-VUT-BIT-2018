@@ -29,13 +29,13 @@ public class BlockEditor extends Application {
 			System.exit(1);
 		}
 
-		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/ija/project/resources/images/icon.png")));
 		primaryStage.setTitle("Block editor");
 		primaryStage.setScene(new Scene(root));
 
 		primaryStage.show();
 
-		TypeRegister.loadFromXML(getClass().getResource("/schema/types/builtin-types.xml").getPath());
+		TypeRegister.loadFromXML(getClass().getResource("/ija/project/resources/schema/types/builtin-types.xml").getPath());
 		BlockTypeRegister.loadFromXML(getClass().getResource("/ija/project/resources/schema/blocktypes/builtin.xml").getPath());
 	}
 }
