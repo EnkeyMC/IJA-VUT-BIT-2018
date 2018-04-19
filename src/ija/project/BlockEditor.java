@@ -7,6 +7,7 @@ import ija.project.ui.utils.UIComponentLoader;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,8 +29,9 @@ public class BlockEditor extends Application {
 			System.exit(1);
 		}
 
-		primaryStage.setScene(new Scene(root));
+//		primaryStage.getIcons().add(new Image("/resources/images/icon.png"));
 		primaryStage.setTitle("Block editor");
+		primaryStage.setScene(new Scene(root));
 
 		primaryStage.show();
 
