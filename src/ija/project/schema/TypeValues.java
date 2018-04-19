@@ -7,6 +7,7 @@ import java.util.HashMap;
  * Values for given Type
  */
 public class TypeValues {
+
 	/** Mapped values by keys from Type */
 	private HashMap<String, Double> valuesMap;
 	/** Type */

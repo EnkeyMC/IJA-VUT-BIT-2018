@@ -18,7 +18,7 @@
 						<MenuItem text="_Open..." />
 						<SeparatorMenuItem mnemonicParsing="false" />
 						<MenuItem text="Close" onAction="#handleCloseSchemaAction" />
-						<MenuItem text="_Save" />
+						<MenuItem text="_Save" onAction="#handleSaveSchemaAction" />
 						<MenuItem text="Save All" />
 						<MenuItem text="Save _As..." />
 						<MenuItem text="_Quit" onAction="#handleQuitAction" />

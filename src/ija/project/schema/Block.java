@@ -17,6 +17,8 @@ import java.util.Map;
  */
 public class Block implements XmlRepresentable {
 
+	/** Block id */
+	private long id;
 	/**
 	 * BlockType of this Block
 	 */
@@ -57,6 +59,7 @@ public class Block implements XmlRepresentable {
 	public Block(BlockType blockType) {
 		initEmpty();
 		initFromBlockType(blockType);
+		this.id = 0;
 	}
 
 	/**
@@ -98,7 +101,12 @@ public class Block implements XmlRepresentable {
 
 	@Override
 	public void toXML(XmlActiveNode xmlDom) {
-
+		xmlDom.createChildElement("block");
+		xmlDom.setAttribute("block-type", blockType.getId());
+		xmlDom.setAttribute("x", Integer.toString((int) x.get()));
+		xmlDom.setAttribute("y", Integer.toString((int) y.get()));
+		xmlDom.setAttribute("id", Long.toString(id));
+		xmlDom.parentNode();
 	}
 
 	/**
@@ -196,5 +204,13 @@ public class Block implements XmlRepresentable {
 	 */
 	public void setY(double y) {
 		this.y.set(y);
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

@@ -88,6 +88,10 @@ public class SchemaControl extends VBox implements Initializable {
 		return schemaPane;
 	}
 
+	public Schema getSchema() {
+		return schema;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	}

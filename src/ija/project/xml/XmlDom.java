@@ -71,6 +71,14 @@ public class XmlDom implements XmlActiveNode {
 		}
 	}
 
+	public void parseFile(File file) {
+		try {
+			parseFromStream(new FileInputStream(file));
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			throw new XMLParsingException("Failed parsing XML file (" + file.getPath() + "): " + e.getMessage());
+		}
+	}
+
 	private void parseFromStream(InputStream stream) throws IOException, SAXException, ParserConfigurationException {
 		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		dom = docBuilder.parse(stream);
@@ -198,16 +206,20 @@ public class XmlDom implements XmlActiveNode {
 	 * @throws XMLWritingException when saving fails
 	 */
 	public void writeToFile(String filename) throws XMLWritingException {
+		writeToFile(new File(filename));
+	}
+
+	public void writeToFile(File file) throws XMLWritingException {
 		try {
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			Result output = new StreamResult(new File(filename));
+			Result output = new StreamResult(file);
 			Source input = new DOMSource(dom);
 
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 			transformer.transform(input, output);
 		} catch (TransformerException e) {
-			throw new XMLWritingException("Could not save " + filename);
+			throw new XMLWritingException("Could not save " + file.getPath());
 		}
 	}
 
