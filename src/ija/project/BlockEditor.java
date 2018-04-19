@@ -29,7 +29,7 @@ public class BlockEditor extends Application {
 			System.exit(1);
 		}
 
-//		primaryStage.getIcons().add(new Image("/resources/images/icon.png"));
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
 		primaryStage.setTitle("Block editor");
 		primaryStage.setScene(new Scene(root));
 
