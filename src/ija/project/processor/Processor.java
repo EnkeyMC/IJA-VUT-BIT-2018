@@ -1,9 +1,12 @@
 package ija.project.processor;
 
+import ija.project.exception.ApplicationException;
 import ija.project.schema.Block;
 import ija.project.schema.BlockType;
+import ija.project.schema.BlockPort;
 import ija.project.schema.Schema;
 
+import java.util.HashMap;
 import java.util.ArrayList;
 
 public class Processor {
@@ -14,9 +17,9 @@ public class Processor {
 	private Schema schema;
 
 	/**
-	 * Blocks that have unconnected output ports
+	 * Blocks in computation order
 	 */
-	private ArrayList<Block> outputBlocks;
+	private ArrayList<Block> compOrder;
 
 	/**
 	 * Construct object
@@ -24,56 +27,81 @@ public class Processor {
 	 */
 	public Processor(Schema schema) {
 		this.schema = schema;
-		this.outputBlocks = new ArrayList<>();
+		this.compOrder = new ArrayList<>();
 	}
 
 	/**
-	 * Find blocks that have unconnected output ports
+	 * Get blocks in computation order
+	 * @return list of blocks
 	 */
-	public void findOutputBlocks() {
-		for (Block block : schema.getBlockCollection()) {
-			if (block.hasUnconnectedOutputPort())
-				outputBlocks.add(block);
+	private ArrayList<Block> getCompOrder() {
+		return compOrder;
+	}
+
+	/**
+	 * Find blocks that have ALL input ports unplugged
+	 * @return list of such a blocks
+	 */
+	private ArrayList<Block> getInputBlocks() {
+		ArrayList<Block> inputBlocks = new ArrayList<>();
+		for (Block block: schema.getBlockCollection()) {
+			if (block.hasAllInputPortsUnplugged())
+				inputBlocks.add(block);
 		}
+		return inputBlocks;
 	}
 
 	private void computeBlock(BlockType block) {
 		return;
 	}
 
-	private void findLoops(BlockType root) throws Exception {
-		//ArrayList<Block> blocksVisited = new ArrayList<>();
-		//Stack<Block> branch = new Stack();
-		//Stack<Integer> indexes = new Stack();
-		//branch.push(root);
-		//indexes.push(0);
+	/**
+	 * Find circular dependencies in the schema
+	 *
+	 * Fills compOrder attribute with blocks in order
+	 * in which the computation will be performed.
+	 */
+	public void findCircularDeps() throws ApplicationException {
+		ArrayList<Block> blockList = getInputBlocks();
+		HashMap<Block, ArrayList<Block>> connections = new HashMap<>();
+		for (Block block: schema.getBlockCollection()) {
+			if (!blockList.contains(block)) {
+				connections.put(block, new ArrayList<>());
+			}
+		}
 
-		//Block block;
-		//while(!branch.empty()) {
-			//block = branch.pop();
-			//Integer idx = indexes.pop();
-			//Integer size = blocksVisited.size();
-			//if (size > idx) {
-				//blocksVisited.subList(idx, size-1).clear();
-			//}
-			//blocksVisited.add(block);
-			//for (BlockPort port : block.getInputPorts()) {
-				//BlockPort otherPort = port.getOpposite();
-				//if (otherPort != null) {
-					//BlockType otherBlock = otherPort.getBlockType();
-					//if (blocksVisited.contains(otherBlock)) {
-						//throw new Exception();
-					//}
-					//else {
-						//branch.push(otherBlock);
-						//indexes.push(blocksVisited.size());
-					//}
-				//}
-			//}
-		//}
-	}
+		while(!blockList.isEmpty()) {
+			Block block = blockList.remove(0);
+			compOrder.add(block);
+			for (BlockPort port: block.getBlockType().getOutputPorts()) {
+				Block dstBlock = block.getPluggedBlock(port.getName());
+				if (dstBlock != null) {
+					connections.get(dstBlock).add(block);
+					boolean add_flag = true;
+					for (BlockPort tmpPort: dstBlock.getBlockType().getInputPorts()) {
+						Block tmpBlock = dstBlock.getPluggedBlock(tmpPort.getName());
+						if (tmpBlock != null
+								&& !connections.get(dstBlock).contains(tmpBlock))
+						{
+							add_flag = false;
+							break;
+						}
+					}
+					if (add_flag)
+						blockList.add(dstBlock);
+				}
+			}
+		}
 
-	public ArrayList<Block> getOutputBlocks() {
-		return this.outputBlocks;
+		for (Block block: schema.getBlockCollection()) {
+			if (block.hasAllInputPortsUnplugged())
+				continue;
+			for (BlockPort port: block.getBlockType().getInputPorts()) {
+				Block tmpBlock = block.getPluggedBlock(port.getName());
+				if (tmpBlock != null && !connections.get(block).contains(tmpBlock)) {
+					throw new ApplicationException("Circular dependency found");
+				}
+			}
+		}
 	}
 }

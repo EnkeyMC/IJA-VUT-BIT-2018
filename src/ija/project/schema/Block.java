@@ -160,12 +160,35 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
+	 * Block has ALL input port unplugged
+	 * @return true if every input port is NOT connected
+	 */
+	public boolean hasAllInputPortsUnplugged() {
+		for (Map.Entry<String, TypeValues> port : inputPorts.entrySet()) {
+			if (connections.get(port.getKey()) != null)
+				return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Is given port connected
 	 * @param port port name
 	 * @return true if connected, false otherwise
 	 */
 	public boolean isConnected(String port) {
 		return connections.get(port) != null;
+	}
+
+	/**
+	 * Get block connected to the given port
+	 * @param port port name
+	 * @return connected block
+	 */
+	public Block getPluggedBlock(String port) {
+		if (connections.get(port) != null)
+			return connections.get(port).getKey();
+		return null;
 	}
 
 	/**
