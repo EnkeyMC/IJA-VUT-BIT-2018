@@ -112,6 +112,10 @@ public class Block implements XmlRepresentable {
 			throw new ApplicationException("Block '" + blockType.getId() + "' does not contain port '" + srcPort + "'");
 		if (!dstBlock.connections.containsKey(dstPort))
 			throw new ApplicationException("Block '" + dstBlock.blockType.getId() + "' does not contain port '" + dstPort + "'");
+		if (connections.get(srcPort) != null)
+			throw new ApplicationException("Port '" + srcPort + "' is already connected");
+		if (dstBlock.connections.get(dstPort) != null)
+			throw new ApplicationException("Port '" + dstPort + "' is already connected");
 
 		connections.put(srcPort, new Pair<>(dstBlock, dstPort));
 		dstBlock.connections.put(dstPort, new Pair<>(this, srcPort));
