@@ -31,14 +31,6 @@ public class Processor {
 	}
 
 	/**
-	 * Get blocks in computation order
-	 * @return list of blocks
-	 */
-	private ArrayList<Block> getCompOrder() {
-		return compOrder;
-	}
-
-	/**
 	 * Find blocks that have ALL input ports unplugged
 	 * @return list of such a blocks
 	 */
