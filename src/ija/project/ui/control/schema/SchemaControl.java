@@ -1,40 +1,89 @@
 package ija.project.ui.control.schema;
 
+import ija.project.exception.ApplicationException;
 import ija.project.register.BlockTypeRegister;
+import ija.project.schema.Block;
 import ija.project.schema.BlockType;
 import ija.project.schema.Schema;
 import ija.project.ui.utils.UIContolLoader;
-import javafx.beans.property.Property;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-public class SchemaControl extends VBox implements Initializable {
+public class SchemaControl extends VBox {
 
 	@FXML
 	private AnchorPane schemaPane;
 
 	private Schema schema;
 
+	private Map<Long, BlockControl> blockControls;
+
 	private BlockConnector connector;
+
+	private BooleanProperty changed = new SimpleBooleanProperty(false);
 
 	public static String getFXMLPath() {
 		return "schema/Schema.fxml";
 	}
 
-	public SchemaControl() {
+	public SchemaControl(Schema schema) {
 		super();
 		UIContolLoader.load(this);
-		schema = new Schema();
+		this.schema = schema;
+		blockControls = new HashMap<>();
+
+		Collection<Block> blocks = schema.getBlockCollection();
+		BlockControl blockControl;
+		for (Block block : blocks) {
+			blockControl = new BlockControl(this, block);
+			addBlockControl(blockControl);
+		}
+
+		BlockConnector blockConnector;
+		BlockPortControl blockPortControl;
+		for (Block block : blocks) {
+			for (Map.Entry<String, Pair<Block, String>> connection : block.getConnections().entrySet()) {
+				if (connection.getValue() != null) {
+					blockControl = blockControls.get(block.getId());
+					blockPortControl = blockControl.getPortControl(connection.getKey());
+					if (!blockPortControl.isInput()) {
+						blockConnector = new BlockConnector(this, blockControl, blockPortControl);
+
+						blockControl = blockControls.get(connection.getValue().getKey().getId());
+						blockPortControl = blockControl.getPortControl(connection.getValue().getValue());
+						blockConnector.connect(blockControl, blockPortControl);
+					}
+				}
+			}
+		}
+
+		schemaPane.getChildren().addListener(new ListChangeListener<Node>() {
+			@Override
+			public void onChanged(Change<? extends Node> c) {
+				setChanged(true);
+			}
+		});
 	}
 
-	public void bindDisplayNameTo(Property property) {
-		schema.displayNameProperty().bindBidirectional(property);
+	public void bindDisplayNameTo(StringProperty property) {
+		property.bind(Bindings.when(changed).then("*").otherwise("").concat(schema.displayNameProperty()));
 	}
 
 	@FXML
@@ -59,15 +108,22 @@ public class SchemaControl extends VBox implements Initializable {
 				return;
 			}
 
-			BlockControl blockControl = new BlockControl(this, type);
-			schemaPane.getChildren().add(blockControl);
+			BlockControl blockControl = new BlockControl(this, new Block(type));
+			addBlockControl(blockControl);
+			schema.addBlock(blockControl.getBlock());
 			blockControl.setLayoutX(event.getX() - blockControl.getPrefWidth()/2);
 			blockControl.setLayoutY(event.getY() - blockControl.getPrefHeight()/2);
-			schema.addBlock(blockControl.getBlock());
+
+			setChanged(true);
 			event.setDropCompleted(true);
 		} else {
 			event.setDropCompleted(false);
 		}
+	}
+
+	protected void addBlockControl(BlockControl blockControl) {
+		schemaPane.getChildren().add(blockControl);
+		blockControls.put(blockControl.getBlock().getId(), blockControl);
 	}
 
 	public void startConnection(BlockControl srcBlock, BlockPortControl srcPort) {
@@ -76,7 +132,16 @@ public class SchemaControl extends VBox implements Initializable {
 
 	public void endConnection(BlockControl dstBlock, BlockPortControl dstPort) {
 		assert connector != null;
-		connector.connect(dstBlock, dstPort);
+		try {
+			connector.connect(dstBlock, dstPort);
+			setChanged(true);
+		} catch (ApplicationException e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error occurred");
+			alert.setHeaderText("Cannot connect ports");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+		}
 		connector = null;
 	}
 
@@ -92,7 +157,15 @@ public class SchemaControl extends VBox implements Initializable {
 		return schema;
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public boolean isChanged() {
+		return changed.get();
+	}
+
+	public BooleanProperty changedProperty() {
+		return changed;
+	}
+
+	public void setChanged(boolean changed) {
+		this.changed.set(changed);
 	}
 }

@@ -16,6 +16,10 @@ public class BlockType implements XmlRepresentable {
 	 */
 	private String id;
 	/**
+	 * Block type category
+	 */
+	private String category;
+	/**
 	 * Display name
 	 */
 	private String displayName;
@@ -36,8 +40,6 @@ public class BlockType implements XmlRepresentable {
 	 * Create blank block types
 	 */
 	public BlockType() {
-		id = null;
-		displayName = null;
 		inputPorts = new ArrayList<>();
 		outputPorts = new ArrayList<>();
 		formulas = new ArrayList<>();
@@ -46,10 +48,12 @@ public class BlockType implements XmlRepresentable {
 	/**
 	 * Create block types with id and display name
 	 * @param id id
+	 * @param category category
 	 * @param displayName display name
 	 */
-	public BlockType(String id, String displayName) {
+	public BlockType(String id, String category, String displayName) {
 		this.id = id;
+		this.category = category;
 		this.displayName = displayName;
 		inputPorts = new ArrayList<>();
 		outputPorts = new ArrayList<>();
@@ -203,5 +207,13 @@ public class BlockType implements XmlRepresentable {
 		xmlDom.parentNode();
 
 		xmlDom.parentNode();
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }

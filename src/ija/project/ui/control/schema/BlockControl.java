@@ -5,19 +5,10 @@ import ija.project.schema.BlockPort;
 import ija.project.schema.BlockType;
 import ija.project.ui.control.Spacer;
 import ija.project.ui.utils.UIContolLoader;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.input.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -26,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BlockControl extends BorderPane {
@@ -33,6 +25,8 @@ public class BlockControl extends BorderPane {
 	private Block block;
 
 	private SchemaControl schemaControl;
+
+	private Map<String, BlockPortControl> blockPortControls;
 
 	private double dragStartX;
 	private double dragStartY;
@@ -43,8 +37,28 @@ public class BlockControl extends BorderPane {
 
 	public BlockControl(SchemaControl schemaControl, BlockType blockType) {
 		super();
-		UIContolLoader.load(this);
+		block = new Block(blockType);
 		this.schemaControl = schemaControl;
+
+		init(blockType);
+	}
+
+	public BlockControl(SchemaControl schemaControl, Block block) {
+		super();
+		this.schemaControl = schemaControl;
+		this.block = block;
+
+		init(block.getBlockType());
+	}
+
+	protected void init(BlockType blockType) {
+		UIContolLoader.load(this);
+
+		blockPortControls = new HashMap<>();
+		dragStartX = 0;
+		dragStartY = 0;
+		this.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
+		this.setCursor(Cursor.MOVE);
 
 		Label label = new Label(blockType.getDisplayName());
 		this.setCenter(label);
@@ -59,6 +73,7 @@ public class BlockControl extends BorderPane {
 		inputPorts.getChildren().add(new Spacer());
 		for (BlockPort port : ports) {
 			blockPortControl = new BlockPortControl(this, port, true);
+			blockPortControls.put(port.getName(), blockPortControl);
 			inputPorts.getChildren().add(blockPortControl);
 			inputPorts.getChildren().add(new Spacer());
 		}
@@ -67,21 +82,25 @@ public class BlockControl extends BorderPane {
 		outputPorts.getChildren().add(new Spacer());
 		for (BlockPort port : ports) {
 			blockPortControl = new BlockPortControl(this, port, false);
+			blockPortControls.put(port.getName(), blockPortControl);
 			outputPorts.getChildren().add(blockPortControl);
 			outputPorts.getChildren().add(new Spacer());
 		}
 
-		block = new Block(blockType);
+		double x = block.getX();
+		double y = block.getY();
 		block.xProperty().bindBidirectional(this.layoutXProperty());
 		block.yProperty().bindBidirectional(this.layoutYProperty());
-		this.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
-		this.setCursor(Cursor.MOVE);
-		dragStartX = 0;
-		dragStartY = 0;
+		block.setX(x);
+		block.setY(y);
 	}
 
 	public Block getBlock() {
 		return block;
+	}
+
+	public BlockPortControl getPortControl(String port) {
+		return blockPortControls.get(port);
 	}
 
 	@FXML
@@ -103,6 +122,7 @@ public class BlockControl extends BorderPane {
 
 			this.setLayoutX(local.getX() - dragStartX);
 			this.setLayoutY(local.getY() - dragStartY);
+			this.schemaControl.setChanged(true);
 			event.consume();
 		}
 	}

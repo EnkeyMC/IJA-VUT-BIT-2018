@@ -15,11 +15,11 @@
 				<Menu text="Sche_ma">
 					<items>
 						<MenuItem text="_New" onAction="#handleNewSchemaAction" />
-						<MenuItem text="_Open..." />
+						<MenuItem text="_Open..." onAction="#handleOpenSchemaAction" />
 						<SeparatorMenuItem mnemonicParsing="false" />
 						<MenuItem text="Close" onAction="#handleCloseSchemaAction" />
 						<MenuItem text="_Save" onAction="#handleSaveSchemaAction" />
-						<MenuItem text="Save All" />
+						<MenuItem text="Save All" onAction="#handleSaveAllSchemaAction" />
 						<MenuItem text="Save _As..." />
 						<MenuItem text="_Quit" onAction="#handleQuitAction" />
 					</items>

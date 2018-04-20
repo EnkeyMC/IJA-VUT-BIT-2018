@@ -31,7 +31,7 @@ public class Processor {
 	 * Find blocks that have unconnected output ports
 	 */
 	public void findOutputBlocks() {
-		for (Block block : schema.getBlocks()) {
+		for (Block block : schema.getBlockCollection()) {
 			if (block.hasUnconnectedOutputPort())
 				outputBlocks.add(block);
 		}

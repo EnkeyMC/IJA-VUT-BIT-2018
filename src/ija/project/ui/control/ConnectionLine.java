@@ -33,6 +33,7 @@ public class ConnectionLine extends Path {
 			if (event.getButton().equals(MouseButton.SECONDARY)) {
 				ConnectionLine line = (ConnectionLine) event.getSource();
 				line.removeConnection();
+				event.consume();;
 			}
 		});
 	}

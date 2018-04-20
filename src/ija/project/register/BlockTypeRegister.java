@@ -109,6 +109,7 @@ public class BlockTypeRegister {
 				for (XmlActiveNode blockTypeNode : category.childIterator()) {
 					blockType = new BlockType();
 					blockType.fromXML(blockTypeNode);
+					blockType.setCategory(catName);
 					reg(catName, blockType);
 				}
 			}

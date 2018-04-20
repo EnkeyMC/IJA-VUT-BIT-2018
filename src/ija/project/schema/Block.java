@@ -2,6 +2,7 @@ package ija.project.schema;
 
 import ija.project.exception.ApplicationException;
 import ija.project.exception.XMLParsingException;
+import ija.project.register.BlockTypeRegister;
 import ija.project.xml.XmlActiveNode;
 import ija.project.xml.XmlRepresentable;
 import javafx.beans.property.DoubleProperty;
@@ -96,13 +97,22 @@ public class Block implements XmlRepresentable {
 
 	@Override
 	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
+		xmlDom.getCurrentNode("block");
+		String blockTypeCat = xmlDom.getAttribute("block-type-cat");
+		String blockTypeId = xmlDom.getAttribute("block-type-id");
+		BlockType blockType = BlockTypeRegister.getBlockTypeById(blockTypeCat, blockTypeId);
+		initFromBlockType(blockType);
 
+		this.x.setValue(Integer.valueOf(xmlDom.getAttribute("x")));
+		this.y.setValue(Integer.valueOf(xmlDom.getAttribute("y")));
+		this.setId(Long.valueOf(xmlDom.getAttribute("id")));
 	}
 
 	@Override
 	public void toXML(XmlActiveNode xmlDom) {
 		xmlDom.createChildElement("block");
-		xmlDom.setAttribute("block-type", blockType.getId());
+		xmlDom.setAttribute("block-type-cat", blockType.getCategory());
+		xmlDom.setAttribute("block-type-id", blockType.getId());
 		xmlDom.setAttribute("x", Integer.toString((int) x.get()));
 		xmlDom.setAttribute("y", Integer.toString((int) y.get()));
 		xmlDom.setAttribute("id", Long.toString(id));
@@ -212,5 +222,13 @@ public class Block implements XmlRepresentable {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public HashMap<String, Pair<Block, String>> getConnections() {
+		return connections;
+	}
+
+	public BlockType getBlockType() {
+		return blockType;
 	}
 }

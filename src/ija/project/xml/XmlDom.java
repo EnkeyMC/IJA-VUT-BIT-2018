@@ -115,6 +115,8 @@ public class XmlDom implements XmlActiveNode {
 	@Override
 	public Node nextNode() {
 		currentNode = currentNode.getNextSibling();
+		if (isWhitespaceNode(currentNode))
+			nextNode();
 		return currentNode;
 	}
 
@@ -133,6 +135,8 @@ public class XmlDom implements XmlActiveNode {
 	@Override
 	public Node firstChildNode() {
 		currentNode = currentNode.getFirstChild();
+		if (isWhitespaceNode(currentNode))
+			nextNode();
 		return currentNode;
 	}
 
@@ -242,6 +246,15 @@ public class XmlDom implements XmlActiveNode {
 		currentNode.setTextContent(text);
 	}
 
+	private static boolean isWhitespaceNode(Node n) {
+		if (n.getNodeType() == Node.TEXT_NODE) {
+			String val = n.getNodeValue();
+			return val.trim().length() == 0;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * This fixes whitespace text nodes with elements in it
 	 *
@@ -271,6 +284,8 @@ public class XmlDom implements XmlActiveNode {
 		}
 
 		private static boolean isWhitespaceNode(Node n) {
+			if (n == null)
+				return false;
 			if (n.getNodeType() == Node.TEXT_NODE) {
 				String val = n.getNodeValue();
 				return val.trim().length() == 0;

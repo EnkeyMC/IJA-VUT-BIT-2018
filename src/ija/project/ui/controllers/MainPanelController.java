@@ -1,6 +1,7 @@
 package ija.project.ui.controllers;
 
 import ija.project.exception.ApplicationException;
+import ija.project.exception.XMLParsingException;
 import ija.project.exception.XMLWritingException;
 import ija.project.register.BlockTypeRegister;
 import ija.project.schema.BlockType;
@@ -51,7 +52,7 @@ public class MainPanelController implements Initializable {
 
 	@FXML
 	private void handleNewSchemaAction(ActionEvent event) {
-		this.newScheme("Untitled");
+		this.newSchema(new Schema());
 	}
 
 	@FXML
@@ -70,9 +71,20 @@ public class MainPanelController implements Initializable {
 		Tab tab = tabs.getSelectionModel().getSelectedItem();
 		if (!(tab.getContent() instanceof  SchemaControl))
 			throw new ApplicationException("Current tab is not schema");
-		SchemaControl schemaControl = (SchemaControl) tab.getContent();
-		Schema schema = schemaControl.getSchema();
+		saveSchema((SchemaControl) tab.getContent());
+	}
 
+	@FXML
+	private void handleSaveAllSchemaAction(ActionEvent event) {
+		for (Tab tab : tabs.getTabs()) {
+			if (tab.getContent() instanceof SchemaControl) {
+				saveSchema((SchemaControl) tab.getContent());
+			}
+		}
+	}
+
+	private void saveSchema(SchemaControl schemaControl) {
+		Schema schema = schemaControl.getSchema();
 		File file;
 		if (schema.getFile() == null) {
 			fileChooser.setTitle("Save Schema");
@@ -82,7 +94,8 @@ public class MainPanelController implements Initializable {
 			);
 
 			file = fileChooser.showSaveDialog(tabs.getScene().getWindow());
-
+			if (file == null)
+				return;
 		} else {
 			file = schema.getFile();
 		}
@@ -94,11 +107,59 @@ public class MainPanelController implements Initializable {
 		try {
 			xmlDom.writeToFile(file);
 			schema.setFile(file);
+			schemaControl.setChanged(false);
 		} catch (XMLWritingException e) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Error occurred");
-			alert.setHeaderText(null);
-			alert.setContentText(e.getMessage());
+			exceptionAlert(e);
+		}
+	}
+
+	@FXML
+	private void handleOpenSchemaAction(ActionEvent event) {
+		fileChooser.setTitle("Open Schema");
+		fileChooser.getExtensionFilters().addAll(
+			new FileChooser.ExtensionFilter("XML", "*.xml"),
+			new FileChooser.ExtensionFilter("All", "*.*")
+		);
+
+		File file = fileChooser.showOpenDialog(tabs.getScene().getWindow());
+		if (file == null)
+			return;
+
+		Tab inTab = null;
+		for (Tab tab : tabs.getTabs()) {
+			if (tab.getContent() instanceof SchemaControl) {
+				SchemaControl schemaControl = (SchemaControl) tab.getContent();
+				if (schemaControl.getSchema().getFile() != null) {
+					try {
+						if (schemaControl.getSchema().getFile().getCanonicalPath().equals(file.getCanonicalPath())) {
+							inTab = tab;
+							break;
+						}
+					} catch (IOException e) {
+						exceptionAlert(e);
+					}
+				}
+			}
+		}
+
+		try {
+			XmlDom xmlDom = new XmlDom();
+			xmlDom.parseFile(file);
+			Schema schema = new Schema();
+			xmlDom.getCurrentNode("root");
+			xmlDom.firstChildNode();
+			schema.fromXML(xmlDom);
+			schema.setFile(file);
+			if (inTab == null) {
+				this.newSchema(schema);
+			} else {
+				SchemaControl schemaControl = new SchemaControl(schema);
+				inTab.setContent(schemaControl);
+				schemaControl.bindDisplayNameTo(inTab.textProperty());
+				tabs.getSelectionModel().select(inTab);
+			}
+		} catch (Exception e) {
+			exceptionAlert(e);
 		}
 	}
 
@@ -107,10 +168,18 @@ public class MainPanelController implements Initializable {
 		Platform.exit();
 	}
 
+	private void exceptionAlert(Exception e) {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Error occurred");
+		alert.setHeaderText(null);
+		alert.setContentText(e.getMessage());
+		alert.showAndWait();
+	}
+
 	@Override
 	@FXML
 	public void initialize(URL location, ResourceBundle resources) {
-		this.newScheme("Untitled");
+		this.newSchema(new Schema());
 
 		this.blockListControllers = new HashMap<>();
 		ObservableMap<String, ObservableList<BlockType>> registers = BlockTypeRegister.getAllRegisters();
@@ -142,10 +211,11 @@ public class MainPanelController implements Initializable {
         });
 	}
 
-	private void newScheme(String name) {
-		Tab tab = new Tab(name);
+	private void newSchema(Schema schema) {
+		Tab tab = new Tab();
 		tabs.getTabs().add(tab);
-		SchemaControl schemaControl = new SchemaControl();
+		tabs.getSelectionModel().select(tab);
+		SchemaControl schemaControl = new SchemaControl(schema);
 		tab.setContent(schemaControl);
 		schemaControl.bindDisplayNameTo(tab.textProperty());
 	}
