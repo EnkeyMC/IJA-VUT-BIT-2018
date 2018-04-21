@@ -5,6 +5,7 @@ import ija.project.register.BlockTypeRegister;
 import ija.project.schema.Block;
 import ija.project.schema.BlockType;
 import ija.project.schema.Schema;
+import ija.project.ui.control.ConnectionLine;
 import ija.project.ui.utils.UIContolLoader;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -56,19 +57,22 @@ public class SchemaControl extends VBox {
 			addBlockControl(blockControl);
 		}
 
-		BlockConnector blockConnector;
-		BlockPortControl blockPortControl;
+		ConnectionLine connectionLine;
+		BlockPortControl blockPortControlOutput;
+		BlockPortControl blockPortControlInput;
+
 		for (Block block : blocks) {
 			for (Map.Entry<String, Pair<Block, String>> connection : block.getConnections().entrySet()) {
 				if (connection.getValue() != null) {
 					blockControl = blockControls.get(block.getId());
-					blockPortControl = blockControl.getPortControl(connection.getKey());
-					if (!blockPortControl.isInput()) {
-						blockConnector = new BlockConnector(this, blockControl, blockPortControl);
+					blockPortControlOutput = blockControl.getPortControl(connection.getKey());
 
+					if (!blockPortControlOutput.isInput()) {
 						blockControl = blockControls.get(connection.getValue().getKey().getId());
-						blockPortControl = blockControl.getPortControl(connection.getValue().getValue());
-						blockConnector.connect(blockControl, blockPortControl);
+						blockPortControlInput = blockControl.getPortControl(connection.getValue().getValue());
+
+						connectionLine = new ConnectionLine(schemaPane, blockPortControlOutput, blockPortControlInput);
+						schemaPane.getChildren().add(connectionLine);
 					}
 				}
 			}

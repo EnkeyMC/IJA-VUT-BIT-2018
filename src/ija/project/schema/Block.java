@@ -181,6 +181,15 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
+	 * Is given port input port of this block
+	 * @param port port name
+	 * @return true if port is input, false otherwise
+	 */
+	public boolean isInputPort(String port) {
+		return inputPorts.get(port) != null;
+	}
+
+	/**
 	 * Get block connected to the given port
 	 * @param port port name
 	 * @return connected block
