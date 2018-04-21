@@ -5,7 +5,8 @@
     <property name="build.dir"   value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir"     value="dest-client/"/>
-	<property name="libs.cp" value="lib/junit-4.12.jar;lib/hamcrest-core-1.3.jar;lib/antlr-4.7.1-complete.jar" />
+	<property name="antlr.cp"   value="lib/antlr-4.7.1-complete.jar"/>
+	<property name="libs.cp" value="lib/junit-4.12.jar;lib/hamcrest-core-1.3.jar;${antlr.cp}" />
 	<property name="antlr.output"   value="src/antlr/parse"/>
 	<property name="antlr.grammar"   value="src/antlr/grammar/Expression.g4"/>
     <property name="main-class"  value="ija.project.BlockEditor"/>
@@ -29,7 +30,9 @@
     </target>
 
     <target name="run" depends="jar">
-        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true" />
+		<java classname="${main-class}" fork="true">
+			<classpath path="${antlr.cp};${jar.dir}/${ant.project.name}.jar"/>
+		</java>
     </target>
 
     <target name="clean">
