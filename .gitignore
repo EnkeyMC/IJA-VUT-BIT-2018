@@ -3,6 +3,8 @@ build/
 out/
 dest-client/
 
+src/antlr/parse/
+
 ija-projekt.iml
 IJA-VUT-BIT-2018.iml
 

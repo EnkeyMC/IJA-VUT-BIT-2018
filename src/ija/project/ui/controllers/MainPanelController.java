@@ -1,7 +1,6 @@
 package ija.project.ui.controllers;
 
 import ija.project.exception.ApplicationException;
-import ija.project.exception.XMLParsingException;
 import ija.project.exception.XMLWritingException;
 import ija.project.register.BlockTypeRegister;
 import ija.project.register.ComponentLoader;
