@@ -1,6 +1,9 @@
 package ija.project.ui.control.schema;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.binding.NumberBinding;
 import javafx.collections.ObservableList;
 import javafx.scene.shape.*;
 
@@ -49,9 +52,12 @@ public class ConnectionLine extends Path implements Removable {
 		moveTo.yProperty().bind(vline.yProperty());
 		elements.add(moveTo);
 
+		NumberBinding sign = Bindings.when(outputPort.connectionYProperty().greaterThan(inputPort.connectionYProperty()))
+			.then(-1).otherwise(1);
+
 		LineTo arrowLine = new LineTo();
 		arrowLine.xProperty().bind(hline.xProperty().subtract(arrowX));
-		arrowLine.yProperty().bind(vline.yProperty().subtract(arrowY));
+		arrowLine.yProperty().bind(vline.yProperty().subtract(sign.multiply(arrowY)));
 		elements.add(arrowLine);
 
 		moveTo = new MoveTo();
@@ -61,7 +67,7 @@ public class ConnectionLine extends Path implements Removable {
 
 		arrowLine = new LineTo();
 		arrowLine.xProperty().bind(hline.xProperty().add(arrowX));
-		arrowLine.yProperty().bind(vline.yProperty().subtract(arrowY));
+		arrowLine.yProperty().bind(vline.yProperty().subtract(sign.multiply(arrowY)));
 		elements.add(arrowLine);
 	}
 
