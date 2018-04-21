@@ -20,7 +20,12 @@
 		</ToolBar>
 		<ScrollPane>
 			<content>
-				<AnchorPane fx:id="schemaPane" onMouseClicked="#onMouseClicked" onDragDropped="#onDragDropped" onDragOver="#onDragOver" prefHeight="3000.0" prefWidth="3000.0">
+				<AnchorPane fx:id="schemaPane"
+							onMouseClicked="#onMouseClicked"
+							onDragDropped="#onDragDropped"
+							onDragOver="#onDragOver"
+							onMouseMoved="#onMouseMoved"
+							prefHeight="3000.0" prefWidth="3000.0">
 
 				</AnchorPane>
 			</content>

@@ -32,6 +32,10 @@ public class BlockPortControl extends AnchorPane {
 		return "schema/BlockPort.fxml";
 	}
 
+	public BlockPortControl() {
+
+	}
+
 	public BlockPortControl(BlockControl blockControl, BlockPort port, boolean input) {
 		super();
 		UIContolLoader.load(this);
@@ -55,11 +59,9 @@ public class BlockPortControl extends AnchorPane {
 	private void onMouseClicked(MouseEvent event) {
 		if (event.getButton().equals(MouseButton.PRIMARY) && !blockControl.getSchemaControl().isModeRemove()) {
 			if (this.blockControl.getSchemaControl().isBlockConnectingActive()) {
-				if (input)
-					this.blockControl.getSchemaControl().endConnection(this.blockControl, this);
+				this.blockControl.getSchemaControl().endConnection(this.blockControl, this);
 			} else {
-				if (!input)
-					this.blockControl.getSchemaControl().startConnection(this.blockControl, this);
+				this.blockControl.getSchemaControl().startConnection(this.blockControl, this);
 			}
 			event.consume();
 		}

@@ -1,5 +1,7 @@
 package ija.project.ui.control.schema;
 
+import ija.project.exception.ApplicationException;
+
 public class BlockConnector {
 
 	private BlockPortControl srcPort;
@@ -13,9 +15,9 @@ public class BlockConnector {
 		this.schemaControl = control;
 	}
 
-	public boolean connect(BlockControl dstBlock, BlockPortControl dstPort) {
+	public void connect(BlockControl dstBlock, BlockPortControl dstPort) {
 		if (dstBlock == srcBlock)
-			return false;
+			throw new ApplicationException("Cannot connect ports on the same block!");
 
 		srcBlock.getBlock().connectTo(
 			srcPort.getBlockPort().getName(),
@@ -29,6 +31,13 @@ public class BlockConnector {
 		else
 			line = new ConnectionLine(srcPort, dstPort);
 		schemaControl.getSchemaPane().getChildren().add(line);
-		return true;
+	}
+
+	public BlockControl getSrcBlock() {
+		return srcBlock;
+	}
+
+	public BlockPortControl getSrcPort() {
+		return srcPort;
 	}
 }

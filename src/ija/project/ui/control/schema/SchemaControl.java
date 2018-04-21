@@ -1,6 +1,5 @@
 package ija.project.ui.control.schema;
 
-import com.sun.javafx.cursor.CursorType;
 import ija.project.exception.ApplicationException;
 import ija.project.register.BlockTypeRegister;
 import ija.project.schema.Block;
@@ -9,17 +8,13 @@ import ija.project.schema.Schema;
 import ija.project.ui.utils.UIContolLoader;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -42,6 +37,8 @@ public class SchemaControl extends VBox {
 	private Map<Long, BlockControl> blockControls;
 
 	private BlockConnector connector;
+	private ConnectionLine connectionLinePreview;
+	private DummyBlockPortControl dummyBlockPortControl;
 
 	private BooleanProperty changed = new SimpleBooleanProperty(false);
 
@@ -148,6 +145,14 @@ public class SchemaControl extends VBox {
 		}
 	}
 
+	@FXML
+	private void onMouseMoved(MouseEvent event) {
+		if (connectionLinePreview != null) {
+			dummyBlockPortControl.setLayoutX(event.getX());
+			dummyBlockPortControl.setLayoutY(event.getY());
+		}
+	}
+
 	protected void addBlockControl(BlockControl blockControl) {
 		schemaPane.getChildren().add(blockControl);
 		blockControls.put(blockControl.getBlock().getId(), blockControl);
@@ -155,6 +160,18 @@ public class SchemaControl extends VBox {
 
 	public void startConnection(BlockControl srcBlock, BlockPortControl srcPort) {
 		connector = new BlockConnector(this, srcBlock, srcPort);
+
+		dummyBlockPortControl = new DummyBlockPortControl();
+		dummyBlockPortControl.setLayoutX(srcPort.connectionXProperty().getValue());
+		dummyBlockPortControl.setLayoutY(srcPort.connectionYProperty().getValue());
+		dummyBlockPortControl.setMouseTransparent(true);
+
+		if (srcPort.isInput())
+			connectionLinePreview = new ConnectionLine(dummyBlockPortControl, srcPort);
+		else
+			connectionLinePreview = new ConnectionLine(srcPort, dummyBlockPortControl);
+		connectionLinePreview.setMouseTransparent(true);
+		schemaPane.getChildren().add(connectionLinePreview);
 	}
 
 	public void endConnection(BlockControl dstBlock, BlockPortControl dstPort) {
@@ -168,6 +185,10 @@ public class SchemaControl extends VBox {
 			alert.setHeaderText("Cannot connect ports");
 			alert.setContentText(e.getMessage());
 			alert.showAndWait();
+		} finally {
+			schemaPane.getChildren().remove(connectionLinePreview);
+			connectionLinePreview = null;
+			dummyBlockPortControl = null;
 		}
 		connector = null;
 	}
