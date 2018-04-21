@@ -1,8 +1,5 @@
 package ija.project.ui.control.schema;
 
-import ija.project.ui.control.ConnectionLine;
-import javafx.scene.shape.Line;
-
 public class BlockConnector {
 
 	private BlockPortControl srcPort;
@@ -28,9 +25,9 @@ public class BlockConnector {
 
 		ConnectionLine line;
 		if (srcPort.isInput())
-			line = new ConnectionLine(schemaControl.getSchemaPane(), dstPort, srcPort);
+			line = new ConnectionLine(dstPort, srcPort);
 		else
-			line = new ConnectionLine(schemaControl.getSchemaPane(), srcPort, dstPort);
+			line = new ConnectionLine(srcPort, dstPort);
 		schemaControl.getSchemaPane().getChildren().add(line);
 		return true;
 	}

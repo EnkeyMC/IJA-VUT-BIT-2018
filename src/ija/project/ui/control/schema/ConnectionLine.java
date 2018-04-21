@@ -1,41 +1,30 @@
-package ija.project.ui.control;
+package ija.project.ui.control.schema;
 
-import ija.project.ui.control.schema.BlockPortControl;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ObservableList;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.*;
 
-public class ConnectionLine extends Path {
+public class ConnectionLine extends Path implements Removable {
 
 	private BlockPortControl outputPort;
 	private BlockPortControl inputPort;
 
-	private Pane parent;
-
 	private static final int arrowX = 7;
 	private static final int arrowY = 10;
 
-	public ConnectionLine(Pane parent, BlockPortControl outputPort, BlockPortControl inputPort) {
+	public ConnectionLine(BlockPortControl outputPort, BlockPortControl inputPort) {
 		super();
 		this.outputPort = outputPort;
 		this.inputPort = inputPort;
-		this.parent = parent;
+
+		this.outputPort.setConnectionLine(this);
+		this.inputPort.setConnectionLine(this);
 
 		this.setStrokeWidth(3);
 		this.layoutXProperty().bind(outputPort.connectionXProperty());
 		this.layoutYProperty().bind(outputPort.connectionYProperty());
 		this.setManaged(false);
 		bindLines();
-
-		this.setOnMouseClicked(event -> {
-			if (event.getButton().equals(MouseButton.SECONDARY)) {
-				ConnectionLine line = (ConnectionLine) event.getSource();
-				line.removeConnection();
-				event.consume();
-			}
-		});
 	}
 
 	private void bindLines() {
@@ -76,8 +65,8 @@ public class ConnectionLine extends Path {
 		elements.add(arrowLine);
 	}
 
-	private void removeConnection() {
-		this.parent.getChildren().remove(this);
+	@Override
+	public void onRemove() {
 		outputPort.getBlockControl().getBlock().disconnectPort(outputPort.getBlockPort().getName());
 		inputPort.getBlockControl().getBlock().disconnectPort(inputPort.getBlockPort().getName());
 	}

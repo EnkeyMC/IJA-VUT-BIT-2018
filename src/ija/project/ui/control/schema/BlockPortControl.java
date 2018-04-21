@@ -24,6 +24,8 @@ public class BlockPortControl extends AnchorPane {
 	private ReadOnlyDoubleProperty connectionX;
 	private ReadOnlyDoubleProperty connectionY;
 
+	private ConnectionLine connectionLine;
+
 	private boolean input;
 
 	public static String getFXMLPath() {
@@ -45,12 +47,13 @@ public class BlockPortControl extends AnchorPane {
 		else
 			this.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
 
-		this.setCursor(Cursor.CROSSHAIR);
+		updateCursor();
+		blockControl.getSchemaControl().toolRemoveSelectedProperty().addListener((observable, oldValue, newValue) -> updateCursor());
 	}
 
 	@FXML
 	private void onMouseClicked(MouseEvent event) {
-		if (event.getButton().equals(MouseButton.PRIMARY)) {
+		if (event.getButton().equals(MouseButton.PRIMARY) && !blockControl.getSchemaControl().isModeRemove()) {
 			if (this.blockControl.getSchemaControl().isBlockConnectingActive()) {
 				if (input)
 					this.blockControl.getSchemaControl().endConnection(this.blockControl, this);
@@ -100,5 +103,23 @@ public class BlockPortControl extends AnchorPane {
 
 	public boolean isInput() {
 		return input;
+	}
+
+	private void updateCursor() {
+		if (blockControl.getSchemaControl().isModeRemove())
+			setCursor(null);
+		else
+			setCursor(Cursor.CROSSHAIR);
+	}
+
+	public void setConnectionLine(ConnectionLine connectionLine) {
+		this.connectionLine = connectionLine;
+	}
+
+	public void onRemove() {
+		if (connectionLine != null) {
+			blockControl.getSchemaControl().getSchemaPane().getChildren().remove(connectionLine);
+			connectionLine.onRemove();
+		}
 	}
 }

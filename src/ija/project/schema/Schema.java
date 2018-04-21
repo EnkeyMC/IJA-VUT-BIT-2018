@@ -60,6 +60,14 @@ public class Schema implements XmlRepresentable {
 		this.blocks.put(block.getId(), block);
 	}
 
+	/**
+	 * Remove block from schema
+	 * @param block block to remove
+	 */
+	public void removeBlock(Block block) {
+		blocks.remove(block.getId());
+	}
+
 	@Override
 	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
 		xmlDom.getCurrentNode("schema");

@@ -1,5 +1,6 @@
 package ija.project.ui.control.schema;
 
+import com.sun.javafx.cursor.CursorType;
 import ija.project.schema.Block;
 import ija.project.schema.BlockPort;
 import ija.project.schema.BlockType;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BlockControl extends BorderPane {
+public class BlockControl extends BorderPane implements Removable {
 
 	private Block block;
 
@@ -58,10 +59,12 @@ public class BlockControl extends BorderPane {
 		dragStartX = 0;
 		dragStartY = 0;
 		this.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
-		this.setCursor(Cursor.MOVE);
+		updateCursor();
 
 		Label label = new Label(blockType.getDisplayName());
 		this.setCenter(label);
+		this.schemaControl.toolRemoveSelectedProperty().addListener((observable, oldValue, newValue) -> updateCursor());
+		updateCursor();
 
 		HBox inputPorts = new HBox(5);
 		HBox outputPorts = new HBox(5);
@@ -106,10 +109,16 @@ public class BlockControl extends BorderPane {
 	@FXML
 	private void onMousePressed(MouseEvent event) {
 		if (event.isPrimaryButtonDown()) {
-			Point2D local = this.sceneToLocal(event.getSceneX(), event.getSceneY());
 			dragStartX = event.getX();
 			dragStartY = event.getY();
-			event.consume();
+			setCursor(Cursor.CLOSED_HAND);
+		}
+	}
+
+	@FXML
+	private void onMouseReleased(MouseEvent event) {
+		if (event.getButton() == MouseButton.PRIMARY) {
+			updateCursor();
 		}
 	}
 
@@ -129,5 +138,20 @@ public class BlockControl extends BorderPane {
 
 	public SchemaControl getSchemaControl() {
 		return schemaControl;
+	}
+
+	private void updateCursor() {
+		if (schemaControl.isModeRemove())
+			setCursor(null);
+		else
+			setCursor(Cursor.OPEN_HAND);
+	}
+
+	@Override
+	public void onRemove() {
+		for (BlockPortControl blockPortControl : blockPortControls.values()) {
+			blockPortControl.onRemove();
+		}
+		this.schemaControl.getSchema().removeBlock(block);
 	}
 }

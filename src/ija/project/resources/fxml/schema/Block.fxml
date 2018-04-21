@@ -4,6 +4,7 @@
 
 <fx:root onMouseDragged="#onMouseDragged"
 		 onMousePressed="#onMousePressed"
+		 onMouseReleased="#onMouseReleased"
 		 minHeight="40.0" minWidth="60.0"
 		 type="javafx.scene.layout.BorderPane"
 		 xmlns="http://javafx.com/javafx"

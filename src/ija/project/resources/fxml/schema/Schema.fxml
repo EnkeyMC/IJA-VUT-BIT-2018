@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -9,11 +10,12 @@
 	<children>
 		<ToolBar prefHeight="40.0" VBox.vgrow="NEVER">
 			<items>
+            	<ToggleButton mnemonicParsing="false" text="Remove" fx:id="toolRemove" />
 			</items>
 		</ToolBar>
 		<ScrollPane>
 			<content>
-				<AnchorPane fx:id="schemaPane" prefHeight="3000.0" prefWidth="3000.0" onDragOver="#onDragOver" onDragDropped="#onDragDropped">
+				<AnchorPane fx:id="schemaPane" onMouseClicked="#onMouseClicked" onDragDropped="#onDragDropped" onDragOver="#onDragOver" prefHeight="3000.0" prefWidth="3000.0">
 
 				</AnchorPane>
 			</content>

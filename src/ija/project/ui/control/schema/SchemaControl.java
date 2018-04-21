@@ -1,20 +1,25 @@
 package ija.project.ui.control.schema;
 
+import com.sun.javafx.cursor.CursorType;
 import ija.project.exception.ApplicationException;
 import ija.project.register.BlockTypeRegister;
 import ija.project.schema.Block;
 import ija.project.schema.BlockType;
 import ija.project.schema.Schema;
-import ija.project.ui.control.ConnectionLine;
 import ija.project.ui.utils.UIContolLoader;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -28,6 +33,9 @@ public class SchemaControl extends VBox {
 
 	@FXML
 	private AnchorPane schemaPane;
+
+	@FXML
+	private ToggleButton toolRemove;
 
 	private Schema schema;
 
@@ -68,7 +76,7 @@ public class SchemaControl extends VBox {
 						blockControl = blockControls.get(connection.getValue().getKey().getId());
 						blockPortControlInput = blockControl.getPortControl(connection.getValue().getValue());
 
-						connectionLine = new ConnectionLine(schemaPane, blockPortControlOutput, blockPortControlInput);
+						connectionLine = new ConnectionLine(blockPortControlOutput, blockPortControlInput);
 						schemaPane.getChildren().add(connectionLine);
 					}
 				}
@@ -122,6 +130,24 @@ public class SchemaControl extends VBox {
 		}
 	}
 
+	@FXML
+	private void onMouseClicked(MouseEvent event) {
+		if (isModeRemove() && event.getButton() == MouseButton.PRIMARY) {
+			if (!(event.getTarget() instanceof Node))
+				return;
+
+			Node node = (Node) event.getTarget();
+			while (!(node instanceof Removable)) {
+				node = node.getParent();
+				if (node == schemaPane || node == null)
+					return;
+			}
+
+			((Removable) node).onRemove();
+			schemaPane.getChildren().remove(node);
+		}
+	}
+
 	protected void addBlockControl(BlockControl blockControl) {
 		schemaPane.getChildren().add(blockControl);
 		blockControls.put(blockControl.getBlock().getId(), blockControl);
@@ -168,5 +194,13 @@ public class SchemaControl extends VBox {
 
 	public void setChanged(boolean changed) {
 		this.changed.set(changed);
+	}
+
+	public boolean isModeRemove() {
+		return toolRemove.isSelected();
+	}
+
+	public BooleanProperty toolRemoveSelectedProperty() {
+		return toolRemove.selectedProperty();
 	}
 }
