@@ -20,7 +20,7 @@
 						<MenuItem text="Close" onAction="#handleCloseSchemaAction" />
 						<MenuItem text="_Save" onAction="#handleSaveSchemaAction" />
 						<MenuItem text="Save All" onAction="#handleSaveAllSchemaAction" />
-						<MenuItem text="Save _As..." />
+						<MenuItem text="Save _As..." onAction="#handleSchemaSaveAsAction" />
 						<MenuItem text="_Quit" onAction="#handleQuitAction" />
 					</items>
 				</Menu>

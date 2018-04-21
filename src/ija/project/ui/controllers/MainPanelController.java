@@ -72,23 +72,23 @@ public class MainPanelController implements Initializable {
 		Tab tab = tabs.getSelectionModel().getSelectedItem();
 		if (!(tab.getContent() instanceof  SchemaControl))
 			throw new ApplicationException("Current tab is not schema");
-		saveSchema((SchemaControl) tab.getContent());
+		saveSchema((SchemaControl) tab.getContent(), false);
 	}
 
 	@FXML
 	private void handleSaveAllSchemaAction(ActionEvent event) {
 		for (Tab tab : tabs.getTabs()) {
 			if (tab.getContent() instanceof SchemaControl) {
-				saveSchema((SchemaControl) tab.getContent());
+				saveSchema((SchemaControl) tab.getContent(), false);
 			}
 		}
 	}
 
-	private void saveSchema(SchemaControl schemaControl) {
+	private void saveSchema(SchemaControl schemaControl, boolean as) {
 		Schema schema = schemaControl.getSchema();
 		File file;
-		if (schema.getFile() == null) {
-			fileChooser.setTitle("Save Schema");
+		if (as ||schema.getFile() == null) {
+			fileChooser.setTitle("Save Schema" + (as ? " As" : ""));
 			fileChooser.getExtensionFilters().addAll(
 				new FileChooser.ExtensionFilter("XML", "*.xml"),
 				new FileChooser.ExtensionFilter("All", "*.*")
@@ -162,6 +162,14 @@ public class MainPanelController implements Initializable {
 		} catch (Exception e) {
 			exceptionAlert("Could not load schema", e);
 		}
+	}
+
+	@FXML
+	private void handleSchemaSaveAsAction(ActionEvent event) {
+		Tab tab = tabs.getSelectionModel().getSelectedItem();
+		if (!(tab.getContent() instanceof  SchemaControl))
+			throw new ApplicationException("Current tab is not schema");
+		saveSchema((SchemaControl) tab.getContent(), true);
 	}
 
 	@FXML
