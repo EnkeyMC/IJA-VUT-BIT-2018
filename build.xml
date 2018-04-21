@@ -6,11 +6,13 @@
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir"     value="dest-client/"/>
 	<property name="test.lib.cp" value="lib/junit-4.12.jar;lib/hamcrest-core-1.3.jar" />
-
+	<property name="antlr.cp"   value="lib/antlr-4.7.1-complete.jar"/>
+	<property name="antlr.output"   value="src/antlr/parse"/>
+	<property name="antlr.grammar"   value="src/antlr/grammar/Expression.g4"/>
     <property name="main-class"  value="ija.project.BlockEditor"/>
 
 
-    <target name="compile">
+    <target name="compile" depends="antlr">
         <mkdir dir="${classes.dir}" />
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpath="${test.lib.cp}" />
         <copy todir="${classes.dir}">
@@ -46,5 +48,16 @@
 				</fileset>
 			</batchtest>
 		</junit>
+	</target>
+
+	<target name="antlr">
+		<java classname="org.antlr.v4.Tool" fork="true" failonerror="true">
+			<arg value="-visitor"/>
+			<arg value="-o"/>
+			<arg value="${antlr.output}"/>
+			<arg value="-Xexact-output-dir"/>
+			<arg value="${antlr.grammar}"/>
+			<classpath path="${antlr.cp}"/>
+		</java>
 	</target>
 </project>
