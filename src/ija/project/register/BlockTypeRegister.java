@@ -53,7 +53,7 @@ public class BlockTypeRegister {
 	 */
 	public static ObservableList<BlockType> getBlockRegistry(String category) throws RuntimeException {
 		if (!register.containsKey(category))
-			throw new RuntimeException("Category " + category + " does not exist in BlockTypeRegistry");
+			throw new RuntimeException("Block category " + category + " is not loaded, please load missing components first");
 		return register.get(category);
 	}
 
@@ -88,31 +88,10 @@ public class BlockTypeRegister {
 	 * @return block types
 	 */
 	public static BlockType getBlockTypeById(String category, String id) throws RuntimeException {
-		for (BlockType blockType : register.get(category)) {
+		for (BlockType blockType : getBlockRegistry(category)) {
 			if (blockType.getId().equals(id))
 				return blockType;
 		}
-		throw new RuntimeException("BlockType " + id + " (" + category + ") is not in registry");
-	}
-
-	public static void loadFromXML(URL path) {
-		XmlDom xmlDom = new XmlDom();
-		xmlDom.parseFile(path);
-		xmlDom.getCurrentNode("register");
-
-		String catName;
-		BlockType blockType;
-		for (XmlActiveNode category : xmlDom.childIterator()) {
-			if (category.getTag().equals("category")) {
-				catName = category.getAttribute("name");
-
-				for (XmlActiveNode blockTypeNode : category.childIterator()) {
-					blockType = new BlockType();
-					blockType.fromXML(blockTypeNode);
-					blockType.setCategory(catName);
-					reg(catName, blockType);
-				}
-			}
-		}
+		throw new RuntimeException("BlockType " + id + " (" + category + ") is not loaded, please load missing components first");
 	}
 }

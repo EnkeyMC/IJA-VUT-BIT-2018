@@ -24,10 +24,9 @@
 						<MenuItem text="_Quit" onAction="#handleQuitAction" />
 					</items>
 				</Menu>
-				<Menu text="_Create">
+				<Menu text="_Components">
 					<items>
-						<MenuItem text="_Block..." />
-						<MenuItem text="_Type..." />
+						<MenuItem text="Load Components..." onAction="#handleComponentsLoadComponents" />
 					</items>
 				</Menu>
 				<Menu text="_Help">

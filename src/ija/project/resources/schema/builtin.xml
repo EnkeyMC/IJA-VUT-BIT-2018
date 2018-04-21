@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<register>
+	<types>
+		<type id="double" display-name="Double">
+			<key>value</key>
+		</type>
+	</types>
+	<blocktypes>
+		<category name="Double">
+			<blocktype id="double_add" display-name="Add">
+				<inputs>
+					<blockport name="x" type="double" />
+					<blockport name="y" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="double" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="double_sub" display-name="Subtract">
+				<inputs>
+					<blockport name="x" type="double" />
+					<blockport name="y" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="double" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="double_mul" display-name="Multiply">
+				<inputs>
+					<blockport name="x" type="double" />
+					<blockport name="y" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="double" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="double_div" display-name="Divide">
+				<inputs>
+					<blockport name="x" type="double" />
+					<blockport name="y" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="double" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+		</category>
+	</blocktypes>
+</register>

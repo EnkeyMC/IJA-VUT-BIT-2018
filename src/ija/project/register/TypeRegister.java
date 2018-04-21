@@ -69,17 +69,4 @@ public class TypeRegister {
 			throw new RuntimeException("Type " + type.getId() + " is not in registry");
 		}
 	}
-
-	public static void loadFromXML(URL path) {
-		XmlDom xmlDom = new XmlDom();
-		xmlDom.parseFile(path);
-		xmlDom.getCurrentNode("register");
-
-		Type type;
-		for (XmlActiveNode typeNode : xmlDom.childIterator()) {
-			type = new Type();
-			type.fromXML(typeNode);
-			reg(type);
-		}
-	}
 }

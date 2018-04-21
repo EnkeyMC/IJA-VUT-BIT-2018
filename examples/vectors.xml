@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<register>
+	<types>
+		<type id="vector2d" display-name="Vector2D">
+			<key>x</key>
+			<key>y</key>
+		</type>
+		<type id="vector3d" display-name="Vector3D">
+			<key>x</key>
+			<key>y</key>
+			<key>z</key>
+		</type>
+	</types>
+	<blocktypes>
+		<category name="Vector2D">
+			<blocktype id="vector2d_add" display-name="Vector2D Add">
+				<inputs>
+					<blockport name="a" type="vector2d" />
+					<blockport name="b" type="vector2d" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="vector2d" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="vector2d_sub" display-name="Vector2D Subtract">
+				<inputs>
+					<blockport name="a" type="vector2d" />
+					<blockport name="b" type="vector2d" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="vector2d" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="vector2d_scal_mul" display-name="Vector2D Multiply By Scalar">
+				<inputs>
+					<blockport name="vector" type="vector2d" />
+					<blockport name="scalar" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="vector2d" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="vector2d_scal_div" display-name="Vector2D Divide By Scalar">
+				<inputs>
+					<blockport name="vector" type="vector2d" />
+					<blockport name="scalar" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="vector2d" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="vector2d_dot" display-name="Vector2D Dot Product">
+				<inputs>
+					<blockport name="a" type="vector2d" />
+					<blockport name="b" type="vector2d" />
+				</inputs>
+				<outputs>
+					<blockport name="product" type="double" />
+				</outputs>
+			</blocktype>
+		</category>
+		<category name="Vector3D">
+			<blocktype id="vector3d_add" display-name="Vector3D Add">
+				<inputs>
+					<blockport name="a" type="vector3d" />
+					<blockport name="b" type="vector3d" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="vector3d" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="vector3d_sub" display-name="Vector3D Subtract">
+				<inputs>
+					<blockport name="a" type="vector3d" />
+					<blockport name="b" type="vector3d" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="vector3d" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="vector3d_scal_mul" display-name="Vector3D Multiply By Scalar">
+				<inputs>
+					<blockport name="vector" type="vector3d" />
+					<blockport name="scalar" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="vector3d" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="vector3d_scal_div" display-name="Vector3D Divide By Scalar">
+				<inputs>
+					<blockport name="vector" type="vector3d" />
+					<blockport name="scalar" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="vector3d" />
+				</outputs>
+				<formulas>
+
+				</formulas>
+			</blocktype>
+
+			<blocktype id="vector3d_dot" display-name="Vector3D Dot Product">
+				<inputs>
+					<blockport name="a" type="vector3d" />
+					<blockport name="b" type="vector3d" />
+				</inputs>
+				<outputs>
+					<blockport name="product" type="double" />
+				</outputs>
+			</blocktype>
+		</category>
+	</blocktypes>
+</register>

@@ -4,6 +4,7 @@ import ija.project.exception.ApplicationException;
 import ija.project.exception.XMLParsingException;
 import ija.project.exception.XMLWritingException;
 import ija.project.register.BlockTypeRegister;
+import ija.project.register.ComponentLoader;
 import ija.project.schema.BlockType;
 import ija.project.schema.Schema;
 import ija.project.ui.controllers.components.BlockListController;
@@ -109,7 +110,7 @@ public class MainPanelController implements Initializable {
 			schema.setFile(file);
 			schemaControl.setChanged(false);
 		} catch (XMLWritingException e) {
-			exceptionAlert(e);
+			exceptionAlert("Could not save schema " + schema.getDisplayName(), e);
 		}
 	}
 
@@ -136,7 +137,7 @@ public class MainPanelController implements Initializable {
 							break;
 						}
 					} catch (IOException e) {
-						exceptionAlert(e);
+						exceptionAlert("Could not load schema", e);
 					}
 				}
 			}
@@ -159,7 +160,7 @@ public class MainPanelController implements Initializable {
 				tabs.getSelectionModel().select(inTab);
 			}
 		} catch (Exception e) {
-			exceptionAlert(e);
+			exceptionAlert("Could not load schema", e);
 		}
 	}
 
@@ -168,10 +169,29 @@ public class MainPanelController implements Initializable {
 		Platform.exit();
 	}
 
-	private void exceptionAlert(Exception e) {
+	@FXML
+	private void handleComponentsLoadComponents(ActionEvent event) {
+		fileChooser.setTitle("Load Components");
+		fileChooser.getExtensionFilters().addAll(
+			new FileChooser.ExtensionFilter("XML", "*.xml"),
+			new FileChooser.ExtensionFilter("All", "*.*")
+		);
+
+		File file = fileChooser.showOpenDialog(tabs.getScene().getWindow());
+		if (file == null)
+			return;
+
+		try {
+			ComponentLoader.loadFromXML(file);
+		} catch (Exception e) {
+			exceptionAlert("Could not load components", e);
+		}
+	}
+
+	private void exceptionAlert(String header, Exception e) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle("Error occurred");
-		alert.setHeaderText(null);
+		alert.setHeaderText(header);
 		alert.setContentText(e.getMessage());
 		alert.showAndWait();
 	}
