@@ -142,6 +142,8 @@ public class SchemaControl extends VBox {
 
 			((Removable) node).onRemove();
 			schemaPane.getChildren().remove(node);
+		} else if (event.getButton() == MouseButton.SECONDARY && isBlockConnectingActive()) {
+			endConnection(null, null);
 		}
 	}
 
@@ -177,8 +179,10 @@ public class SchemaControl extends VBox {
 	public void endConnection(BlockControl dstBlock, BlockPortControl dstPort) {
 		assert connector != null;
 		try {
-			connector.connect(dstBlock, dstPort);
-			setChanged(true);
+			if (dstBlock != null && dstPort != null) {
+				connector.connect(dstBlock, dstPort);
+				setChanged(true);
+			}
 		} catch (ApplicationException e) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Error occurred");
