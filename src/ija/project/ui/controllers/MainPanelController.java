@@ -24,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
@@ -45,6 +46,9 @@ public class MainPanelController implements Initializable {
 
 	@FXML
 	private TabPane tabs;
+
+	@FXML
+	private AnchorPane infoPanel;
 
 	private Map<String, BlockListController> blockListControllers;
 

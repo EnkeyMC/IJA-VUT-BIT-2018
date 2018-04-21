@@ -31,6 +31,8 @@ public class BlockEditor extends Application {
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/ija/project/resources/images/icon.png")));
 		primaryStage.setTitle("Block editor");
 		primaryStage.setScene(new Scene(root));
+		primaryStage.setMinWidth(400);
+		primaryStage.setMinHeight(300);
 
 		primaryStage.show();
 
