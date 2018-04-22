@@ -6,7 +6,10 @@ import ija.project.register.BlockTypeRegister;
 import ija.project.xml.XmlActiveNode;
 import ija.project.xml.XmlRepresentable;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.MapProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.collections.FXCollections;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ public class Block implements XmlRepresentable {
 	/**
 	 * Blocks connected on ports
 	 */
-	private HashMap<String, Pair<Block, String>> connections;
+	private MapProperty<String, Pair<Block, String>> connections;
 
 	/**
 	 * X coordinate in schema
@@ -70,7 +73,7 @@ public class Block implements XmlRepresentable {
 		this.blockType = null;
 		this.inputPorts = new HashMap<>();
 		this.outputPorts = new HashMap<>();
-		this.connections = new HashMap<>();
+		this.connections = new SimpleMapProperty<>(FXCollections.observableHashMap());
 		x = new SimpleDoubleProperty(0);
 		y = new SimpleDoubleProperty(0);
 	}
@@ -79,7 +82,7 @@ public class Block implements XmlRepresentable {
 	 * Init block from block types
 	 * @param blockType block types
 	 */
-	private void initFromBlockType(BlockType blockType) {
+	protected void initFromBlockType(BlockType blockType) {
 		this.blockType = blockType;
 
 		ArrayList<BlockPort> ports = blockType.getInputPorts();
@@ -117,6 +120,25 @@ public class Block implements XmlRepresentable {
 		xmlDom.setAttribute("y", Integer.toString((int) y.get()));
 		xmlDom.setAttribute("id", Long.toString(id));
 		xmlDom.parentNode();
+	}
+
+	/**
+	 * Calculates output values from input values
+	 *
+	 * All input values have to be calculated before calling!
+	 */
+	public void calculate() {
+		for (Formula formula : blockType.getFormulas()) {
+			formula.transform(inputPorts, outputPorts);
+		}
+	}
+
+	/**
+	 * Clear values in ports
+	 */
+	public void clearValues() {
+		inputPorts.forEach((s, typeValues) -> typeValues.clearValues());
+		outputPorts.forEach((s, typeValues) -> typeValues.clearValues());
 	}
 
 	/**
@@ -185,6 +207,15 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
+	 * Get block and port name connected on given port
+	 * @param port port name
+	 * @return block and port name pair
+	 */
+	public Pair<Block, String> getConnectedBlockAndPort(String port) {
+		return connections.get(port);
+	}
+
+	/**
 	 * Is given port input port of this block
 	 * @param port port name
 	 * @return true if port is input, false otherwise
@@ -202,6 +233,22 @@ public class Block implements XmlRepresentable {
 		if (connections.get(port) != null)
 			return connections.get(port).getKey();
 		return null;
+	}
+
+	/**
+	 * Get input port values
+	 * @return input port values
+	 */
+	public Map<String, TypeValues> getInputPortValues() {
+		return inputPorts;
+	}
+
+	/**
+	 * Get output port values
+	 * @return output port values
+	 */
+	public Map<String, TypeValues> getOutputPortValues() {
+		return outputPorts;
 	}
 
 	/**
@@ -260,7 +307,7 @@ public class Block implements XmlRepresentable {
 		this.id = id;
 	}
 
-	public HashMap<String, Pair<Block, String>> getConnections() {
+	public MapProperty<String, Pair<Block, String>> getConnections() {
 		return connections;
 	}
 

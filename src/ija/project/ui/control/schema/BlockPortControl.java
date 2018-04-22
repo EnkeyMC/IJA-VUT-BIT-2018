@@ -43,6 +43,12 @@ public class BlockPortControl extends AnchorPane {
 		this.blockPort = port;
 		this.input = input;
 
+		this.getStyleClass().add("port");
+		if (input)
+			this.getStyleClass().add("port-input");
+		else
+			this.getStyleClass().add("port-output");
+
 		Tooltip tooltip = new Tooltip(port.getName() + " (" + port.getType().getDisplayName() + ")");
 		Tooltip.install(this, tooltip);
 

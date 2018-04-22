@@ -5,6 +5,7 @@ import ija.project.register.BlockTypeRegister;
 import ija.project.schema.Block;
 import ija.project.schema.BlockType;
 import ija.project.schema.Schema;
+import ija.project.schema.ValueBlock;
 import ija.project.ui.utils.UIContolLoader;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -43,6 +44,8 @@ public class SchemaControl extends VBox {
 
 	private BooleanProperty changed = new SimpleBooleanProperty(false);
 
+	private SchemaSelectionModel selectionModel;
+
 	public static String getFXMLPath() {
 		return "schema/Schema.fxml";
 	}
@@ -52,6 +55,7 @@ public class SchemaControl extends VBox {
 		UIContolLoader.load(this);
 		this.schema = schema;
 		blockControls = new HashMap<>();
+		selectionModel = new SchemaSelectionModel(getSchemaPane());
 
 		Collection<Block> blocks = schema.getBlockCollection();
 		BlockControl blockControl;
@@ -115,7 +119,12 @@ public class SchemaControl extends VBox {
 				return;
 			}
 
-			BlockControl blockControl = new BlockControl(this, new Block(type));
+			BlockControl blockControl;
+			if (ValueBlock.isValueBlock(type.getId())) {
+				blockControl = new ValueBlockControl(this, new ValueBlock(type));
+			} else {
+				blockControl = new BlockControl(this, new Block(type));
+			}
 			addBlockControl(blockControl);
 			schema.addBlock(blockControl.getBlock());
 			blockControl.setLayoutX(event.getX() - blockControl.getPrefWidth()/2);
@@ -194,8 +203,8 @@ public class SchemaControl extends VBox {
 			schemaPane.getChildren().remove(connectionLinePreview);
 			connectionLinePreview = null;
 			dummyBlockPortControl = null;
+			connector = null;
 		}
-		connector = null;
 	}
 
 	public boolean isBlockConnectingActive() {
@@ -228,5 +237,9 @@ public class SchemaControl extends VBox {
 
 	public BooleanProperty toolRemoveSelectedProperty() {
 		return toolRemove.selectedProperty();
+	}
+
+	public SchemaSelectionModel getSelectionModel() {
+		return selectionModel;
 	}
 }

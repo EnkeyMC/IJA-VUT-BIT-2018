@@ -7,6 +7,15 @@
 		</type>
 	</types>
 	<blocktypes>
+		<category name="Special">
+			<blocktype id="value_double" display-name="Double">
+				<inputs />
+				<outputs>
+					<blockport name="value" type="double" />
+				</outputs>
+				<formulas />
+			</blocktype>
+		</category>
 		<category name="Double">
 			<blocktype id="double_add" display-name="Add">
 				<inputs>

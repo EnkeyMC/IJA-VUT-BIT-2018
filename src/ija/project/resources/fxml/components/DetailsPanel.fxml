@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ija.project.ui.controllers.components.DetailsPanelController">
+	<children>
+		<TitledPane text="Block info" VBox.vgrow="ALWAYS" maxHeight="Infinity" >
+			<ScrollPane fitToHeight="true">
+				<GridPane fx:id="blockInfo">
+				</GridPane>
+			</ScrollPane>
+		</TitledPane>
+		<TitledPane text="Block ports" VBox.vgrow="ALWAYS" maxHeight="Infinity" >
+			<ScrollPane fitToHeight="true">
+				<GridPane fx:id="blockPorts">
+				</GridPane>
+			</ScrollPane>
+		</TitledPane>
+	</children>
+</VBox>

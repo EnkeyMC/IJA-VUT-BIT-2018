@@ -47,9 +47,9 @@
 				<tabs>
 				</tabs>
 			</TabPane>
-			<AnchorPane SplitPane.resizableWithParent="false" fx:id="infoPanel">
+			<StackPane SplitPane.resizableWithParent="false" fx:id="detailsPane">
 
-			</AnchorPane>
+			</StackPane>
 		</items>
 	</SplitPane>
 	<stylesheets>

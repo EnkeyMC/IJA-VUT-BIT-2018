@@ -20,9 +20,6 @@ public class ConnectionLine extends Path implements Removable {
 		this.outputPort = outputPort;
 		this.inputPort = inputPort;
 
-		this.outputPort.setConnectionLine(this);
-		this.inputPort.setConnectionLine(this);
-
 		this.setStrokeWidth(3);
 		this.layoutXProperty().bind(outputPort.connectionXProperty());
 		this.layoutYProperty().bind(outputPort.connectionYProperty());

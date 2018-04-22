@@ -8,6 +8,7 @@ import ija.project.schema.BlockType;
 import ija.project.schema.Schema;
 import ija.project.ui.controllers.components.BlockListController;
 import ija.project.ui.control.schema.SchemaControl;
+import ija.project.ui.controllers.components.DetailsPanelController;
 import ija.project.ui.utils.UIComponentLoader;
 import ija.project.xml.XmlDom;
 import javafx.application.Platform;
@@ -20,11 +21,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
@@ -48,11 +50,59 @@ public class MainPanelController implements Initializable {
 	private TabPane tabs;
 
 	@FXML
-	private AnchorPane infoPanel;
+	private StackPane detailsPane;
+
+	private DetailsPanelController detailsPanelController;
 
 	private Map<String, BlockListController> blockListControllers;
 
 	private final FileChooser fileChooser = new FileChooser();
+
+	@Override
+	@FXML
+	public void initialize(URL location, ResourceBundle resources) {
+		UIComponentLoader<DetailsPanelController> uiComponentLoader = new UIComponentLoader<>(DetailsPanelController.class);
+		try {
+			Parent root = uiComponentLoader.load();
+			detailsPane.getChildren().add(root);
+			detailsPanelController = uiComponentLoader.getController();
+			detailsPanelController.setTabSelectionModel(tabs.getSelectionModel());
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
+
+		this.newSchema(new Schema());
+
+		this.blockListControllers = new HashMap<>();
+		ObservableMap<String, ObservableList<BlockType>> registers = BlockTypeRegister.getAllRegisters();
+		registers.addListener((MapChangeListener<String, ObservableList<BlockType>>) change -> {
+			if (change.wasAdded()) {  // BlockType types added
+				BlockListController controller;
+				UIComponentLoader<BlockListController> loader;
+
+				loader = new UIComponentLoader<>(BlockListController.class);
+				try {
+					blockList.getChildren().add(loader.load());
+					controller = loader.getController();
+					controller.setCategory(change.getKey());
+					blockListControllers.put(change.getKey(), controller);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {  // BlockType types removed
+				for (Node node : blockList.getChildren()) {
+					if (node instanceof TitledPane) {
+						TitledPane pane = (TitledPane) node;
+						if (pane.getText().equals(change.getKey())) {
+							blockList.getChildren().remove(node);
+							break;
+						}
+					}
+				}
+			}
+		});
+	}
 
 	@FXML
 	private void handleNewSchemaAction(ActionEvent event) {
@@ -207,47 +257,15 @@ public class MainPanelController implements Initializable {
 		alert.showAndWait();
 	}
 
-	@Override
-	@FXML
-	public void initialize(URL location, ResourceBundle resources) {
-		this.newSchema(new Schema());
-
-		this.blockListControllers = new HashMap<>();
-		ObservableMap<String, ObservableList<BlockType>> registers = BlockTypeRegister.getAllRegisters();
-		registers.addListener((MapChangeListener<String, ObservableList<BlockType>>) change -> {
-            if (change.wasAdded()) {  // BlockType types added
-                BlockListController controller;
-                UIComponentLoader<BlockListController> loader;
-
-                loader = new UIComponentLoader<>(BlockListController.class);
-                try {
-                    blockList.getChildren().add(loader.load());
-                    controller = loader.getController();
-                    controller.setCategory(change.getKey());
-                    blockListControllers.put(change.getKey(), controller);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {  // BlockType types removed
-            	for (Node node : blockList.getChildren()) {
-            		if (node instanceof TitledPane) {
-						TitledPane pane = (TitledPane) node;
-						if (pane.getText().equals(change.getKey())) {
-							blockList.getChildren().remove(node);
-							break;
-						}
-					}
-				}
-			}
-        });
-	}
-
 	private void newSchema(Schema schema) {
 		Tab tab = new Tab();
 		tabs.getTabs().add(tab);
 		tabs.getSelectionModel().select(tab);
+
 		SchemaControl schemaControl = new SchemaControl(schema);
 		tab.setContent(schemaControl);
 		schemaControl.bindDisplayNameTo(tab.textProperty());
+
+		detailsPanelController.addSchemaSelectionModel(schemaControl.getSelectionModel());
 	}
 }

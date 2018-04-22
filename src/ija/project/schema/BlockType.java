@@ -5,6 +5,7 @@ import ija.project.xml.XmlActiveNode;
 import ija.project.xml.XmlRepresentable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Block types defines block's input/output ports, formulas, id and display name
@@ -139,6 +140,32 @@ public class BlockType implements XmlRepresentable {
 	 */
 	public ArrayList<BlockPort> getOutputPorts() {
 		return this.outputPorts;
+	}
+
+	/**
+	 * Get input BlockPort by name
+	 * @param port port name
+	 * @return BlockPort
+	 */
+	public BlockPort getInputPort(String port) {
+		for (BlockPort blockPort : inputPorts) {
+			if (blockPort.getName().equals(port))
+				return blockPort;
+		}
+		return null;
+	}
+
+	/**
+	 * Get output BlockPort by name
+	 * @param port port name
+	 * @return BlockPort
+	 */
+	public BlockPort getOutputPort(String port) {
+		for (BlockPort blockPort : outputPorts) {
+			if (blockPort.getName().equals(port))
+				return blockPort;
+		}
+		return null;
 	}
 
 	@Override

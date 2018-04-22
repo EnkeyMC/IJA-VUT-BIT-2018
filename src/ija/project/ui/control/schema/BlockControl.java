@@ -1,6 +1,5 @@
 package ija.project.ui.control.schema;
 
-import com.sun.javafx.cursor.CursorType;
 import ija.project.schema.Block;
 import ija.project.schema.BlockPort;
 import ija.project.schema.BlockType;
@@ -10,18 +9,19 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
-import javafx.scene.input.*;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BlockControl extends BorderPane implements Removable {
+public class BlockControl extends BorderPane implements Removable, Selectable {
+
+	@FXML
+	protected Label displayNameLabel;
 
 	private Block block;
 
@@ -60,9 +60,9 @@ public class BlockControl extends BorderPane implements Removable {
 		dragStartY = 0;
 		this.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
 		updateCursor();
+		this.getStyleClass().add("schema-block");
 
-		Label label = new Label(blockType.getDisplayName());
-		this.setCenter(label);
+		displayNameLabel.setText(blockType.getDisplayName());
 		this.schemaControl.toolRemoveSelectedProperty().addListener((observable, oldValue, newValue) -> updateCursor());
 		updateCursor();
 
@@ -126,12 +126,17 @@ public class BlockControl extends BorderPane implements Removable {
 	private void onMouseDragged(MouseEvent event) {
 		if (event.isPrimaryButtonDown()) {
 			Point2D local = this.getParent().sceneToLocal(event.getSceneX(), event.getSceneY());
-			if (local.getX() < 0 || local.getY() < 0)
-				return;  // TODO a bit better handling
 
 			this.setLayoutX(local.getX() - dragStartX);
 			this.setLayoutY(local.getY() - dragStartY);
 			this.schemaControl.setChanged(true);
+
+			if (local.getX() - dragStartX < 0) {
+				this.setLayoutX(0);
+			}
+			if (local.getY() - dragStartY < 0) {
+				this.setLayoutY(0);
+			}
 			event.consume();
 		}
 	}
@@ -153,5 +158,17 @@ public class BlockControl extends BorderPane implements Removable {
 			blockPortControl.onRemove();
 		}
 		this.schemaControl.getSchema().removeBlock(block);
+	}
+
+	@Override
+	public void onSelected() {
+		this.getStyleClass().add(Selectable.SELECTED_CLASS);
+		this.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, null, null)));
+	}
+
+	@Override
+	public void onDeselected() {
+		this.getStyleClass().remove(Selectable.SELECTED_CLASS);
+		this.setBorder(Border.EMPTY);
 	}
 }

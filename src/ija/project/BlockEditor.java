@@ -4,6 +4,8 @@ import ija.project.register.ComponentLoader;
 import ija.project.ui.controllers.MainPanelController;
 import ija.project.ui.utils.UIComponentLoader;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

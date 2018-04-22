@@ -3,6 +3,10 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import ija.project.ui.control.Spacer?>
 <fx:root onMouseDragged="#onMouseDragged"
 		 onMousePressed="#onMousePressed"
 		 onMouseReleased="#onMouseReleased"
@@ -11,6 +15,21 @@
 		 xmlns="http://javafx.com/javafx"
 		 xmlns:fx="http://javafx.com/fxml/1">
 	<center>
-		<Label fx:id="displayNameLabel" />
+		<VBox>
+			<children>
+				<HBox>
+					<Spacer/>
+					<Label fx:id="displayNameLabel" alignment="CENTER"/>
+					<Spacer/>
+				</HBox>
+				<HBox>
+					<Spacer />
+					<GridPane fx:id="valuesGrid">
+
+					</GridPane>
+					<Spacer />
+				</HBox>
+			</children>
+		</VBox>
 	</center>
 </fx:root>

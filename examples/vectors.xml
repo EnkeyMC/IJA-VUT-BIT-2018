@@ -13,6 +13,22 @@
 		</type>
 	</types>
 	<blocktypes>
+		<category name="Special">
+			<blocktype id="value_vector2d" display-name="Vector2D">
+				<inputs />
+				<outputs>
+					<blockport name="value" type="vector2d" />
+				</outputs>
+				<formulas />
+			</blocktype>
+			<blocktype id="value_vector3d" display-name="Vector3D">
+				<inputs />
+				<outputs>
+					<blockport name="value" type="vector3d" />
+				</outputs>
+				<formulas />
+			</blocktype>
+		</category>
 		<category name="Vector2D">
 			<blocktype id="vector2d_add" display-name="Vector2D Add">
 				<inputs>

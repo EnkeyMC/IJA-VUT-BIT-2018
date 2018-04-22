@@ -1,7 +1,13 @@
 package ija.project.schema;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.MapProperty;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.collections.FXCollections;
+
 import java.security.KeyException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Values for given Type
@@ -9,7 +15,7 @@ import java.util.HashMap;
 public class TypeValues {
 
 	/** Mapped values by keys from Type */
-	private HashMap<String, Double> valuesMap;
+	private MapProperty<String, Double> valuesMap;
 	/** Type */
 	private Type type;
 
@@ -19,7 +25,7 @@ public class TypeValues {
 	 */
 	public TypeValues(Type fromType) {
 		this.type = fromType;
-		this.valuesMap = new HashMap<>();
+		this.valuesMap = new SimpleMapProperty<>(FXCollections.observableHashMap());
 
 		for (String key : fromType.getKeys()) {
 			valuesMap.put(key, null);
@@ -50,6 +56,23 @@ public class TypeValues {
 		} else {
 			throw new KeyException("Not existing types with this key");
 		}
+	}
+
+	/**
+	 * Clear values (sets them to null)
+	 */
+	public void clearValues() {
+		for (Map.Entry<String, Double> value : valuesMap.entrySet()) {
+			value.setValue(null);
+		}
+	}
+
+	/**
+	 * Get all values
+	 * @return values map
+	 */
+	public MapProperty<String, Double> getValuesMap() {
+		return valuesMap;
 	}
 
 	/**

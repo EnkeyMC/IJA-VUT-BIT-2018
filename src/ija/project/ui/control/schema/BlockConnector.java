@@ -30,6 +30,8 @@ public class BlockConnector {
 			line = new ConnectionLine(dstPort, srcPort);
 		else
 			line = new ConnectionLine(srcPort, dstPort);
+		srcPort.setConnectionLine(line);
+		dstPort.setConnectionLine(line);
 		schemaControl.getSchemaPane().getChildren().add(line);
 	}
 
