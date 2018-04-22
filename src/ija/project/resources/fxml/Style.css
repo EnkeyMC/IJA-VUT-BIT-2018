@@ -43,20 +43,25 @@
 
 /* Tab area */
 .tab-header-area .tab {
-	-fx-border-style: solid solid hidden solid;
-	-fx-border-color: #B9B9B9	;
+	-fx-border-style: hidden solid hidden solid;
+	-fx-border-color: #B9B9B9;
 	-fx-background-color: #DBDBDB;
+	-fx-padding: 0 5 3 5;
+}
+
+.tab-pane .tab-header-area {
+	-fx-padding: 0 0 0 0;
 }
 
 .tab-header-area .tab:selected {
-	-fx-border-style: solid;
+	-fx-border-style: hidden solid solid solid;
 	-fx-border-color: #B9B9B9 #B9B9B9 #EFEFEF #B9B9B9;
 	-fx-background-color: #EFEFEF;
 }
 
 .tab-pane .tool-bar {
 	-fx-background-color: #EFEFEF;
-	-fx-border-color: #EFEFEF #EFEFEF #B9B9B9 #EFEFEF;
+	-fx-border-color: #EFEFEF #EFEFEF #B9B9B9 #B9B9B9;
 }
 
 /* Left boxes */
@@ -73,17 +78,13 @@
 
 /* Handling tabs colours, borders etc. */
 .tab-pane .scroll-pane {
-	-fx-border-style: hidden;
+	-fx-border-style: hidden hidden hidden solid;
+	-fx-border-color: #B9B9B9;
 	-fx-padding: 0;
 }
 
 .tab-pane .scroll-pane .viewport {
 	-fx-background-color: #FFF;
-}
-
-.tab-header-background,
-.tab-header-area {
-	-fx-border-style: hidden;
 }
 
 /* Colour of menu bar */
@@ -94,12 +95,12 @@
 /* Drop box of menu items */
 .context-menu {
 	-fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
-	-fx-pref-width: 100;
+	-fx-min-width: 100;
 	-fx-background-color: white;
 }
 
 /* Resizable lines between boxes */
 .split-pane-divider {
-	-fx-pref-width: 2px;
+	-fx-pref-width: 1px;
 	-fx-background-color: #BABABA;
 }
