@@ -5,14 +5,14 @@
 grammar Expression;
 @header { package antlr.parse; }
 
-parse: expr EOF;
+parse: port=NAME '.' key=NAME '=' expr EOF;
 
 expr :<assoc=right> left=expr '^' right=expr    #pow
      | op=(ADD | SUB) value=expr                #unary
      | left=expr (MUL | DIV | MOD) right=expr   #mulDivMod
      | left=expr (ADD | SUB) right=expr         #addSub
      | value=NUMBER                             #number
-     | name=NAME                                #name
+     | port=NAME '.' key=NAME                   #name
      | '(' expr ')'                             #paren
      ;
 

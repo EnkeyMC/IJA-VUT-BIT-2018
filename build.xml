@@ -55,6 +55,7 @@
 	<target name="antlr">
 		<java classname="org.antlr.v4.Tool" fork="true" failonerror="true">
 			<arg value="-visitor"/>
+			<arg value="-no-listener"/>
 			<arg value="-o"/>
 			<arg value="${antlr.output}"/>
 			<arg value="-Xexact-output-dir"/>
