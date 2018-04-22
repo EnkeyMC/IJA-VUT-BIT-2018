@@ -2,6 +2,7 @@ package ija.project.ui.controllers.components;
 
 import ija.project.schema.Block;
 import ija.project.schema.BlockPort;
+import ija.project.schema.Formula;
 import ija.project.schema.ValueBlock;
 import ija.project.ui.control.schema.*;
 import javafx.beans.property.StringProperty;
@@ -118,7 +119,13 @@ public class DetailsPanelController {
 		blockInfo.add(new Label(Long.toString(blockControl.getBlock().getId())), 1, 2);
 		blockInfo.add(BLOCK_FORMULAS_LABEL, 0, 3);
 
-		int row = 1;
+		int row = 4;
+		for (Formula formula : attachedBlock.getBlockType().getFormulas()) {
+			blockInfo.add(new Label(formula.getFormulaText()), 1, row);
+			row++;
+		}
+
+		row = 1;
 		if (blockControl instanceof ValueBlockControl) {
 			ValueBlock valueBlock = (ValueBlock) attachedBlock;
 

@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class Formula implements XmlRepresentable {
 
-	/* Formula text */
+	/** Formula text */
 	private String formulaText;
 
 	/**
@@ -42,5 +42,9 @@ public class Formula implements XmlRepresentable {
 		xmlDom.createChildElement("formula");
 		xmlDom.setText(this.formulaText);
 		xmlDom.parentNode();
+	}
+
+	public String getFormulaText() {
+		return formulaText;
 	}
 }

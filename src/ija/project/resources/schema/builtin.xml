@@ -26,7 +26,7 @@
 					<blockport name="result" type="double" />
 				</outputs>
 				<formulas>
-
+					<formula>result.value = x.value + y.value</formula>
 				</formulas>
 			</blocktype>
 
@@ -39,7 +39,7 @@
 					<blockport name="result" type="double" />
 				</outputs>
 				<formulas>
-
+					<formula>result.value = x.value - y.value</formula>
 				</formulas>
 			</blocktype>
 
@@ -52,7 +52,7 @@
 					<blockport name="result" type="double" />
 				</outputs>
 				<formulas>
-
+					<formula>result.value = x.value * y.value</formula>
 				</formulas>
 			</blocktype>
 
@@ -65,7 +65,7 @@
 					<blockport name="result" type="double" />
 				</outputs>
 				<formulas>
-
+					<formula>result.value = x.value / y.value</formula>
 				</formulas>
 			</blocktype>
 		</category>

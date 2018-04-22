@@ -60,7 +60,10 @@ public class SchemaControl extends VBox {
 		Collection<Block> blocks = schema.getBlockCollection();
 		BlockControl blockControl;
 		for (Block block : blocks) {
-			blockControl = new BlockControl(this, block);
+			if (ValueBlock.isValueBlock(block.getBlockType().getId()))
+				blockControl = new ValueBlockControl(this, (ValueBlock) block);
+			else
+				blockControl = new BlockControl(this, block);
 			addBlockControl(blockControl);
 		}
 
