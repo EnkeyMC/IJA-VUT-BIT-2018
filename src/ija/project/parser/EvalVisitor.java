@@ -17,36 +17,41 @@ import java.util.Map;
  */
 public class EvalVisitor extends ExpressionBaseVisitor<Double> {
 
-	/* Load data from */
+	/** Load data from */
 	private Map<String, TypeValues> inputPorts;
-	/* Store result in */
+	/** Store result in */
 	private Map<String, TypeValues> outputPorts;
+
+	/** Ease unittesting */
+	public EvalVisitor() {  }
 
 	public EvalVisitor(Map<String, TypeValues> inputPorts,Map<String, TypeValues> outputPorts) {
 		this.inputPorts = inputPorts;
 		this.outputPorts = outputPorts;
 	}
 
-	/* port.key = expr */
+	/** port.key = expr */
 	@Override
 	public Double visitParse(ExpressionParser.ParseContext ctx) {
 		String port = ctx.port.getText();
 		String key = ctx.key.getText();
 		Double result = visit(ctx.expr());
-		if (!outputPorts.containsKey(port))
-			throw new ParseCancellationException(
-					"Output port '" + port + "' does not exist");
-		try {
-				this.outputPorts.get(port).setValue(key, result);
-		}
-		catch (KeyException e) {
-			throw new ParseCancellationException(
-					"Value name '" + key + "' is not valid for port '" + port + "'");
+		if (this.outputPorts != null) {
+			if (!outputPorts.containsKey(port))
+				throw new ParseCancellationException(
+						"Output port '" + port + "' does not exist");
+			try {
+					this.outputPorts.get(port).setValue(key, result);
+			}
+			catch (KeyException e) {
+				throw new ParseCancellationException(
+						"Value name '" + key + "' is not valid for port '" + port + "'");
+			}
 		}
 		return result;
 	}
 
-	/* expr = expr ('*'|'/'|'%') expr */
+	/** expr = expr ('*'|'/'|'%') expr */
 	@Override
 	public Double visitMulDivMod(ExpressionParser.MulDivModContext ctx) {
 		Double left = visit(ctx.left);
@@ -57,6 +62,9 @@ public class EvalVisitor extends ExpressionBaseVisitor<Double> {
 			result = left * right;
 		}
 		if (ctx.DIV() != null) {
+			if (right == 0.)
+				throw new ParseCancellationException("Zero division");
+
 			result = left / right;
 		}
 		if (ctx.MOD() != null) {
@@ -66,36 +74,39 @@ public class EvalVisitor extends ExpressionBaseVisitor<Double> {
 		return result;
 	}
 
-	/* NUMBER */
+	/** NUMBER */
 	@Override
 	public Double visitNumber(ExpressionParser.NumberContext ctx) {
 		return Double.valueOf(ctx.value.getText());
 	}
 
-	/* ( expr ) */
+	/** ( expr ) */
 	@Override
 	public Double visitParen(ExpressionParser.ParenContext ctx) {
 		return visit(ctx.expr());
 	}
 
-	/* port.key */
+	/** port.key */
 	@Override
 	public Double visitName(ExpressionParser.NameContext ctx) {
 		String port = ctx.port.getText();
 		String key = ctx.key.getText();
-		if (!inputPorts.containsKey(port))
-			throw new ParseCancellationException(
-					"Input port '" + port + "' does not exist");
-		try {
-			return this.inputPorts.get(port).getValue(key);
+		if (inputPorts != null) {
+			if (!inputPorts.containsKey(port))
+				throw new ParseCancellationException(
+						"Input port '" + port + "' does not exist");
+			try {
+				return this.inputPorts.get(port).getValue(key);
+			}
+			catch (KeyException e) {
+				throw new ParseCancellationException(
+						"Value name '" + key + "' is not valid for port '" + port + "'");
+			}
 		}
-		catch (KeyException e) {
-			throw new ParseCancellationException(
-					"Value name '" + key + "' is not valid for port '" + port + "'");
-		}
+		return 0.;
 	}
 
-	/* expr ^ expr */
+	/** expr ^ expr */
 	@Override
 	public Double visitPow(ExpressionParser.PowContext ctx) {
 		Double left = visit(ctx.left);
@@ -103,7 +114,7 @@ public class EvalVisitor extends ExpressionBaseVisitor<Double> {
 		return Double.valueOf(Math.pow(left, right));
 	}
 
-	/* epxr ('+'|'-') expr */
+	/** epxr ('+'|'-') expr */
 	@Override
 	public Double visitAddSub(ExpressionParser.AddSubContext ctx) {
 		Double left = visit(ctx.left);
@@ -120,7 +131,7 @@ public class EvalVisitor extends ExpressionBaseVisitor<Double> {
 		return result;
 	}
 
-	/* ('+'|'-') expr */
+	/** ('+'|'-') expr */
 	@Override
 	public Double visitUnary(ExpressionParser.UnaryContext ctx) {
 		Double value = visit(ctx.value);
