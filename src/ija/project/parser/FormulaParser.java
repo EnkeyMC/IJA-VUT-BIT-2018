@@ -1,8 +1,7 @@
 package ija.project.parser;
 
-import ija.project.exception.ExpressionException;
-
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 
 import antlr.parse.ExpressionLexer;
@@ -15,49 +14,45 @@ import java.util.HashMap;
  */
 public class FormulaParser {
 
-	/* Store parse trees of already parsed formulas. */
+	/** Store parse trees of already parsed formulas. */
 	private static HashMap<String, ParseTree> parseTrees = new HashMap<>();
 
-	public static ParseTree getParseTree(String formula) throws ExpressionException {
+	public static ParseTree getParseTree(String formula) throws ParseCancellationException {
 		if (parseTrees.containsKey(formula)) {
 			return parseTrees.get(formula);
 		}
 
 		CodePointCharStream chars = CharStreams.fromString(formula);
-		SimpleLexer lexer = new SimpleLexer(chars);
+
+		ExpressionLexer lexer = new ExpressionLexer(chars);
+		lexer.removeErrorListeners();
+		lexer.addErrorListener(ThrowingErrorListener.INSTANCE);
+
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
+
 		ExpressionParser parser = new ExpressionParser(tokens);
 		parser.setBuildParseTree(true);
 		parser.removeErrorListeners();
-		parser.addErrorListener(new SyntaxErrorListener());
+		parser.addErrorListener(ThrowingErrorListener.INSTANCE);
+
 		ParseTree tree = parser.parse();
 		parseTrees.put(formula, tree);
 		return tree;
 	}
 
-	/** Do not recover from lexical error */
-	public static class SimpleLexer extends ExpressionLexer {
+	/** Throw exception on syntax/lexical error */
+	public static class ThrowingErrorListener extends BaseErrorListener {
 
-		public SimpleLexer(CharStream input) {
-			super(input);
-		}
-
-		public void recover(LexerNoViableAltException e) {
-			throw new ExpressionException(e.getMessage());
-		}
-	}
-
-	/** Throw exception or syntax error */
-	public static class SyntaxErrorListener extends BaseErrorListener {
+		public static final ThrowingErrorListener INSTANCE = new ThrowingErrorListener();
 
 		@Override
 		public void syntaxError(Recognizer<?, ?> recognizer,
 								Object offendingSymbol,
 								int line, int charPositionInLine,
 								String msg,
-								RecognitionException e)
+								RecognitionException e) throws ParseCancellationException
 		{
-			throw new ExpressionException(msg);
+			throw new ParseCancellationException(msg);
 		}
 	}
 }

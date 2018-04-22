@@ -32,7 +32,7 @@ public class EvalVisitor extends ExpressionBaseVisitor<Double> {
 
 	/** port.key = expr */
 	@Override
-	public Double visitParse(ExpressionParser.ParseContext ctx) {
+	public Double visitParse(ExpressionParser.ParseContext ctx) throws ParseCancellationException {
 		String port = ctx.port.getText();
 		String key = ctx.key.getText();
 		Double result = visit(ctx.expr());
@@ -53,7 +53,7 @@ public class EvalVisitor extends ExpressionBaseVisitor<Double> {
 
 	/** expr = expr ('*'|'/'|'%') expr */
 	@Override
-	public Double visitMulDivMod(ExpressionParser.MulDivModContext ctx) {
+	public Double visitMulDivMod(ExpressionParser.MulDivModContext ctx) throws ParseCancellationException {
 		Double left = visit(ctx.left);
 		Double right = visit(ctx.right);
 		Double result = 0.;
@@ -88,7 +88,7 @@ public class EvalVisitor extends ExpressionBaseVisitor<Double> {
 
 	/** port.key */
 	@Override
-	public Double visitName(ExpressionParser.NameContext ctx) {
+	public Double visitName(ExpressionParser.NameContext ctx) throws ParseCancellationException {
 		String port = ctx.port.getText();
 		String key = ctx.key.getText();
 		if (inputPorts != null) {

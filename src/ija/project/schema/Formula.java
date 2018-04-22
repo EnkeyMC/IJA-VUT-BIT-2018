@@ -25,7 +25,7 @@ public class Formula implements XmlRepresentable {
 	 * @param inputPorts input ports with values
 	 * @param outputPorts output ports to transform values to
 	 */
-	public void transform(Map<String, TypeValues> inputPorts, Map<String, TypeValues> outputPorts) throws RuntimeException {
+	public void transform(Map<String, TypeValues> inputPorts, Map<String, TypeValues> outputPorts) throws ParseCancellationException {
 		ParseTree parseTree = FormulaParser.getParseTree(this.formulaText);
 		EvalVisitor visitor = new EvalVisitor(inputPorts, outputPorts);
 		visitor.visit(parseTree);
