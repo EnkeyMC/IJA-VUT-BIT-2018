@@ -18,6 +18,13 @@ public class EvalVisitorTest {
 	}
 
 	@Test
+	public void testAddPortValues() {
+		Double d = 0.;
+		// Port1.x and port2.y returns 0
+		assertEquals(expr("port.key = port1.x + port2.y - port3.z"), d);
+	}
+
+	@Test
 	public void testAdd() {
 		Double d = 24.8;
 		assertEquals(expr("port.key = 24 + .8"), d);
