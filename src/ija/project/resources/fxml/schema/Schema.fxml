@@ -14,7 +14,7 @@
 			<items>
             	<ToggleButton mnemonicParsing="false" text="Remove" fx:id="toolRemove" />
 				<Separator />
-				<Button mnemonicParsing="false" text="Calculate" />
+				<Button mnemonicParsing="false" text="Calculate" onAction="#calculateActionHandler" />
 				<Button mnemonicParsing="false" text="Stepped Calculation" />
 			</items>
 		</ToolBar>

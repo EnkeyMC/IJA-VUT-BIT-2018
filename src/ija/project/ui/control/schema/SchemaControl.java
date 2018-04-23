@@ -1,6 +1,7 @@
 package ija.project.ui.control.schema;
 
 import ija.project.exception.ApplicationException;
+import ija.project.processor.Processor;
 import ija.project.register.BlockTypeRegister;
 import ija.project.schema.Block;
 import ija.project.schema.BlockType;
@@ -12,6 +13,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -21,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -165,6 +168,21 @@ public class SchemaControl extends VBox {
 		if (connectionLinePreview != null) {
 			dummyBlockPortControl.setLayoutX(event.getX());
 			dummyBlockPortControl.setLayoutY(event.getY());
+		}
+	}
+
+	@FXML
+	private void calculateActionHandler(ActionEvent event) {
+		Processor processor = new Processor(schema);
+
+		try {
+			processor.calculateAll();
+		} catch (ApplicationException | ParseCancellationException e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error occurred");
+			alert.setHeaderText("Error occurred during calculation");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
 		}
 	}
 

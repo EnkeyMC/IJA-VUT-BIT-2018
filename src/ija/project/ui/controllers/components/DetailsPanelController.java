@@ -1,10 +1,8 @@
 package ija.project.ui.controllers.components;
 
-import ija.project.schema.Block;
-import ija.project.schema.BlockPort;
-import ija.project.schema.Formula;
-import ija.project.schema.ValueBlock;
+import ija.project.schema.*;
 import ija.project.ui.control.schema.*;
+import javafx.beans.property.MapProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.MapChangeListener;
@@ -35,7 +33,7 @@ public class DetailsPanelController {
 	private static final Label BLOCK_OUTPUT_PORTS = new Label("Output ports:");
 	private static final Label VALUE_BLOCK_VALUES = new Label("Values:");
 
-	private Block attachedBlock;
+	private BlockControl attachedBlockControl;
 	private Map<String, TextField> portFields = new HashMap<>();
 	private Map<String, TextField> valueFields = new HashMap<>();
 
@@ -61,16 +59,16 @@ public class DetailsPanelController {
 
 	private MapChangeListener<String, Pair<Block, String>> portMapChangeListener = change -> {
 		BlockPort blockPort;
-		if (attachedBlock.isInputPort(change.getKey()))
-			blockPort = attachedBlock.getBlockType().getInputPort(change.getKey());
+		if (attachedBlockControl.getBlock().isInputPort(change.getKey()))
+			blockPort = attachedBlockControl.getBlock().getBlockType().getInputPort(change.getKey());
 		else
-			blockPort = attachedBlock.getBlockType().getOutputPort(change.getKey());
-		updateTextField(portFields.get(change.getKey()), attachedBlock, blockPort);
+			blockPort = attachedBlockControl.getBlock().getBlockType().getOutputPort(change.getKey());
+		updateTextField(portFields.get(change.getKey()), attachedBlockControl.getBlock(), blockPort);
 	};
 
 	private EventHandler<ActionEvent> textFieldActionListener = event -> {
 		TextField field = (TextField) event.getSource();
-		ValueBlock valueBlock = (ValueBlock) attachedBlock;
+		ValueBlock valueBlock = (ValueBlock) attachedBlockControl.getBlock();
 		try {
 			Double value = Double.valueOf(field.getText());
 			valueBlock.getValues().setValue(field.getId(), value);
@@ -84,6 +82,8 @@ public class DetailsPanelController {
 			e.printStackTrace();
 		}
 	};
+
+	private MapChangeListener<String, Double> valueChangeListener = change -> changeDetails(attachedBlockControl);
 
 	public static String getFXMLPath() {
 		return "components/DetailsPanel.fxml";
@@ -101,15 +101,19 @@ public class DetailsPanelController {
 		blockInfo.getChildren().clear();
 		blockPorts.getChildren().clear();
 
-		if (attachedBlock != null) {
-			attachedBlock.getConnections().removeListener(this.portMapChangeListener);
+		if (attachedBlockControl != null) {
+			attachedBlockControl.getBlock().getConnections().removeListener(this.portMapChangeListener);
+			attachedBlockControl.getBlock().getOutputPortValues()
+				.forEach((port, typeValues) -> typeValues.getValuesMap().removeListener(this.valueChangeListener));
 		}
 
 		if (blockControl == null)
 			return;
 
-		attachedBlock = blockControl.getBlock();
-		attachedBlock.getConnections().addListener(this.portMapChangeListener);
+		attachedBlockControl = blockControl;
+		attachedBlockControl.getBlock().getConnections().addListener(this.portMapChangeListener);
+		attachedBlockControl.getBlock().getOutputPortValues()
+			.forEach((port, typeValues) -> typeValues.getValuesMap().addListener(this.valueChangeListener));
 
 		blockInfo.add(BLOCK_NAME_LABEL, 0, 0);
 		blockInfo.add(new Label(blockControl.getBlock().getBlockType().getDisplayName()), 1, 0);
@@ -120,14 +124,14 @@ public class DetailsPanelController {
 		blockInfo.add(BLOCK_FORMULAS_LABEL, 0, 3);
 
 		int row = 4;
-		for (Formula formula : attachedBlock.getBlockType().getFormulas()) {
+		for (Formula formula : attachedBlockControl.getBlock().getBlockType().getFormulas()) {
 			blockInfo.add(new Label(formula.getFormulaText()), 1, row);
 			row++;
 		}
 
 		row = 1;
 		if (blockControl instanceof ValueBlockControl) {
-			ValueBlock valueBlock = (ValueBlock) attachedBlock;
+			ValueBlock valueBlock = (ValueBlock) attachedBlockControl.getBlock();
 
 			TextField textField;
 			Label label;
@@ -157,7 +161,6 @@ public class DetailsPanelController {
 				row++;
 			}
 		}
-
 		blockPorts.add(BLOCK_OUTPUT_PORTS, 0, row, 2, 1);
 		row++;
 		for (BlockPort blockPort : blockControl.getBlock().getBlockType().getOutputPorts()) {
@@ -179,6 +182,19 @@ public class DetailsPanelController {
 			Pair<Block, String> connectedBlockPort = block.getConnectedBlockAndPort(blockPort.getName());
 			textField.setText(connectedBlockPort.getKey().getBlockType().getId()
 					+ "(" + block.getId() + ")" + ":" + connectedBlockPort.getValue());
+		} else if (!block.isInputPort(blockPort.getName())) {
+			MapProperty<String, Double> values = block.getOutputPortValues().get(blockPort.getName()).getValuesMap();
+			StringBuilder valStr = new StringBuilder();
+			for (Map.Entry<String, Double> value : values.entrySet()) {
+				valStr.append(value.getKey()).append("=");
+				if (value.getValue() == null) {
+					valStr.append("null");
+				} else {
+					valStr.append(Double.toString(value.getValue()));
+				}
+				valStr.append(";");
+			}
+			textField.setText(valStr.toString());
 		} else {
 			textField.setText("UNCONNECTED");
 		}

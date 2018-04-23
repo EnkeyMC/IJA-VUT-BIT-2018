@@ -58,10 +58,8 @@ public class Processor {
 
 		while (!compOrder.isEmpty()) {
 			Block block = compOrder.remove(0);
-			if (ValueBlock.isValueBlock(block.getBlockType().getId()))
-				((ValueBlock)block).calculate();
-			else
-				block.calculate();
+
+			block.calculate();
 
 			// Move the results from output ports to input ports
 			// of connected blocks.
