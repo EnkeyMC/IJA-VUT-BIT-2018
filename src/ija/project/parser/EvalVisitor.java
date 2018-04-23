@@ -32,28 +32,28 @@ public class EvalVisitor extends ExpressionBaseVisitor<Double> {
 
 	/** port.key = expr */
 	@Override
-	public Double visitParse(ExpressionParser.ParseContext ctx) throws ParseCancellationException {
+	public Double visitParse(ExpressionParser.ParseContext ctx) {
 		String port = ctx.port.getText();
 		String key = ctx.key.getText();
 		Double result = visit(ctx.expr());
-		if (this.outputPorts != null) {
-			if (!outputPorts.containsKey(port))
-				throw new ParseCancellationException(
-						"Output port '" + port + "' does not exist");
-			try {
-					this.outputPorts.get(port).setValue(key, result);
-			}
-			catch (KeyException e) {
-				throw new ParseCancellationException(
-						"Value name '" + key + "' is not valid for port '" + port + "'");
-			}
+		if (this.outputPorts == null)
+			return result;
+
+		if (!outputPorts.containsKey(port))
+			throw new ParseCancellationException(
+					"Output port '" + port + "' does not exist");
+		try {
+				this.outputPorts.get(port).setValue(key, result);
+		} catch (KeyException e) {
+			throw new ParseCancellationException(
+					"Value name '" + key + "' is not valid for port '" + port + "'");
 		}
 		return result;
 	}
 
 	/** expr = expr ('*'|'/'|'%') expr */
 	@Override
-	public Double visitMulDivMod(ExpressionParser.MulDivModContext ctx) throws ParseCancellationException {
+	public Double visitMulDivMod(ExpressionParser.MulDivModContext ctx) {
 		Double left = visit(ctx.left);
 		Double right = visit(ctx.right);
 		Double result = 0.;
@@ -88,22 +88,26 @@ public class EvalVisitor extends ExpressionBaseVisitor<Double> {
 
 	/** port.key */
 	@Override
-	public Double visitName(ExpressionParser.NameContext ctx) throws ParseCancellationException {
+	public Double visitName(ExpressionParser.NameContext ctx) {
 		String port = ctx.port.getText();
 		String key = ctx.key.getText();
-		if (inputPorts != null) {
-			if (!inputPorts.containsKey(port))
-				throw new ParseCancellationException(
-						"Input port '" + port + "' does not exist");
-			try {
-				return this.inputPorts.get(port).getValue(key);
-			}
-			catch (KeyException e) {
-				throw new ParseCancellationException(
-						"Value name '" + key + "' is not valid for port '" + port + "'");
-			}
+		if (inputPorts == null)
+			return 0.;
+
+		Double value = null;
+		if (!inputPorts.containsKey(port))
+			throw new ParseCancellationException(
+					"Input port '" + port + "' does not exist");
+		try {
+			value = this.inputPorts.get(port).getValue(key);
+		} catch (KeyException e) {
+			throw new ParseCancellationException(
+					"Value name '" + key + "' is not valid for port '" + port + "'");
 		}
-		return 0.;
+		if (value == null)
+			throw new ParseCancellationException(
+					"Missing value '" + key + "' in port '" + port + "'");
+		return value;
 	}
 
 	/** expr ^ expr */

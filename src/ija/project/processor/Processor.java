@@ -2,12 +2,17 @@ package ija.project.processor;
 
 import ija.project.exception.ApplicationException;
 import ija.project.schema.Block;
-import ija.project.schema.BlockType;
+import ija.project.schema.ValueBlock;
+import ija.project.schema.TypeValues;
 import ija.project.schema.BlockPort;
 import ija.project.schema.Schema;
+import javafx.util.Pair;
+
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.security.KeyException;
 
 public class Processor {
 
@@ -31,20 +36,53 @@ public class Processor {
 	}
 
 	/**
-	 * Find blocks that have ALL input ports unplugged
-	 * @return list of such a blocks
+	 * Find value blocks
+	 * @return list of value blocks
 	 */
-	private ArrayList<Block> getInputBlocks() {
-		ArrayList<Block> inputBlocks = new ArrayList<>();
+	private ArrayList<Block> getValueBlocks() {
+		ArrayList<Block> valueBlocks = new ArrayList<>();
 		for (Block block: schema.getBlockCollection()) {
-			if (block.hasAllInputPortsUnplugged())
-				inputBlocks.add(block);
+			if (ValueBlock.isValueBlock(block.getBlockType().getId()))
+				valueBlocks.add(block);
 		}
-		return inputBlocks;
+		return valueBlocks;
 	}
 
-	private void computeBlock(BlockType block) {
-		return;
+	public void calculateAll() throws ApplicationException, ParseCancellationException {
+		findCircularDeps();
+
+		for (Block block: compOrder) {
+			if (block.hasUnpluggedInputPort())
+				throw new ApplicationException("Block '" + block.getBlockType().getDisplayName() + "' has unplugged input");
+		}
+
+		while (!compOrder.isEmpty()) {
+			Block block = compOrder.remove(0);
+			if (ValueBlock.isValueBlock(block.getBlockType().getId()))
+				((ValueBlock)block).calculate();
+			else
+				block.calculate();
+
+			// Move the results from output ports to input ports
+			// of connected blocks.
+			for (BlockPort port: block.getBlockType().getOutputPorts()) {
+				Pair<Block, String> connected = block.getConnectedBlockAndPort(port.getName());
+				if (connected == null)
+					continue;
+
+				TypeValues result = block.getOutputPortValues().get(port.getName());
+				for (String key: result.getType().getKeys()) {
+					try {
+						result.getValue(key);
+					} catch (KeyException e) {
+						throw new ApplicationException("Missing formula in block '"
+								+ block.getBlockType().getDisplayName() + "' port '"
+								+ port.getName() + "'");
+					}
+				}
+				connected.getKey().getInputPortValues().put(connected.getValue(), result);
+			}
+		}
 	}
 
 	/**
@@ -53,8 +91,8 @@ public class Processor {
 	 * Fills compOrder attribute with blocks in order
 	 * in which the computation will be performed.
 	 */
-	public void findCircularDeps() throws ApplicationException {
-		ArrayList<Block> blockList = getInputBlocks();
+	private void findCircularDeps() throws ApplicationException {
+		ArrayList<Block> blockList = getValueBlocks();
 		HashMap<Block, ArrayList<Block>> connections = new HashMap<>();
 		for (Block block: schema.getBlockCollection()) {
 			if (!blockList.contains(block)) {
@@ -62,7 +100,7 @@ public class Processor {
 			}
 		}
 
-		while(!blockList.isEmpty()) {
+		while (!blockList.isEmpty()) {
 			Block block = blockList.remove(0);
 			compOrder.add(block);
 			for (BlockPort port: block.getBlockType().getOutputPorts()) {
@@ -86,12 +124,12 @@ public class Processor {
 		}
 
 		for (Block block: schema.getBlockCollection()) {
-			if (block.hasAllInputPortsUnplugged())
+			if (ValueBlock.isValueBlock(block.getBlockType().getId()))
 				continue;
 			for (BlockPort port: block.getBlockType().getInputPorts()) {
 				Block tmpBlock = block.getPluggedBlock(port.getName());
 				if (tmpBlock != null && !connections.get(block).contains(tmpBlock)) {
-					throw new ApplicationException("Circular dependency found");
+					throw new ApplicationException("Circular dependency detected");
 				}
 			}
 		}

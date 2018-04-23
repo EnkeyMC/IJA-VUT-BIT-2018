@@ -174,10 +174,10 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
-	 * Block has unconnected output port
-	 * @return true if block has unconnected output port, false otherwise
+	 * Block has unplugged output port
+	 * @return true if block has unplugged output port, false otherwise
 	 */
-	public boolean hasUnconnectedOutputPort() {
+	public boolean hasUnpluggedOutputPort() {
 		for (Map.Entry<String, TypeValues> port : outputPorts.entrySet()) {
 			if (connections.get(port.getKey()) == null)
 				return true;
@@ -186,15 +186,15 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
-	 * Block has ALL input port unplugged
-	 * @return true if every input port is NOT connected
+	 * Block has unplugged input port
+	 * @return true if block has unplugged input port, false otherwise
 	 */
-	public boolean hasAllInputPortsUnplugged() {
+	public boolean hasUnpluggedInputPort() {
 		for (Map.Entry<String, TypeValues> port : inputPorts.entrySet()) {
-			if (connections.get(port.getKey()) != null)
-				return false;
+			if (connections.get(port.getKey()) == null)
+				return true;
 		}
-		return true;
+		return false;
 	}
 
 	/**
