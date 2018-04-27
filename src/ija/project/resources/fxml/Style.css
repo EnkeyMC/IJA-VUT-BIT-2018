@@ -37,7 +37,8 @@
 
 /* Making from round items square items */
 .tab-header-area .tab,
-.titled-pane .title {
+.titled-pane .title,
+.toggle-button, .button {
 	-fx-background-radius: 0em;
 }
 
@@ -103,4 +104,22 @@
 .split-pane-divider {
 	-fx-pref-width: 1px;
 	-fx-background-color: #BABABA;
+}
+
+/* Buttons */
+.toggle-button, .button {
+	-fx-background-color: #EFEFEF;
+	-fx-border-style: solid;
+	-fx-border-color: #C6C6C6;
+}
+
+.toggle-button:selected,
+.button:pressed {
+	-fx-border-color: #0096d2;
+}
+
+.vbox_right {
+	-fx-border-style: solid hidden hidden solid;
+	-fx-border-color: #BABABA;
+	-fx-border-width: 1px;
 }

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ija.project.ui.controllers.components.DetailsPanelController">
+<VBox xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ija.project.ui.controllers.components.DetailsPanelController" styleClass="vbox_right">
 	<children>
 		<TitledPane text="Block info" VBox.vgrow="ALWAYS" maxHeight="Infinity" >
 			<ScrollPane fitToHeight="true">
