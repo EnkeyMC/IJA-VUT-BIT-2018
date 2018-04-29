@@ -186,15 +186,13 @@ public class SchemaControl extends VBox {
 		try {
 			block = processor.calculateStep();
 		} catch (ApplicationException | ParseCancellationException e) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Error occurred");
-			alert.setHeaderText("Error occurred during calculation");
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
+			exceptionAlert("Error occurred during calculation", e);
 		}
 
 		if (block == null)
 			this.processor = null;
+		else
+			this.selectionModel.setSelectedNode(blockControls.get(block.getId()));
 	}
 
 	@FXML
@@ -205,11 +203,7 @@ public class SchemaControl extends VBox {
 		try {
 			processor.calculateAll();
 		} catch (ApplicationException | ParseCancellationException e) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Error occurred");
-			alert.setHeaderText("Error occurred during calculation");
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
+			exceptionAlert("Error occurred during calculation", e);
 		}
 	}
 
@@ -242,11 +236,7 @@ public class SchemaControl extends VBox {
 				setChanged(true);
 			}
 		} catch (ApplicationException e) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Error occurred");
-			alert.setHeaderText("Cannot connect ports");
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
+			exceptionAlert("Cannot connect ports", e);
 		} finally {
 			schemaPane.getChildren().remove(connectionLinePreview);
 			connectionLinePreview = null;
@@ -289,5 +279,13 @@ public class SchemaControl extends VBox {
 
 	public SchemaSelectionModel getSelectionModel() {
 		return selectionModel;
+	}
+
+	private void exceptionAlert(String header, Exception e) {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Error occurred");
+		alert.setHeaderText(header);
+		alert.setContentText(e.getMessage());
+		alert.showAndWait();
 	}
 }
