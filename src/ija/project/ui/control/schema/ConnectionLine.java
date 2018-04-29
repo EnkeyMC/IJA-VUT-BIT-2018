@@ -1,11 +1,16 @@
 package ija.project.ui.control.schema;
 
+import ija.project.schema.Block;
+import ija.project.schema.TypeValues;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.NumberBinding;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Tooltip;
 import javafx.scene.shape.*;
+
+import java.util.Map;
 
 public class ConnectionLine extends Path implements Removable {
 
@@ -25,6 +30,10 @@ public class ConnectionLine extends Path implements Removable {
 		this.layoutYProperty().bind(outputPort.connectionYProperty());
 		this.setManaged(false);
 		bindLines();
+
+		Tooltip tooltip = new Tooltip(getValueString());
+		tooltip.activatedProperty().addListener((observable, oldValue, newValue) -> tooltip.setText(getValueString()));
+		Tooltip.install(this, tooltip);
 	}
 
 	private void bindLines() {
@@ -66,6 +75,20 @@ public class ConnectionLine extends Path implements Removable {
 		arrowLine.xProperty().bind(hline.xProperty().add(arrowX));
 		arrowLine.yProperty().bind(vline.yProperty().subtract(sign.multiply(arrowY)));
 		elements.add(arrowLine);
+	}
+
+	private String getValueString() {
+		StringBuilder builder = new StringBuilder();
+		Block block = outputPort.getBlockControl().getBlock();
+		TypeValues values = block.getOutputPortValues().get(outputPort.getBlockPort().getName());
+		for (Map.Entry<String, Double> value : values.getValuesMap().entrySet()) {
+			builder.append(value.getKey()).append(": ");
+			if (value.getValue() == null)
+				builder.append("null");
+			else
+				builder.append(value.getValue());
+		}
+		return builder.toString();
 	}
 
 	@Override

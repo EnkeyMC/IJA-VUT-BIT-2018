@@ -132,8 +132,8 @@ public class SchemaControl extends VBox {
 			} else {
 				blockControl = new BlockControl(this, new Block(type));
 			}
-			addBlockControl(blockControl);
 			schema.addBlock(blockControl.getBlock());
+			addBlockControl(blockControl);
 			blockControl.setLayoutX(event.getX() - blockControl.getPrefWidth()/2);
 			blockControl.setLayoutY(event.getY() - blockControl.getPrefHeight()/2);
 
@@ -173,8 +173,9 @@ public class SchemaControl extends VBox {
 	}
 
 	private Processor initProcessor() {
-		if (this.processor == null)
+		if (this.processor == null) {
 			this.processor = new Processor(schema);
+		}
 		return this.processor;
 	}
 
@@ -189,10 +190,12 @@ public class SchemaControl extends VBox {
 			exceptionAlert("Error occurred during calculation", e);
 		}
 
-		if (block == null)
+		if (block == null) {
 			this.processor = null;
-		else
+			this.selectionModel.setSelectedNode(null);
+		} else {
 			this.selectionModel.setSelectedNode(blockControls.get(block.getId()));
+		}
 	}
 
 	@FXML
@@ -204,7 +207,13 @@ public class SchemaControl extends VBox {
 			processor.calculateAll();
 		} catch (ApplicationException | ParseCancellationException e) {
 			exceptionAlert("Error occurred during calculation", e);
+		} finally {
 		}
+	}
+
+	@FXML
+	private void calculationStopActionHandler(ActionEvent event) {
+		processor = null;
 	}
 
 	protected void addBlockControl(BlockControl blockControl) {

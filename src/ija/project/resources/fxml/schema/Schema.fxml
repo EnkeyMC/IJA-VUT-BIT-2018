@@ -16,6 +16,7 @@
 				<Separator />
 				<Button mnemonicParsing="false" text="Calculate" onAction="#calculateActionHandler" />
 				<Button mnemonicParsing="false" text="Stepped Calculation" onAction="#calculateStepActionHandler" />
+				<Button mnemonicParsing="false" text="Stop calculation" onAction="#calculationStopActionHandler" />
 			</items>
 		</ToolBar>
 		<ScrollPane>
