@@ -27,6 +27,11 @@ public class Processor {
 	private ArrayList<Block> compOrder;
 
 	/**
+	 * Processor is performing step by step calculation
+	 */
+	private boolean isRunning = false;
+
+	/**
 	 * Construct object
 	 * @param schema schema to process
 	 */
@@ -48,38 +53,74 @@ public class Processor {
 		return valueBlocks;
 	}
 
-	public void calculateAll() throws ApplicationException, ParseCancellationException {
-		findCircularDeps();
-
-		for (Block block: compOrder) {
-			if (block.hasUnpluggedInputPort())
-				throw new ApplicationException("Block '" + block.getBlockType().getDisplayName() + "' has unplugged input");
+	/**
+	 * Initialize processor if it is not initialized already
+	 */
+	private void initCalculation() throws ApplicationException {
+		if (!isRunning) {
+			findCircularDeps();
+			for (Block block: compOrder) {
+				if (block.hasUnpluggedInputPort())
+					throw new ApplicationException(
+							"Block '" + block.getBlockType().getDisplayName()
+							+ "' has unplugged input");
+			}
+			this.isRunning = true;
 		}
+	}
 
+	/**
+	 * Perform one step of calculation, skip ValueBlocks
+	 * @return block computed in current step
+	 */
+	public Block calculateStep() throws ApplicationException, ParseCancellationException {
+		initCalculation();
 		while (!compOrder.isEmpty()) {
 			Block block = compOrder.remove(0);
-
 			block.calculate();
+			moveOutputToInput(block);
+			if (ValueBlock.isValueBlock(block.getBlockType().getId()))
+				continue;
+			return block;
+		}
 
-			// Move the results from output ports to input ports
-			// of connected blocks.
-			for (BlockPort port: block.getBlockType().getOutputPorts()) {
-				Pair<Block, String> connected = block.getConnectedBlockAndPort(port.getName());
-				if (connected == null)
-					continue;
+		this.isRunning = false;
+		return null;
+	}
 
-				TypeValues result = block.getOutputPortValues().get(port.getName());
-				for (String key: result.getType().getKeys()) {
-					try {
-						result.getValue(key);
-					} catch (KeyException e) {
-						throw new ApplicationException("Missing formula in block '"
-								+ block.getBlockType().getDisplayName() + "' port '"
-								+ port.getName() + "'");
-					}
+	/**
+	 * Move the results from block's output ports to input ports of connected blocks
+	 * @param block block that has been processed already
+	 */
+	private void moveOutputToInput(Block block) throws ApplicationException {
+		for (BlockPort port: block.getBlockType().getOutputPorts()) {
+			Pair<Block, String> connected = block.getConnectedBlockAndPort(port.getName());
+			if (connected == null)
+				continue;
+
+			TypeValues result = block.getOutputPortValues().get(port.getName());
+			for (String key: result.getType().getKeys()) {
+				try {
+					result.getValue(key);
+				} catch (KeyException e) {
+					throw new ApplicationException("Missing formula in block '"
+							+ block.getBlockType().getDisplayName() + "' port '"
+							+ port.getName() + "'");
 				}
-				connected.getKey().getInputPortValues().put(connected.getValue(), result);
 			}
+			connected.getKey().getInputPortValues().put(connected.getValue(), result);
+		}
+	}
+
+	/**
+	 * Perform calculation on blocks, which have not been processed already
+	 */
+	public void calculateAll() throws ApplicationException, ParseCancellationException {
+		initCalculation();
+		while (!compOrder.isEmpty()) {
+			Block block = compOrder.remove(0);
+			block.calculate();
+			moveOutputToInput(block);
 		}
 	}
 

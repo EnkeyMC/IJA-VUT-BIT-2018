@@ -38,6 +38,7 @@ public class SchemaControl extends VBox {
 	private ToggleButton toolRemove;
 
 	private Schema schema;
+	private Processor processor;
 
 	private Map<Long, BlockControl> blockControls;
 
@@ -171,9 +172,35 @@ public class SchemaControl extends VBox {
 		}
 	}
 
+	private Processor initProcessor() {
+		if (this.processor == null)
+			this.processor = new Processor(schema);
+		return this.processor;
+	}
+
+	@FXML
+	private void calculateStepActionHandler(ActionEvent event) {
+		Processor processor = initProcessor();
+
+		Block block = null;
+		try {
+			block = processor.calculateStep();
+		} catch (ApplicationException | ParseCancellationException e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error occurred");
+			alert.setHeaderText("Error occurred during calculation");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+		}
+
+		if (block == null)
+			this.processor = null;
+	}
+
 	@FXML
 	private void calculateActionHandler(ActionEvent event) {
-		Processor processor = new Processor(schema);
+		Processor processor = initProcessor();
+		this.processor = null;
 
 		try {
 			processor.calculateAll();
