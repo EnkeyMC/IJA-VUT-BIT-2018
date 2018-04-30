@@ -90,6 +90,7 @@ public class ConnectionLine extends Path implements Removable {
 				builder.append("null");
 			else
 				builder.append(value.getValue());
+			builder.append("\n");
 		}
 		return builder.toString();
 	}
