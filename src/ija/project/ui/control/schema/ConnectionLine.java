@@ -8,6 +8,8 @@ import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.NumberBinding;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Tooltip;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 
 import java.util.Map;
@@ -25,7 +27,8 @@ public class ConnectionLine extends Path implements Removable {
 		this.outputPort = outputPort;
 		this.inputPort = inputPort;
 
-		this.setStrokeWidth(3);
+		this.setStrokeWidth(2);
+		this.setStroke(Color.color(0.4,0.4,0.4));
 		this.layoutXProperty().bind(outputPort.connectionXProperty());
 		this.layoutYProperty().bind(outputPort.connectionYProperty());
 		this.setManaged(false);

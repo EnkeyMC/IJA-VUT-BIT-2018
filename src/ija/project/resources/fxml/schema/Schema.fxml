@@ -26,7 +26,8 @@
 							onDragDropped="#onDragDropped"
 							onDragOver="#onDragOver"
 							onMouseMoved="#onMouseMoved"
-							prefHeight="3000.0" prefWidth="3000.0">
+							prefHeight="3000.0" prefWidth="3000.0"
+							styleClass="schema">
 
 				</AnchorPane>
 			</content>

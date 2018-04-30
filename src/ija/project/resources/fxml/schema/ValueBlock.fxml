@@ -24,7 +24,7 @@
 				</HBox>
 				<HBox>
 					<Spacer />
-					<GridPane fx:id="valuesGrid">
+					<GridPane fx:id="valuesGrid" styleClass="value-label">
 
 					</GridPane>
 					<Spacer />

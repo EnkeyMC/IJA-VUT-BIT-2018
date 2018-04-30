@@ -8,13 +8,13 @@
 	<children>
 		<TitledPane text="Block info" VBox.vgrow="ALWAYS" maxHeight="Infinity" >
 			<ScrollPane fitToHeight="true">
-				<GridPane fx:id="blockInfo">
+				<GridPane fx:id="blockInfo" styleClass="inner-details">
 				</GridPane>
 			</ScrollPane>
 		</TitledPane>
 		<TitledPane text="Block ports" VBox.vgrow="ALWAYS" maxHeight="Infinity" >
 			<ScrollPane fitToHeight="true">
-				<GridPane fx:id="blockPorts">
+				<GridPane fx:id="blockPorts" styleClass="inner-details">
 				</GridPane>
 			</ScrollPane>
 		</TitledPane>

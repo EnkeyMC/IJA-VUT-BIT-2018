@@ -52,11 +52,6 @@ public class BlockPortControl extends AnchorPane {
 		Tooltip tooltip = new Tooltip(port.getName() + " (" + port.getType().getDisplayName() + ")");
 		Tooltip.install(this, tooltip);
 
-		if (input)
-			this.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
-		else
-			this.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
-
 		updateCursor();
 		blockControl.getSchemaControl().toolRemoveSelectedProperty().addListener((observable, oldValue, newValue) -> updateCursor());
 	}

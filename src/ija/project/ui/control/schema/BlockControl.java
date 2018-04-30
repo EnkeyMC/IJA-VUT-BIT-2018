@@ -58,7 +58,6 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		blockPortControls = new HashMap<>();
 		dragStartX = 0;
 		dragStartY = 0;
-		this.setBackground(new Background(new BackgroundFill(Color.GRAY, null, null)));
 		updateCursor();
 		this.getStyleClass().add("schema-block");
 
@@ -70,6 +69,8 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		HBox outputPorts = new HBox(5);
 		this.setTop(inputPorts);
 		this.setBottom(outputPorts);
+		inputPorts.getStyleClass().add("hbox-up");
+		outputPorts.getStyleClass().add("hbox-down");
 
 		ArrayList<BlockPort> ports = blockType.getInputPorts();
 		BlockPortControl blockPortControl;
@@ -163,12 +164,10 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 	@Override
 	public void onSelected() {
 		this.getStyleClass().add(Selectable.SELECTED_CLASS);
-		this.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, null, null)));
 	}
 
 	@Override
 	public void onDeselected() {
 		this.getStyleClass().remove(Selectable.SELECTED_CLASS);
-		this.setBorder(Border.EMPTY);
 	}
 }
