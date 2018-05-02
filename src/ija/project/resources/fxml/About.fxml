@@ -1,18 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 
+<?import ija.project.ui.control.Spacer?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ija.project.ui.controllers.AboutController"
-            prefHeight="400.0" prefWidth="600.0">
+	  xmlns:fx="http://javafx.com/fxml"
+	  fx:controller="ija.project.ui.controllers.AboutController"
+	  id="vbox_about">
 
 	<children>
-		<Label text="Block Schema" alignment="CENTER"/>
-		<Label text="Trial version" alignment="CENTER"/>
+		<HBox>
+			<children>
+				<Spacer />
+				<Label text="Block Schema" styleClass="about_label"/>
+				<Spacer />
+			</children>
+		</HBox>
+
+		<HBox>
+			<children>
+				<Spacer />
+				<ImageView fx:id="imageView"
+						   fitHeight="75.0"
+						   fitWidth="75.0">
+					<image>
+						<Image url="/ija/project/resources/images/icon.png"
+							   backgroundLoading="true"/>
+					</image>
+				</ImageView>
+				<Spacer />
+			</children>
+		</HBox>
+
+		<HBox styleClass="about_hbox">
+			<children>
+				<Spacer />
+				<Label text="Trial version 42" />
+				<Spacer />
+				<Label text="© 2018, FIT VUT" />
+				<Spacer />
+			</children>
+		</HBox>
 	</children>
+
+	<stylesheets>
+		<URL value="@Style.css" />
+	</stylesheets>
 </VBox>

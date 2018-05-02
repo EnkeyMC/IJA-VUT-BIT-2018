@@ -262,6 +262,10 @@ public class MainPanelController implements Initializable {
 		UIComponentLoader<AboutController> loader = new UIComponentLoader<>(AboutController.class);
 		try {
 			aboutStage.setScene(new Scene(loader.load(), 350, 200));
+			aboutStage.setMinWidth(350);
+			aboutStage.setMinHeight(200);
+			aboutStage.setMaxWidth(350);
+			aboutStage.setMaxHeight(200);
 			aboutStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

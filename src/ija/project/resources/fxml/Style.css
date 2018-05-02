@@ -184,3 +184,19 @@
 	-fx-background-radius: 50%;
 	-fx-border-radius: 50%;
 }
+
+/* About */
+#vbox_about {
+	-fx-background-color: #fff;
+}
+
+#vbox_about .about_label {
+	-fx-padding: 10 0 0 0;
+	-fx-font-size: 20pt;
+	-fx-font-family: "Segoe UI Semibold";
+	-fx-text-fill: black;
+}
+
+#vbox_about .about_hbox {
+	-fx-padding: 10 0 0 0;
+}
