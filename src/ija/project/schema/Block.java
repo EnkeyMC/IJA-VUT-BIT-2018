@@ -156,10 +156,20 @@ public class Block implements XmlRepresentable {
 			throw new ApplicationException("Port '" + srcPort + "' is already connected");
 		if (dstBlock.connections.get(dstPort) != null)
 			throw new ApplicationException("Port '" + dstPort + "' is already connected");
-		if (isInputPort(srcPort) && dstBlock.isInputPort(dstPort))
-			throw new ApplicationException("Cannot connect two input ports!");
-		if (!isInputPort(srcPort) && !dstBlock.isInputPort(dstPort))
-			throw new ApplicationException("Cannot connect two output ports!");
+		if (isInputPort(srcPort)) {
+			if (dstBlock.isInputPort(dstPort))
+				throw new ApplicationException("Cannot connect two input ports!");
+			else if (!blockType.getInputPort(srcPort).getType().getId().equals(
+				dstBlock.getBlockType().getOutputPort(dstPort).getType().getId()))
+				throw new ApplicationException("Incompatible port types");
+		}
+		if (!isInputPort(srcPort)) {
+			if (!dstBlock.isInputPort(dstPort))
+				throw new ApplicationException("Cannot connect two output ports!");
+			else if (!blockType.getOutputPort(srcPort).getType().getId().equals(
+				dstBlock.getBlockType().getInputPort(dstPort).getType().getId()))
+				throw new ApplicationException("Incompatible port types");
+		}
 
 		connections.put(srcPort, new Pair<>(dstBlock, dstPort));
 		dstBlock.connections.put(dstPort, new Pair<>(this, srcPort));
