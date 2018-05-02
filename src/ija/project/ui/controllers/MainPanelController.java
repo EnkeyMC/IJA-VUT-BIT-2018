@@ -24,10 +24,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -248,6 +251,20 @@ public class MainPanelController implements Initializable {
 			ComponentLoader.loadFromXML(file);
 		} catch (Exception e) {
 			exceptionAlert("Could not load components", e);
+		}
+	}
+
+	@FXML
+	private void handleAboutAction(ActionEvent event) {
+		Stage aboutStage = new Stage();
+		aboutStage.setTitle("About");
+		aboutStage.getIcons().add(new Image(getClass().getResourceAsStream("/ija/project/resources/images/info.png")));
+		UIComponentLoader<AboutController> loader = new UIComponentLoader<>(AboutController.class);
+		try {
+			aboutStage.setScene(new Scene(loader.load(), 350, 200));
+			aboutStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
