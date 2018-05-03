@@ -38,7 +38,7 @@
 			</menus>
 		</MenuBar>
 	</children>
-	<SplitPane dividerPositions="0.2, 0.8" VBox.vgrow="ALWAYS">
+	<SplitPane dividerPositions="0.2, 0.7" VBox.vgrow="ALWAYS">
 		<items>
 			<VBox fx:id="blockList" SplitPane.resizableWithParent="false">
 				<children>

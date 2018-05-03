@@ -38,7 +38,13 @@ public class ValueBlock extends Block {
 
 	@Override
 	public void calculate() {
-		getOutputPortValues().put("value", values);
+		try {
+			for (Map.Entry<String, Double> entry : values.getValuesMap().entrySet()) {
+					getOutputPortValues().get("value").setValue(entry.getKey(), entry.getValue());
+			}
+		} catch (KeyException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
