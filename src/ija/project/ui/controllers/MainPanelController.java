@@ -324,6 +324,22 @@ public class MainPanelController implements Initializable {
 		tab.setContent(schemaControl);
 		schemaControl.bindDisplayNameTo(tab.textProperty());
 
+		tab.setOnCloseRequest(event -> {
+			if (schemaControl.isChanged()) {
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Unsaved changes");
+				alert.setContentText("You have unsaved changes. Do you want to save them before closing?");
+				alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+				alert.showAndWait().ifPresent(buttonType -> {
+					if (buttonType == ButtonType.YES) {
+						saveSchema(schemaControl, false);
+					} else if (buttonType == ButtonType.CANCEL) {
+						event.consume();
+					}
+				});
+			}
+		});
+
 		detailsPanelController.addSchemaSelectionModel(schemaControl.getSelectionModel());
 	}
 

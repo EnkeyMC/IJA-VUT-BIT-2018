@@ -49,6 +49,11 @@ public class DetailsPanelController {
 	};
 
 	private ChangeListener<Tab> tabChangeListener = (observable, oldValue, newValue) -> {
+		if (newValue == null) {
+			changeDetails(null);
+			return;
+		}
+
 		if (newValue.getContent() instanceof SchemaControl) {
 			SchemaControl schemaControl = (SchemaControl) newValue.getContent();
 			Selectable node = schemaControl.getSelectionModel().getSelectedNode();
