@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import java.net.URL?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <VBox xmlns="http://javafx.com/javafx"
 	  xmlns:fx="http://javafx.com/fxml"
 	  fx:controller="ija.project.ui.controllers.MainPanelController"
@@ -14,11 +15,23 @@
 			<menus>
 				<Menu text="Sche_ma">
 					<items>
-						<MenuItem text="_New" onAction="#handleNewSchemaAction" />
-						<MenuItem text="_Open..." onAction="#handleOpenSchemaAction" />
+						<MenuItem text="_New" onAction="#handleNewSchemaAction" >
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem text="_Open..." onAction="#handleOpenSchemaAction" >
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
 						<SeparatorMenuItem mnemonicParsing="false" />
 						<MenuItem text="Close" onAction="#handleCloseSchemaAction" />
-						<MenuItem text="_Save" onAction="#handleSaveSchemaAction" />
+						<MenuItem text="_Save" onAction="#handleSaveSchemaAction" >
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
 						<MenuItem text="Save All" onAction="#handleSaveAllSchemaAction" />
 						<MenuItem text="Save _As..." onAction="#handleSchemaSaveAsAction" />
 						<MenuItem text="_Quit" onAction="#handleQuitAction" />
@@ -31,7 +44,11 @@
 				</Menu>
 				<Menu text="_Help">
 					<items>
-						<MenuItem text="How to" />
+						<MenuItem text="How to" >
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
 						<MenuItem text="About" onAction="#handleAboutAction" />
 					</items>
 				</Menu>

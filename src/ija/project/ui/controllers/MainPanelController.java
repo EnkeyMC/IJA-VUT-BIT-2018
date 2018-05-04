@@ -27,6 +27,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -107,6 +111,15 @@ public class MainPanelController implements Initializable {
 				}
 			}
 		});
+
+//		root.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+//            if (saveCombination.match(event)) {
+//            	Tab tab = tabs.getSelectionModel().getSelectedItem();
+//            	if (tab.getContent() instanceof SchemaControl) {
+//            		saveSchema((SchemaControl) tab.getContent(), false);
+//				}
+//			}
+//        });
 	}
 
 	public void onExit(Event event) {
