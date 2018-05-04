@@ -243,14 +243,26 @@ public class BlockType implements XmlRepresentable {
 		xmlDom.parentNode();
 	}
 
+	/**
+	 * Get block type category
+	 * @return category display name
+	 */
 	public String getCategory() {
 		return category;
 	}
 
+	/**
+	 * Set block type category
+	 * @param category category display name
+	 */
 	public void setCategory(String category) {
 		this.category = category;
 	}
 
+	/**
+	 * Get block xml tag. Specifies which Block subclass to use when instantiating new block with this block type)
+	 * @return xml tag
+	 */
 	public String getBlockXmlTag() {
 		return blockXmlTag;
 	}

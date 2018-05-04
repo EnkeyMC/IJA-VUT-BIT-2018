@@ -44,6 +44,10 @@ public class Formula implements XmlRepresentable {
 		xmlDom.parentNode();
 	}
 
+	/**
+	 * Get formula in text form
+	 * @return formula text
+	 */
 	public String getFormulaText() {
 		return formulaText;
 	}

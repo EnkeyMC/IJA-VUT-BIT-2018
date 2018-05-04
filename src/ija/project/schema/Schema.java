@@ -47,6 +47,10 @@ public class Schema implements XmlRepresentable {
 		return this.blocks;
 	}
 
+	/**
+	 * Get all blocks in schema as Collection
+	 * @return all blocks in schema
+	 */
 	public Collection<Block> getBlockCollection() {
 		return this.blocks.values();
 	}
@@ -124,6 +128,10 @@ public class Schema implements XmlRepresentable {
 		xmlDom.parentNode();
 	}
 
+	/**
+	 * Find the highest block ID in schema
+	 * @return max ID
+	 */
 	private long findMaxId() {
 		long max = 0;
 		for (Block block : this.getBlockCollection()) {
@@ -134,26 +142,50 @@ public class Schema implements XmlRepresentable {
 		return max;
 	}
 
+	/**
+	 * Get schema display name (file name without path)
+	 * @return display name
+	 */
 	public String getDisplayName() {
 		return displayName.get();
 	}
 
+	/**
+	 * Get display name property
+	 * @return display name property
+	 */
 	public StringProperty displayNameProperty() {
 		return displayName;
 	}
 
+	/**
+	 * Set display name
+	 * @param displayName display name
+	 */
 	public void setDisplayName(String displayName) {
 		this.displayName.set(displayName);
 	}
 
+	/**
+	 * Generate next block ID
+	 * @return next ID
+	 */
 	private long generateID() {
 		return ++lastID;
 	}
 
+	/**
+	 * Get schema file
+	 * @return File object
+	 */
 	public File getFile() {
 		return file;
 	}
 
+	/**
+	 * Set file to schema
+	 * @param file File object
+	 */
 	public void setFile(File file) {
 		this.file = file;
 		this.displayName.setValue(file.getName());

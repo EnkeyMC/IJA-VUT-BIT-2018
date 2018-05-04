@@ -3,16 +3,28 @@ package ija.project.schema;
 import java.security.KeyException;
 import java.util.Map;
 
+/**
+ * This block show the calculation result to user
+ */
 public class ResultBlock extends Block {
 
+	/** XML tag to use for saving/loading */
 	public static final String XML_TAG = "resultblock";
 
+	/** Internal values of block */
 	private TypeValues values;
 
+	/**
+	 * Create blank object
+	 */
 	public ResultBlock() {
 		super();
 	}
 
+	/**
+	 * Create result block from BlockType. The BlockType has to have only one input port called "value".
+	 * @param blockType BlockType
+	 */
 	public ResultBlock(BlockType blockType) {
 		super(blockType);
 		values = new TypeValues(blockType.getInputPort("value").getType());
@@ -29,6 +41,10 @@ public class ResultBlock extends Block {
 		}
 	}
 
+	/**
+	 * Get internal values
+	 * @return values
+	 */
 	public TypeValues getValues() {
 		return values;
 	}

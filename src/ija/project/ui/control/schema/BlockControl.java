@@ -18,24 +18,42 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Displays logical Block
+ */
 public class BlockControl extends BorderPane implements Removable, Selectable {
 
+	/** Block display name label */
 	@FXML
 	protected Label displayNameLabel;
 
+	/** Block this control displays */
 	private Block block;
 
+	/** Schema control this block is in */
 	private SchemaControl schemaControl;
 
+	/** Mapping of child port controls (port name => BlockPortControl) */
 	private Map<String, BlockPortControl> blockPortControls;
 
+	/** Indicates the starting x coordinate of mouse drag relative to this Node */
 	private double dragStartX;
+	/** Indicates the starting y coordinate of mouse drag relative to this Node */
 	private double dragStartY;
 
+	/**
+	 * Get path to FXML file for this control
+	 * @return path to FXML file relative to FXML root
+	 */
 	public static String getFXMLPath() {
 		return "schema/Block.fxml";
 	}
 
+	/**
+	 * Create BlockControl from BlockType
+	 * @param schemaControl parent schema control
+	 * @param blockType BlockType
+	 */
 	public BlockControl(SchemaControl schemaControl, BlockType blockType) {
 		super();
 		block = new Block(blockType);
@@ -44,6 +62,11 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		init(blockType);
 	}
 
+	/**
+	 * Create BlockControl displaying given block
+	 * @param schemaControl parent schema control
+	 * @param block Block to display
+	 */
 	public BlockControl(SchemaControl schemaControl, Block block) {
 		super();
 		this.schemaControl = schemaControl;
@@ -52,6 +75,10 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		init(block.getBlockType());
 	}
 
+	/**
+	 * Init BlockControl. Load FXML file, initializes members and sets up children and bindings
+	 * @param blockType block's BlockType
+	 */
 	protected void init(BlockType blockType) {
 		UIContolLoader.load(this);
 
@@ -99,14 +126,28 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		block.setY(y);
 	}
 
+	/**
+	 * Get Block this control displays
+	 * @return Block
+	 */
 	public Block getBlock() {
 		return block;
 	}
 
+	/**
+	 * Get BlockPortControl by name
+	 * @param port port name
+	 * @return BlockPortControl
+	 */
 	public BlockPortControl getPortControl(String port) {
 		return blockPortControls.get(port);
 	}
 
+	/**
+	 * Handles mouse pressed event. Saves mouse coordinates to dragStartX and dragStartY and sets cursor to closed hand
+	 * on primary button down.
+	 * @param event event data
+	 */
 	@FXML
 	private void onMousePressed(MouseEvent event) {
 		if (event.isPrimaryButtonDown()) {
@@ -116,6 +157,10 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		}
 	}
 
+	/**
+	 * Handles mouse released event. Updates cursor on primary button click.
+	 * @param event event data
+	 */
 	@FXML
 	private void onMouseReleased(MouseEvent event) {
 		if (event.getButton() == MouseButton.PRIMARY) {
@@ -123,6 +168,10 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		}
 	}
 
+	/**
+	 * Handles mouse dragged event. Drags block.
+	 * @param event event data
+	 */
 	@FXML
 	private void onMouseDragged(MouseEvent event) {
 		if (event.isPrimaryButtonDown()) {
@@ -142,10 +191,17 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		}
 	}
 
+	/**
+	 * Get parent schema control
+	 * @return schema control
+	 */
 	public SchemaControl getSchemaControl() {
 		return schemaControl;
 	}
 
+	/**
+	 * Update cursor to default if is remove mode, open hand otherwise
+	 */
 	private void updateCursor() {
 		if (schemaControl.isModeRemove())
 			setCursor(null);
@@ -153,6 +209,11 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 			setCursor(Cursor.OPEN_HAND);
 	}
 
+	/**
+	 * Calls onRemove method for all BlockPortControl children, removes itself from schema
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onRemove() {
 		for (BlockPortControl blockPortControl : blockPortControls.values()) {
@@ -161,11 +222,21 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		this.schemaControl.getSchema().removeBlock(block);
 	}
 
+	/**
+	 * Adds style class SELECTED_CLASS
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onSelected() {
 		this.getStyleClass().add(Selectable.SELECTED_CLASS);
 	}
 
+	/**
+	 * Removes style class SELECTED_CLASS
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onDeselected() {
 		this.getStyleClass().remove(Selectable.SELECTED_CLASS);

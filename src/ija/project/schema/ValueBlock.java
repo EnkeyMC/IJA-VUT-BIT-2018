@@ -9,28 +9,47 @@ import javafx.scene.layout.GridPane;
 import java.security.KeyException;
 import java.util.Map;
 
-
+/**
+ * Allows user to input values of certain data type
+ */
 public class ValueBlock extends Block {
 
-	private TypeValues values;
-
+	/** XML tag to use for saving/loading */
 	public static final String XML_TAG = "valueblock";
 
+	/** Internal values */
+	private TypeValues values;
 
+	/**
+	 * Create blank value block
+	 */
 	public ValueBlock() {
 		super();
 	}
 
+	/**
+	 * Create value block from BlockType. The BlockType has to have only one output port called "value".
+	 *
+	 * @param blockType BlockType
+	 */
 	public ValueBlock(BlockType blockType) {
 		super(blockType);
 		values = new TypeValues(blockType.getOutputPort("value").getType());
 	}
 
-	public static boolean isValueBlock(String id) {
-		String[] parts = id.split("_", 2);
-		return parts[0].equals("value");
+	/**
+	 * Get if BlockType is for ValueBlock
+	 * @param blockType BlockType
+	 * @return true if BlockType is for ValueBlock, false otherwise
+	 */
+	public static boolean isValueBlock(BlockType blockType) {
+		return blockType.getBlockXmlTag().equals(XML_TAG);
 	}
 
+	/**
+	 * Get internal values
+	 * @return values
+	 */
 	public TypeValues getValues() {
 		return values;
 	}

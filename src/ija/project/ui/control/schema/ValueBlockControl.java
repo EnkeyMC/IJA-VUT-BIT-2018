@@ -22,7 +22,7 @@ public class ValueBlockControl extends BlockControl {
 
 	public ValueBlockControl(SchemaControl schemaControl, BlockType blockType) {
 		super(schemaControl, blockType);
-		assert ValueBlock.isValueBlock(blockType.getId());
+		assert ValueBlock.isValueBlock(blockType);
 
 		addValueListener();
 		initBlockValuesLabels();

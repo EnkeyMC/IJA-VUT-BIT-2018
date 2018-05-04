@@ -21,6 +21,9 @@ import java.util.Map;
  */
 public class Block implements XmlRepresentable {
 
+	/** XML tag to use for saving/loading */
+	public static final String XML_TAG = "block";
+
 	/** Block id */
 	private long id;
 	/**
@@ -49,7 +52,6 @@ public class Block implements XmlRepresentable {
 	 */
 	private DoubleProperty y;
 
-	public static final String XML_TAG = "block";
 
 	/**
 	 * Construct blank object
@@ -59,7 +61,7 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
-	 * Construct object from given block types
+	 * Construct object from given block type
 	 * @param blockType block types
 	 */
 	public Block(BlockType blockType) {
@@ -73,6 +75,7 @@ public class Block implements XmlRepresentable {
 	 */
 	private void initEmpty() {
 		this.blockType = null;
+		this.id = 0;
 		this.inputPorts = new HashMap<>();
 		this.outputPorts = new HashMap<>();
 		this.connections = new SimpleMapProperty<>(FXCollections.observableHashMap());
@@ -81,8 +84,8 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
-	 * Init block from block types
-	 * @param blockType block types
+	 * Init block from block type
+	 * @param blockType block type
 	 */
 	protected void initFromBlockType(BlockType blockType) {
 		this.blockType = blockType;
@@ -311,18 +314,34 @@ public class Block implements XmlRepresentable {
 		this.y.set(y);
 	}
 
+	/**
+	 * Get block ID
+	 * @return ID or 0 if block is not added to schema
+	 */
 	public long getId() {
 		return id;
 	}
 
+	/**
+	 * Set blocks ID, this method is used when block is added to schema. One should not have a reason to set it manually.
+	 * @param id ID
+	 */
 	public void setId(long id) {
 		this.id = id;
 	}
 
+	/**
+	 * Get connections on all ports, unconnected ports are mapped to null
+	 * @return port name => block & port name pair mapping
+	 */
 	public MapProperty<String, Pair<Block, String>> getConnections() {
 		return connections;
 	}
 
+	/**
+	 * Get block's BlockType
+	 * @return BlockType instance from BlockTypeRegister
+	 */
 	public BlockType getBlockType() {
 		return blockType;
 	}

@@ -47,7 +47,7 @@ public class Processor {
 	private ArrayList<Block> getValueBlocks() {
 		ArrayList<Block> valueBlocks = new ArrayList<>();
 		for (Block block: schema.getBlockCollection()) {
-			if (ValueBlock.isValueBlock(block.getBlockType().getId()))
+			if (ValueBlock.isValueBlock(block.getBlockType()))
 				valueBlocks.add(block);
 		}
 		return valueBlocks;
@@ -79,7 +79,7 @@ public class Processor {
 			Block block = compOrder.remove(0);
 			block.calculate();
 			moveOutputToInput(block);
-			if (ValueBlock.isValueBlock(block.getBlockType().getId()))
+			if (ValueBlock.isValueBlock(block.getBlockType()))
 				continue;
 			return block;
 		}
@@ -163,7 +163,7 @@ public class Processor {
 		}
 
 		for (Block block: schema.getBlockCollection()) {
-			if (ValueBlock.isValueBlock(block.getBlockType().getId()))
+			if (ValueBlock.isValueBlock(block.getBlockType()))
 				continue;
 			for (BlockPort port: block.getBlockType().getInputPorts()) {
 				Block tmpBlock = block.getPluggedBlock(port.getName());
