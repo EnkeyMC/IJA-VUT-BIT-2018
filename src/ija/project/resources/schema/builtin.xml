@@ -8,11 +8,18 @@
 	</types>
 	<blocktypes>
 		<category name="Special">
-			<blocktype id="value_double" display-name="Double">
+			<blocktype id="value_double" display-name="Double" block-xml-tag="valueblock">
 				<inputs />
 				<outputs>
 					<blockport name="value" type="double" />
 				</outputs>
+				<formulas />
+			</blocktype>
+			<blocktype id="result_double" display-name="Double Result" block-xml-tag="resultblock">
+				<inputs>
+					<blockport name="value" type="double" />
+				</inputs>
+				<outputs />
 				<formulas />
 			</blocktype>
 		</category>

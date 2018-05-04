@@ -2,6 +2,8 @@ package ija.project.schema;
 
 import ija.project.exception.ApplicationException;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,23 @@ public class BlockFactory {
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 			return new Block();
+		}
+	}
+
+	public static Block create(BlockType blockType) {
+		if (!regsiteredBlocks.containsKey(blockType.getBlockXmlTag()))
+			throw new ApplicationException("Block with name '" + blockType.getBlockXmlTag() + "' is not registered");
+		Class<? extends Block> blockClass = regsiteredBlocks.get(blockType.getBlockXmlTag());
+		try {
+			Constructor<? extends Block> ctor = blockClass.getConstructor(BlockType.class);
+			return ctor.newInstance(blockType);
+		} catch (InstantiationException
+				| IllegalAccessException
+				| NoSuchMethodException
+				| InvocationTargetException e)
+		{
+			e.printStackTrace();
+			return new Block(blockType);
 		}
 	}
 

@@ -78,9 +78,14 @@ public class DetailsPanelController {
 	private EventHandler<ActionEvent> textFieldActionListener = event -> {
 		TextField field = (TextField) event.getSource();
 		ValueBlock valueBlock = (ValueBlock) attachedBlockControl.getBlock();
+
 		try {
-			Double value = Double.valueOf(field.getText());
-			valueBlock.getValues().setValue(field.getId(), value);
+			if (field.getText().equals("")) {
+				valueBlock.getValues().setValue(field.getId(), null);
+			} else {
+				Double value = Double.valueOf(field.getText());
+				valueBlock.getValues().setValue(field.getId(), value);
+			}
 		} catch (NumberFormatException e) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Invalid value");

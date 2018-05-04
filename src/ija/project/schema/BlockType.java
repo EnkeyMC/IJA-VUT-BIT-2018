@@ -20,6 +20,7 @@ public class BlockType implements XmlRepresentable {
 	 * Block type category
 	 */
 	private String category;
+	private String blockXmlTag;
 	/**
 	 * Display name
 	 */
@@ -41,6 +42,7 @@ public class BlockType implements XmlRepresentable {
 	 * Create blank block types
 	 */
 	public BlockType() {
+		blockXmlTag = Block.XML_TAG;
 		inputPorts = new ArrayList<>();
 		outputPorts = new ArrayList<>();
 		formulas = new ArrayList<>();
@@ -53,6 +55,7 @@ public class BlockType implements XmlRepresentable {
 	 * @param displayName display name
 	 */
 	public BlockType(String id, String category, String displayName) {
+		blockXmlTag = Block.XML_TAG;
 		this.id = id;
 		this.category = category;
 		this.displayName = displayName;
@@ -174,6 +177,9 @@ public class BlockType implements XmlRepresentable {
 		this.id = xmlDom.getAttribute("id");
 		this.displayName = xmlDom.getAttribute("display-name");
 
+		try { this.blockXmlTag = xmlDom.getAttribute("block-xml-tag"); }
+		catch (XMLParsingException e) { this.blockXmlTag = Block.XML_TAG; }
+
 		for (XmlActiveNode typeChildren : xmlDom.childIterator()) {
 			switch (typeChildren.getTag()) {
 				case "inputs": {
@@ -214,6 +220,7 @@ public class BlockType implements XmlRepresentable {
 		xmlDom.createChildElement("blocktype");
 		xmlDom.setAttribute("id", this.id);
 		xmlDom.setAttribute("display-name", this.displayName);
+		xmlDom.setAttribute("block-xml-tag", this.blockXmlTag);
 
 		xmlDom.createChildElement("inputs");
 		for (BlockPort port : this.inputPorts) {
@@ -242,5 +249,9 @@ public class BlockType implements XmlRepresentable {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public String getBlockXmlTag() {
+		return blockXmlTag;
 	}
 }

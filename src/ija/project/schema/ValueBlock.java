@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class ValueBlock extends Block {
 
-
 	private TypeValues values;
 
 	public static final String XML_TAG = "valueblock";

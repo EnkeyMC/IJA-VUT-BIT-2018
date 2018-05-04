@@ -3,10 +3,7 @@ package ija.project.ui.control.schema;
 import ija.project.exception.ApplicationException;
 import ija.project.processor.Processor;
 import ija.project.register.BlockTypeRegister;
-import ija.project.schema.Block;
-import ija.project.schema.BlockType;
-import ija.project.schema.Schema;
-import ija.project.schema.ValueBlock;
+import ija.project.schema.*;
 import ija.project.ui.utils.UIContolLoader;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -119,11 +116,7 @@ public class SchemaControl extends VBox {
 			}
 
 			BlockControl blockControl;
-			if (ValueBlock.isValueBlock(type.getId())) {
-				blockControl = new ValueBlockControl(this, new ValueBlock(type));
-			} else {
-				blockControl = new BlockControl(this, new Block(type));
-			}
+			blockControl = BlockControlFactory.create(BlockFactory.create(type), this);
 			schema.addBlock(blockControl.getBlock());
 			addBlockControl(blockControl);
 			blockControl.setLayoutX(event.getX() - blockControl.getPrefWidth()/2);

@@ -3,9 +3,11 @@ package ija.project;
 import ija.project.register.ComponentLoader;
 import ija.project.schema.BlockFactory;
 import ija.project.schema.Block;
+import ija.project.schema.ResultBlock;
 import ija.project.schema.ValueBlock;
 import ija.project.ui.control.schema.BlockControl;
 import ija.project.ui.control.schema.BlockControlFactory;
+import ija.project.ui.control.schema.ResultBlockControl;
 import ija.project.ui.control.schema.ValueBlockControl;
 import ija.project.ui.controllers.MainPanelController;
 import ija.project.ui.utils.UIComponentLoader;
@@ -46,9 +48,11 @@ public class BlockEditor extends Application {
 
 		BlockFactory.registerBlock(Block.XML_TAG, Block.class);
 		BlockFactory.registerBlock(ValueBlock.XML_TAG, ValueBlock.class);
+		BlockFactory.registerBlock(ResultBlock.XML_TAG, ResultBlock.class);
 
 		BlockControlFactory.registerControl(Block.class, BlockControl.class);
 		BlockControlFactory.registerControl(ValueBlock.class, ValueBlockControl.class);
+		BlockControlFactory.registerControl(ResultBlock.class, ResultBlockControl.class);
 
 		ComponentLoader.loadFromXML(getClass().getResource("/ija/project/resources/schema/builtin.xml"));
 	}

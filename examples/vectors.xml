@@ -14,18 +14,32 @@
 	</types>
 	<blocktypes>
 		<category name="Special">
-			<blocktype id="value_vector2d" display-name="Vector2D">
+			<blocktype id="value_vector2d" display-name="Vector2D" block-xml-tag="valueblock">
 				<inputs />
 				<outputs>
 					<blockport name="value" type="vector2d" />
 				</outputs>
 				<formulas />
 			</blocktype>
-			<blocktype id="value_vector3d" display-name="Vector3D">
+			<blocktype id="value_vector3d" display-name="Vector3D" block-xml-tag="valueblock">
 				<inputs />
 				<outputs>
 					<blockport name="value" type="vector3d" />
 				</outputs>
+				<formulas />
+			</blocktype>
+			<blocktype id="result_vector2d" display-name="Vector2D Result" block-xml-tag="resultblock">
+				<inputs>
+					<blockport name="value" type="vector2d" />
+				</inputs>
+				<outputs />
+				<formulas />
+			</blocktype>
+			<blocktype id="result_vector3d" display-name="Vector3D Result" block-xml-tag="resultblock">
+				<inputs>
+					<blockport name="value" type="vector3d" />
+				</inputs>
+				<outputs />
 				<formulas />
 			</blocktype>
 		</category>
