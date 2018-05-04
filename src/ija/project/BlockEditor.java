@@ -1,11 +1,15 @@
 package ija.project;
 
 import ija.project.register.ComponentLoader;
+import ija.project.schema.BlockFactory;
+import ija.project.schema.Block;
+import ija.project.schema.ValueBlock;
+import ija.project.ui.control.schema.BlockControl;
+import ija.project.ui.control.schema.BlockControlFactory;
+import ija.project.ui.control.schema.ValueBlockControl;
 import ija.project.ui.controllers.MainPanelController;
 import ija.project.ui.utils.UIComponentLoader;
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -39,6 +43,12 @@ public class BlockEditor extends Application {
 		primaryStage.setOnCloseRequest(event -> loader.getController().onExit(event));
 
 		primaryStage.show();
+
+		BlockFactory.registerBlock(Block.XML_TAG, Block.class);
+		BlockFactory.registerBlock(ValueBlock.XML_TAG, ValueBlock.class);
+
+		BlockControlFactory.registerControl(Block.class, BlockControl.class);
+		BlockControlFactory.registerControl(ValueBlock.class, ValueBlockControl.class);
 
 		ComponentLoader.loadFromXML(getClass().getResource("/ija/project/resources/schema/builtin.xml"));
 	}

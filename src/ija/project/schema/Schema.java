@@ -76,10 +76,7 @@ public class Schema implements XmlRepresentable {
 		for (XmlActiveNode childNode : xmlDom.childIterator()) {
 			if (childNode.getTag().equals("blocks")) {
 				for (XmlActiveNode blockNode : childNode.childIterator()) {
-					if (blockNode.getTag().equals(ValueBlock.XML_TAG))
-						block = new ValueBlock();
-					else
-						block = new Block();
+					block = BlockFactory.create(blockNode.getTag());
 					block.fromXML(blockNode);
 					this.blocks.put(block.getId(), block);
 				}

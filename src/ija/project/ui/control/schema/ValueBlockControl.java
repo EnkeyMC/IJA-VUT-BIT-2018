@@ -1,5 +1,6 @@
 package ija.project.ui.control.schema;
 
+import ija.project.schema.Block;
 import ija.project.schema.BlockType;
 import ija.project.schema.ValueBlock;
 import javafx.fxml.FXML;
@@ -27,7 +28,7 @@ public class ValueBlockControl extends BlockControl {
 		initBlockValuesLabels();
 	}
 
-	public ValueBlockControl(SchemaControl schemaControl, ValueBlock block) {
+	public ValueBlockControl(SchemaControl schemaControl, Block block) {
 		super(schemaControl, block);
 
 		addValueListener();

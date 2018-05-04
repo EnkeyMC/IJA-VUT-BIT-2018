@@ -64,10 +64,7 @@ public class SchemaControl extends VBox {
 		Collection<Block> blocks = schema.getBlockCollection();
 		BlockControl blockControl;
 		for (Block block : blocks) {
-			if (ValueBlock.isValueBlock(block.getBlockType().getId()))
-				blockControl = new ValueBlockControl(this, (ValueBlock) block);
-			else
-				blockControl = new BlockControl(this, block);
+			blockControl = BlockControlFactory.create(block, this);
 			addBlockControl(blockControl);
 		}
 
@@ -92,12 +89,7 @@ public class SchemaControl extends VBox {
 			}
 		}
 
-		schemaPane.getChildren().addListener(new ListChangeListener<Node>() {
-			@Override
-			public void onChanged(Change<? extends Node> c) {
-				setChanged(true);
-			}
-		});
+		schemaPane.getChildren().addListener((ListChangeListener<Node>) c -> setChanged(true));
 	}
 
 	public void bindDisplayNameTo(StringProperty property) {

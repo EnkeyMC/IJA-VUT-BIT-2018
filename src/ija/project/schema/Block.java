@@ -49,6 +49,8 @@ public class Block implements XmlRepresentable {
 	 */
 	private DoubleProperty y;
 
+	public static final String XML_TAG = "block";
+
 	/**
 	 * Construct blank object
 	 */
@@ -100,7 +102,7 @@ public class Block implements XmlRepresentable {
 
 	@Override
 	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
-		xmlDom.getCurrentNode("block");
+		xmlDom.getCurrentNode(XML_TAG);
 		String blockTypeCat = xmlDom.getAttribute("block-type-cat");
 		String blockTypeId = xmlDom.getAttribute("block-type-id");
 		BlockType blockType = BlockTypeRegister.getBlockTypeById(blockTypeCat, blockTypeId);
@@ -113,7 +115,7 @@ public class Block implements XmlRepresentable {
 
 	@Override
 	public void toXML(XmlActiveNode xmlDom) {
-		xmlDom.createChildElement("block");
+		xmlDom.createChildElement(XML_TAG);
 		xmlDom.setAttribute("block-type-cat", blockType.getCategory());
 		xmlDom.setAttribute("block-type-id", blockType.getId());
 		xmlDom.setAttribute("x", Integer.toString((int) x.get()));
