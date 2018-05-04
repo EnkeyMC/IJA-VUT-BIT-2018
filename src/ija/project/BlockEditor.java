@@ -22,8 +22,8 @@ public class BlockEditor extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		Parent root = null;
+		UIComponentLoader<MainPanelController> loader = new UIComponentLoader<>(MainPanelController.class);
 		try {
-			UIComponentLoader<MainPanelController> loader = new UIComponentLoader<>(MainPanelController.class);
 			root = loader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -35,6 +35,8 @@ public class BlockEditor extends Application {
 		primaryStage.setScene(new Scene(root));
 		primaryStage.setMinWidth(400);
 		primaryStage.setMinHeight(300);
+
+		primaryStage.setOnCloseRequest(event -> loader.getController().onExit(event));
 
 		primaryStage.show();
 

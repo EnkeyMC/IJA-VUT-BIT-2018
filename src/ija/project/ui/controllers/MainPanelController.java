@@ -109,6 +109,35 @@ public class MainPanelController implements Initializable {
 		});
 	}
 
+	public void onExit(Event event) {
+		boolean changed = false;
+		for (Tab tab : tabs.getTabs()) {
+			if (tab.getContent() instanceof SchemaControl) {
+				SchemaControl schemaControl = (SchemaControl) tab.getContent();
+				if (schemaControl.isChanged()) {
+					changed = true;
+					break;
+				}
+			}
+		}
+
+		if (changed) {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Unsaved changes");
+			alert.setContentText("You have unsaved changes. Do you want to save them before closing?");
+			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+			alert.showAndWait().ifPresent(buttonType -> {
+				if (buttonType == ButtonType.YES) {
+					saveAll();
+				} else if (buttonType == ButtonType.NO) {
+					Platform.exit();
+				} else {
+					event.consume();
+				}
+			});
+		}
+	}
+
 	@FXML
 	private void handleNewSchemaAction(ActionEvent event) {
 		this.newSchema(new Schema());
@@ -119,7 +148,7 @@ public class MainPanelController implements Initializable {
 		Tab tab = tabs.getSelectionModel().getSelectedItem();
 		EventHandler<Event> handler = tab.getOnClosed();
 		if (null != handler) {
-			handler.handle(null);
+			handler.handle(event);
 		} else {
 			tab.getTabPane().getTabs().remove(tab);
 		}
@@ -135,8 +164,14 @@ public class MainPanelController implements Initializable {
 
 	@FXML
 	private void handleSaveAllSchemaAction(ActionEvent event) {
+		saveAll();
+	}
+
+	private void saveAll() {
 		for (Tab tab : tabs.getTabs()) {
 			if (tab.getContent() instanceof SchemaControl) {
+				if (((SchemaControl) tab.getContent()).getSchema().getFile() == null)
+					tabs.getSelectionModel().select(tab);
 				saveSchema((SchemaControl) tab.getContent(), false);
 			}
 		}
@@ -232,7 +267,7 @@ public class MainPanelController implements Initializable {
 
 	@FXML
 	private void handleQuitAction(ActionEvent event) {
-		Platform.exit();
+		onExit(event);
 	}
 
 	@FXML

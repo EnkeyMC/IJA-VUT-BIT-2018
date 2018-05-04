@@ -19,22 +19,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DetailsPanelController {
+	public static String getFXMLPath() {
+		return "components/DetailsPanel.fxml";
+	}
 
 	@FXML
 	private GridPane blockInfo;
+
 	@FXML
 	private GridPane blockPorts;
-
 	private static final Label BLOCK_NAME_LABEL = new Label("Name");
 	private static final Label BLOCK_TYPE_ID = new Label("Type ID");
 	private static final Label BLOCK_SCHEMA_ID = new Label("Schema ID");
 	private static final Label BLOCK_FORMULAS_LABEL = new Label("Formulas");
 	private static final Label BLOCK_INPUT_PORTS = new Label("Input ports:");
 	private static final Label BLOCK_OUTPUT_PORTS = new Label("Output ports:");
-	private static final Label VALUE_BLOCK_VALUES = new Label("Values:");
 
+	private static final Label VALUE_BLOCK_VALUES = new Label("Values:");
 	private BlockControl attachedBlockControl;
 	private Map<String, TextField> portFields = new HashMap<>();
+
 	private Map<String, TextField> valueFields = new HashMap<>();
 
 	private ChangeListener<Selectable> schemaChangeListener = (observable, oldValue, newValue) -> {
@@ -84,10 +88,6 @@ public class DetailsPanelController {
 	};
 
 	private MapChangeListener<String, Double> valueChangeListener = change -> changeDetails(attachedBlockControl);
-
-	public static String getFXMLPath() {
-		return "components/DetailsPanel.fxml";
-	}
 
 	public void addSchemaSelectionModel(SchemaSelectionModel schemaSelectionModel) {
 		schemaSelectionModel.selectedNodeProperty().addListener(this.schemaChangeListener);
