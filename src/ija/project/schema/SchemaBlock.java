@@ -54,6 +54,12 @@ public class SchemaBlock extends Block {
 		transferResultToOutput();
 	}
 
+	/**
+	 * Prepare the inner schema of SchemaBlock for calculation
+	 * Ports of the SchemaBlock are not actually interconnected with
+	 * ports of inner schema blocks, so input values must be
+	 * transported 'manually'
+	 */
 	private void getInputForComputation() {
 		for (BlockPort port: getBlockType().getInputPorts()) {
 			TypeValues input = getInputPortValues().get(port.getName());
@@ -66,6 +72,9 @@ public class SchemaBlock extends Block {
 		}
 	}
 
+	/**
+	 * Satisfy the constraint that every port must be connected
+	 */
 	private void dummyOutputConnections() {
 		for (BlockPort port: getBlockType().getOutputPorts()) {
 			String[] idPort = port.getName().split("_", 2);
@@ -74,6 +83,10 @@ public class SchemaBlock extends Block {
 		}
 	}
 
+	/**
+	 * Move the results from the output ports of the inner schema blocks
+	 * to the output ports of the SchemaBlock
+	 */
 	private void transferResultToOutput() {
 		for (BlockPort port: getBlockType().getOutputPorts()) {
 			String[] idPort = port.getName().split("_", 2);

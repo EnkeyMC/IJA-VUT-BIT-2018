@@ -64,12 +64,15 @@ public class Processor {
 		}
 	}
 
+	/**
+	 * Check that every port in the schema is connected
+	 */
 	private void everyPortConnected() {
 		for (Block block: schema.getBlockCollection()) {
 			if (block.hasUnpluggedInputPort())
-					throw new ApplicationException(
-							"Block '" + block.getBlockType().getDisplayName()
-							+ "' (ID " + block.getId() + ")\nUnplugged input port");
+				throw new ApplicationException(
+						"Block '" + block.getBlockType().getDisplayName()
+						+ "' (ID " + block.getId() + ")\nUnplugged input port");
 			if (block.hasUnpluggedOutputPort())
 				throw new ApplicationException(
 						"Block '" + block.getBlockType().getDisplayName()
