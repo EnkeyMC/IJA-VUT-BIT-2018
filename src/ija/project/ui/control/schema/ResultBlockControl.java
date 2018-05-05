@@ -11,15 +11,28 @@ import javafx.scene.layout.GridPane;
 
 import java.util.Map;
 
+/**
+ * Displays ResultBlock
+ */
 public class ResultBlockControl extends BlockControl {
 
+	/** Grid for displaying values */
 	@FXML
 	private GridPane valuesGrid;
 
+	/**
+	 * Get path to FXML file for this control
+	 * @return path to FXML file relative to FXML root
+	 */
 	public static String getFXMLPath() {
 		return "schema/ValueBlock.fxml";
 	}
 
+	/**
+	 * Create control from block type, creates the block
+	 * @param schemaControl parent schema control
+	 * @param blockType BlockType
+	 */
 	public ResultBlockControl(SchemaControl schemaControl, BlockType blockType) {
 		super(schemaControl, blockType);
 
@@ -27,6 +40,11 @@ public class ResultBlockControl extends BlockControl {
 		initBlockValuesLabels();
 	}
 
+	/**
+	 * Create control from block
+	 * @param schemaControl parent schema control
+	 * @param block ResultBlock
+	 */
 	public ResultBlockControl(SchemaControl schemaControl, Block block) {
 		super(schemaControl, block);
 
@@ -34,6 +52,9 @@ public class ResultBlockControl extends BlockControl {
 		initBlockValuesLabels();
 	}
 
+	/**
+	 * Initialize labels for displaying values, can be called to update values
+	 */
 	private void initBlockValuesLabels() {
 		valuesGrid.getChildren().clear();
 		Label label;
@@ -54,6 +75,9 @@ public class ResultBlockControl extends BlockControl {
 		}
 	}
 
+	/**
+	 * Adds change listener to result block values to update labels
+	 */
 	private void addValueListener() {
 		ResultBlock resultBlock = (ResultBlock) getBlock();
 		resultBlock.getValues().getValuesMap().addListener((observable, oldValue, newValue) -> initBlockValuesLabels());

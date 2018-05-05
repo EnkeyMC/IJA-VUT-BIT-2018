@@ -47,10 +47,17 @@ public class BlockPortControl extends AnchorPane {
 		return "schema/BlockPort.fxml";
 	}
 
-	public BlockPortControl() {
+	/**
+	 * Create blank block port control
+	 */
+	public BlockPortControl() {}
 
-	}
-
+	/**
+	 * Create block port control
+	 * @param blockControl parent block control
+	 * @param port BlockPort
+	 * @param input whether port is input, otherwise output
+	 */
 	public BlockPortControl(BlockControl blockControl, BlockPort port, boolean input) {
 		super();
 		UIContolLoader.load(this);
@@ -79,6 +86,11 @@ public class BlockPortControl extends AnchorPane {
 		});
 	}
 
+	/**
+	 * Starts or ends port connection
+	 *
+	 * {@inheritDoc}
+	 */
 	@FXML
 	private void onMouseClicked(MouseEvent event) {
 		if (event.getButton().equals(MouseButton.PRIMARY) && !blockControl.getSchemaControl().isModeRemove()) {
@@ -91,14 +103,26 @@ public class BlockPortControl extends AnchorPane {
 		}
 	}
 
+	/**
+	 * Get BlockPort
+	 * @return BlockPort
+	 */
 	public BlockPort getBlockPort() {
 		return blockPort;
 	}
 
+	/**
+	 * Get parent block control
+	 * @return block control
+	 */
 	public BlockControl getBlockControl() {
 		return blockControl;
 	}
 
+	/**
+	 * Connection X coordinate read only property
+	 * @return connection X coordinate
+	 */
 	public ReadOnlyDoubleProperty connectionXProperty() {
 		if (connectionX == null) {
 			DoubleProperty property = new SimpleDoubleProperty();
@@ -113,6 +137,10 @@ public class BlockPortControl extends AnchorPane {
 		return connectionX;
 	}
 
+	/**
+	 * Connection Y coordinate read only property
+	 * @return connection Y coordinate
+	 */
 	public ReadOnlyDoubleProperty connectionYProperty() {
 		if (connectionY == null) {
 			DoubleProperty property = new SimpleDoubleProperty();
@@ -127,10 +155,17 @@ public class BlockPortControl extends AnchorPane {
 		return connectionY;
 	}
 
+	/**
+	 * Is port input port
+	 * @return true if input port, false otherwise
+	 */
 	public boolean isInput() {
 		return input;
 	}
 
+	/**
+	 * Update which cursor should be used
+	 */
 	private void updateCursor() {
 		if (blockControl.getSchemaControl().isModeRemove() || blockControl.getSchemaControl().isReadOnly())
 			setCursor(null);
@@ -138,10 +173,17 @@ public class BlockPortControl extends AnchorPane {
 			setCursor(Cursor.CROSSHAIR);
 	}
 
+	/**
+	 * Set connection line for this port
+ 	 * @param connectionLine connection line
+	 */
 	public void setConnectionLine(ConnectionLine connectionLine) {
 		this.connectionLine = connectionLine;
 	}
 
+	/**
+	 * Removes connection line if needed
+	 */
 	public void onRemove() {
 		if (connectionLine != null) {
 			blockControl.getSchemaControl().getSchemaPane().getChildren().remove(connectionLine);

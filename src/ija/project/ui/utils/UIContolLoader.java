@@ -6,7 +6,15 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * Load control from FXML file
+ */
 public class UIContolLoader {
+
+	/**
+	 * Load component from given root node controller
+	 * @param obj root node that is controller for this control
+	 */
 	public static void load(Object obj) {
 		FXMLLoader loader = new FXMLLoader(UIComponentLoader.class.getResource("/ija/project/resources/fxml/" + getComponentFXML(obj)));
 		loader.setRoot(obj);
@@ -18,6 +26,11 @@ public class UIContolLoader {
 		}
 	}
 
+	/**
+	 * Get FXML file for component using it's static method getFXMLPath
+	 * @param obj controller object
+	 * @return path to FXML file
+	 */
 	private static String getComponentFXML(Object obj) {
 		String path = "";
 		try {

@@ -3,6 +3,9 @@ package ija.project.xml;
 
 import ija.project.exception.XMLParsingException;
 
+/**
+ * Indicates that object is able save/load itself to/from XML
+ */
 public interface XmlRepresentable {
 
 	/**

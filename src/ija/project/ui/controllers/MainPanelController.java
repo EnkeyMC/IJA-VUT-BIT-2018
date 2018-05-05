@@ -46,25 +46,35 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for main application window
+ */
 public class MainPanelController implements Initializable {
 
+	/**
+	 * Get path to FXML file for this control
+	 * @return path to FXML file relative to FXML root
+	 */
 	public static String getFXMLPath() {
 		return "MainPanel.fxml";
 	}
 
+	/** VBox for list of block types categories */
 	@FXML
 	private VBox blockList;
 
+	/** Tabs */
 	@FXML
 	private TabPane tabs;
 
+	/** Pane for displaying details */
 	@FXML
 	private StackPane detailsPane;
 
+	/** Controller for displaying details about block */
 	private DetailsPanelController detailsPanelController;
 
-	private Map<String, BlockListController> blockListControllers;
-
+	/** File chooser instance */
 	private final FileChooser fileChooser = new FileChooser();
 
 	@Override
@@ -84,7 +94,6 @@ public class MainPanelController implements Initializable {
 
 		this.newSchema(new Schema());
 
-		this.blockListControllers = new HashMap<>();
 		ObservableMap<String, ObservableList<BlockType>> registers = BlockTypeRegister.getAllRegisters();
 		registers.addListener((MapChangeListener<String, ObservableList<BlockType>>) change -> {
 			if (change.wasAdded()) {  // BlockType types added
@@ -96,7 +105,6 @@ public class MainPanelController implements Initializable {
 					blockList.getChildren().add(loader.load());
 					controller = loader.getController();
 					controller.setCategory(change.getKey());
-					blockListControllers.put(change.getKey(), controller);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -112,17 +120,12 @@ public class MainPanelController implements Initializable {
 				}
 			}
 		});
-
-//		root.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-//            if (saveCombination.match(event)) {
-//            	Tab tab = tabs.getSelectionModel().getSelectedItem();
-//            	if (tab.getContent() instanceof SchemaControl) {
-//            		saveSchema((SchemaControl) tab.getContent(), false);
-//				}
-//			}
-//        });
 	}
 
+	/**
+	 * On application exit event
+	 * @param event event data
+	 */
 	public void onExit(Event event) {
 		boolean changed = false;
 		for (Tab tab : tabs.getTabs()) {
@@ -181,6 +184,9 @@ public class MainPanelController implements Initializable {
 		saveAll();
 	}
 
+	/**
+	 * Save all schemas
+	 */
 	private void saveAll() {
 		for (Tab tab : tabs.getTabs()) {
 			if (tab.getContent() instanceof SchemaControl) {
@@ -191,6 +197,11 @@ public class MainPanelController implements Initializable {
 		}
 	}
 
+	/**
+	 * Save schema to fiel
+	 * @param schemaControl schema to save
+	 * @param as save as new file
+	 */
 	private void saveSchema(SchemaControl schemaControl, boolean as) {
 		BlockTypeRegister.savedTypes.clear();
 		Schema schema = schemaControl.getSchema();
@@ -341,6 +352,11 @@ public class MainPanelController implements Initializable {
 		}
 	}
 
+	/**
+	 * Show alert with message from exception
+	 * @param header alert header
+	 * @param e exception
+	 */
 	private void exceptionAlert(String header, Exception e) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle("Error occurred");
@@ -349,6 +365,10 @@ public class MainPanelController implements Initializable {
 		alert.showAndWait();
 	}
 
+	/**
+	 * Create new schema control for given schema and add it to new tab
+	 * @param schema schema
+	 */
 	private void newSchema(Schema schema) {
 		Tab tab = new Tab();
 		tabs.getTabs().add(tab);

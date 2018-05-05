@@ -213,6 +213,11 @@ public class XmlDom implements XmlActiveNode {
 		writeToFile(new File(filename));
 	}
 
+	/**
+	 * Write current XML DOM to file
+	 * @param file file
+	 * @throws XMLWritingException when saving fails
+	 */
 	public void writeToFile(File file) throws XMLWritingException {
 		try {
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -246,6 +251,11 @@ public class XmlDom implements XmlActiveNode {
 		currentNode.setTextContent(text);
 	}
 
+	/**
+	 * Is node whitespace only
+	 * @param n node
+	 * @return true if node contains only whitespace, false otherwise
+	 */
 	private static boolean isWhitespaceNode(Node n) {
 		if (n.getNodeType() == Node.TEXT_NODE) {
 			String val = n.getNodeValue();

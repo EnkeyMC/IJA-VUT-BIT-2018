@@ -18,29 +18,54 @@ import java.security.KeyException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Controller displaying details about selected block
+ */
 public class DetailsPanelController {
+
+	/**
+	 * Get path to FXML file for this controller
+	 * @return path to FXML file relative to FXML root
+	 */
 	public static String getFXMLPath() {
 		return "components/DetailsPanel.fxml";
 	}
 
+	/** Grid pane with block info */
 	@FXML
 	private GridPane blockInfo;
 
+	/** Grid pane with block's port info */
 	@FXML
 	private GridPane blockPorts;
-	private static final Label BLOCK_NAME_LABEL = new Label("Name");
-	private static final Label BLOCK_TYPE_ID = new Label("Type ID");
-	private static final Label BLOCK_SCHEMA_ID = new Label("Schema ID");
-	private static final Label BLOCK_FORMULAS_LABEL = new Label("Formulas");
-	private static final Label BLOCK_INPUT_PORTS = new Label("Input ports:");
-	private static final Label BLOCK_OUTPUT_PORTS = new Label("Output ports:");
 
+	/** Name label */
+	private static final Label BLOCK_NAME_LABEL = new Label("Name");
+	/** Type ID label */
+	private static final Label BLOCK_TYPE_ID = new Label("Type ID");
+	/** Schema ID label */
+	private static final Label BLOCK_SCHEMA_ID = new Label("Schema ID");
+	/** Formulas label */
+	private static final Label BLOCK_FORMULAS_LABEL = new Label("Formulas");
+	/** Input ports label */
+	private static final Label BLOCK_INPUT_PORTS = new Label("Input ports:");
+	/** Output ports label */
+	private static final Label BLOCK_OUTPUT_PORTS = new Label("Output ports:");
+	/** Values label */
 	private static final Label VALUE_BLOCK_VALUES = new Label("Values:");
+
+	/** Currently selected block control */
 	private BlockControl attachedBlockControl;
+
+	/** Text fields for ports mapped by port name */
 	private Map<String, TextField> portFields = new HashMap<>();
 
+	/** Value fields mapped by data type component name */
 	private Map<String, TextField> valueFields = new HashMap<>();
 
+	/**
+	 * Listener for change in schema
+	 */
 	private ChangeListener<Selectable> schemaChangeListener = (observable, oldValue, newValue) -> {
 		if (newValue instanceof BlockControl)
 			changeDetails((BlockControl) newValue);
@@ -48,6 +73,9 @@ public class DetailsPanelController {
 			changeDetails(null);
 	};
 
+	/**
+	 * Listener for change in selected tab
+	 */
 	private ChangeListener<Tab> tabChangeListener = (observable, oldValue, newValue) -> {
 		if (newValue == null) {
 			changeDetails(null);
@@ -66,6 +94,9 @@ public class DetailsPanelController {
 		}
 	};
 
+	/**
+	 * Listener for change in connected ports
+	 */
 	private MapChangeListener<String, Pair<Block, String>> portMapChangeListener = change -> {
 		BlockPort blockPort;
 		if (attachedBlockControl.getBlock().isInputPort(change.getKey()))
@@ -75,6 +106,9 @@ public class DetailsPanelController {
 		updateTextField(portFields.get(change.getKey()), attachedBlockControl.getBlock(), blockPort);
 	};
 
+	/**
+	 * Action handler for text fields
+	 */
 	private EventHandler<ActionEvent> textFieldActionListener = event -> {
 		TextField field = (TextField) event.getSource();
 		ValueBlock valueBlock = (ValueBlock) attachedBlockControl.getBlock();
@@ -97,16 +131,31 @@ public class DetailsPanelController {
 		}
 	};
 
+	/**
+	 * Listener for change in values
+	 */
 	private MapChangeListener<String, Double> valueChangeListener = change -> changeDetails(attachedBlockControl);
 
+	/**
+	 * Add schema selection model to listen to
+	 * @param schemaSelectionModel schema selection model
+	 */
 	public void addSchemaSelectionModel(SchemaSelectionModel schemaSelectionModel) {
 		schemaSelectionModel.selectedNodeProperty().addListener(this.schemaChangeListener);
 	}
 
+	/**
+	 * Add tab selection model to listen to
+	 * @param tabSelectionModel tab selection model
+	 */
 	public void setTabSelectionModel(SingleSelectionModel<Tab> tabSelectionModel) {
 		tabSelectionModel.selectedItemProperty().addListener(this.tabChangeListener);
 	}
 
+	/**
+	 * Change or update details about block
+	 * @param blockControl block control to show details for
+	 */
 	private void changeDetails(BlockControl blockControl) {
 		blockInfo.getChildren().clear();
 		blockPorts.getChildren().clear();
@@ -180,6 +229,12 @@ public class DetailsPanelController {
 		}
 	}
 
+	/**
+	 * Create text field for given port
+	 * @param block Block
+	 * @param blockPort Port control
+	 * @return text field
+	 */
 	private TextField createPortField(Block block, BlockPort blockPort) {
 		TextField textField = new TextField();
 		updateTextField(textField, block, blockPort);
@@ -187,6 +242,12 @@ public class DetailsPanelController {
 		return textField;
 	}
 
+	/**
+	 * Update text field for port
+	 * @param textField text field to update
+	 * @param block block
+	 * @param blockPort block's port control
+	 */
 	private void updateTextField(TextField textField, Block block, BlockPort blockPort) {
 		if (block.getConnectedBlockAndPort(blockPort.getName()) != null) {
 			Pair<Block, String> connectedBlockPort = block.getConnectedBlockAndPort(blockPort.getName());

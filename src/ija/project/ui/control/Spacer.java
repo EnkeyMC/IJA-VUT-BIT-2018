@@ -5,7 +5,13 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+/**
+ * Extends horizontally if placed in HBox or vertically if placed in VBox
+ */
 public class Spacer extends Region {
+	/**
+	 * Constructor
+	 */
 	public Spacer() {
 		super();
 		HBox.setHgrow(this, Priority.ALWAYS);

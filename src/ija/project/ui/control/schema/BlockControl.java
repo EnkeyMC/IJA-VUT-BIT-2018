@@ -51,7 +51,7 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 	}
 
 	/**
-	 * Create BlockControl from BlockType
+	 * Create BlockControl from BlockType, creates the block
 	 * @param schemaControl parent schema control
 	 * @param blockType BlockType
 	 */

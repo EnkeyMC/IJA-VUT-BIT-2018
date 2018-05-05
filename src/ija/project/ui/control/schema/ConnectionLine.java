@@ -12,14 +12,27 @@ import javafx.scene.shape.*;
 
 import java.util.Map;
 
+/**
+ * Line connecting two block ports
+ */
 public class ConnectionLine extends Path implements Removable, Selectable {
 
+	/** Connected output port */
 	private BlockPortControl outputPort;
+	/** Connected input port */
 	private BlockPortControl inputPort;
 
+	/** Arrow width */
 	private static final int arrowX = 7;
+	/** Arrow height */
 	private static final int arrowY = 10;
 
+	/**
+	 * Create connection line between two ports,
+	 * sets itself to both ports (via {@link BlockPortControl#setConnectionLine(ConnectionLine) setConnectionLine}
+	 * @param outputPort output port control
+	 * @param inputPort input port control (arrow is pointing to this port)
+	 */
 	public ConnectionLine(BlockPortControl outputPort, BlockPortControl inputPort) {
 		super();
 		this.outputPort = outputPort;
@@ -49,6 +62,9 @@ public class ConnectionLine extends Path implements Removable, Selectable {
 		}
 	}
 
+	/**
+	 * Create and bind lines of the connection line
+	 */
 	private void bindLines() {
 		ObservableList<PathElement> elements = getElements();
 		elements.add(new MoveTo(0,0));
@@ -90,6 +106,10 @@ public class ConnectionLine extends Path implements Removable, Selectable {
 		elements.add(arrowLine);
 	}
 
+	/**
+	 * Get output port value as string
+	 * @return output port value as string
+	 */
 	private String getValueString() {
 		StringBuilder builder = new StringBuilder();
 		BlockControl blockControl = outputPort.getBlockControl();
@@ -109,6 +129,11 @@ public class ConnectionLine extends Path implements Removable, Selectable {
 		return builder.toString();
 	}
 
+	/**
+	 * Disconnects ports and sets their connection lines to null
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onRemove() {
 		outputPort.getBlockControl().getBlock().disconnectPort(outputPort.getBlockPort().getName());

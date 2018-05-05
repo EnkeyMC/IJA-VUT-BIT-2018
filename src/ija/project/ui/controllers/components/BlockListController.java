@@ -15,23 +15,41 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for list of block types in one category
+ */
 public class BlockListController implements Initializable {
+	/** Root pane */
 	@FXML
 	private TitledPane pane;
 
+	/** ListView of BlockTypes */
 	@FXML
 	private ListView<BlockType> list;
 
+	/**
+	 * Set category for this block list
+	 * @param category category display name
+	 */
 	public void setCategory(String category) {
 		pane.setText(category);
 
 		list.setItems(BlockTypeRegister.getBlockRegistry(category));
 	}
 
+	/**
+	 * Get path to FXML file for this controller
+	 * @return path to FXML file relative to FXML root
+	 */
 	public static String getFXMLPath() {
 		return "components/BlockList.fxml";
 	}
 
+	/**
+	 * Initialize controller
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		list.setCellFactory(new Callback<ListView<BlockType>, ListCell<BlockType>>() {

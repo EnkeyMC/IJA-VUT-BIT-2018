@@ -20,8 +20,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Application main class
+ */
 public class BlockEditor extends Application {
 
+	/**
+	 * Application entry point
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -50,6 +57,9 @@ public class BlockEditor extends Application {
 		loadDefaults();
 	}
 
+	/**
+	 * Register default blocks, block controls and components
+	 */
 	private void loadDefaults() {
 		BlockFactory.registerBlock(Block.XML_TAG, Block.class);
 		BlockFactory.registerBlock(ValueBlock.XML_TAG, ValueBlock.class);

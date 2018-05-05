@@ -3,6 +3,9 @@ package ija.project.xml;
 import ija.project.exception.XMLParsingException;
 import org.w3c.dom.Node;
 
+/**
+ * Allows traversing through XML tree
+ */
 public interface XmlActiveNode {
 
 	/**
