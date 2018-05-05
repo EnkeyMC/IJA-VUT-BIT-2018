@@ -105,7 +105,7 @@ public class Block implements XmlRepresentable {
 
 	@Override
 	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
-		xmlDom.getCurrentNode(XML_TAG);
+		xmlDom.getCurrentNode(blockType.getBlockXmlTag());
 		String blockTypeCat = xmlDom.getAttribute("block-type-cat");
 		String blockTypeId = xmlDom.getAttribute("block-type-id");
 		BlockType blockType = BlockTypeRegister.getBlockTypeById(blockTypeCat, blockTypeId);
@@ -118,7 +118,7 @@ public class Block implements XmlRepresentable {
 
 	@Override
 	public void toXML(XmlActiveNode xmlDom) {
-		xmlDom.createChildElement(XML_TAG);
+		xmlDom.createChildElement(blockType.getBlockXmlTag());
 		xmlDom.setAttribute("block-type-cat", blockType.getCategory());
 		xmlDom.setAttribute("block-type-id", blockType.getId());
 		xmlDom.setAttribute("x", Integer.toString((int) x.get()));
