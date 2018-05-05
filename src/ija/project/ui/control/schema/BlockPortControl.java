@@ -18,18 +18,31 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
+/**
+ * Displays block port
+ */
 public class BlockPortControl extends AnchorPane {
 
+	/** Parent block control */
 	private BlockControl blockControl;
+	/** Ports BlockPort */
 	private BlockPort blockPort;
 
+	/** X coordinate for connection */
 	private ReadOnlyDoubleProperty connectionX;
+	/** Y coordinate for connection */
 	private ReadOnlyDoubleProperty connectionY;
 
+	/** Connection line, null if not connected */
 	private ConnectionLine connectionLine;
 
+	/** True if this port is input port, false if output */
 	private boolean input;
 
+	/**
+	 * Get path to FXML file for this control
+	 * @return path to FXML file relative to FXML root
+	 */
 	public static String getFXMLPath() {
 		return "schema/BlockPort.fxml";
 	}
@@ -60,7 +73,7 @@ public class BlockPortControl extends AnchorPane {
 			if (newValue) {
 				this.addEventFilter(MouseEvent.MOUSE_CLICKED, SchemaControl.eventConsume);
 			} else {
-				this.addEventFilter(MouseEvent.MOUSE_CLICKED, SchemaControl.eventConsume);
+				this.removeEventFilter(MouseEvent.MOUSE_CLICKED, SchemaControl.eventConsume);
 			}
 			updateCursor();
 		});

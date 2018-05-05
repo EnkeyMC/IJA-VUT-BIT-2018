@@ -202,6 +202,7 @@ public class SchemaControl extends VBox {
 		if (block == null) {
 			this.processor = null;
 			this.selectionModel.setSelectedNode(null);
+			this.setReadOnly(false);
 		} else {
 			this.selectionModel.setSelectedNode(blockControls.get(block.getId()));
 		}
@@ -319,6 +320,7 @@ public class SchemaControl extends VBox {
 		if (readOnly != this.readOnly.get()) {
 			if (readOnly) {
 				getStyleClass().add(READ_ONLY_CLASS);
+//				toolRemove.setSelected(false);
 				toolRemove.setDisable(true);
 				schemaPane.addEventFilter(DragEvent.ANY, eventConsume);
 				schemaPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, eventConsume);
