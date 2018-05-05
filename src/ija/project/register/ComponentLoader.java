@@ -2,6 +2,7 @@ package ija.project.register;
 
 import ija.project.schema.Schema;
 import ija.project.schema.SchemaBlock;
+import ija.project.schema.ValueBlock;
 import ija.project.schema.BlockType;
 import ija.project.schema.BlockPort;
 import ija.project.schema.Block;
@@ -67,6 +68,15 @@ public class ComponentLoader {
 		schema.fromXML(node);
 
 		for (Block block : schema.getBlockCollection()) {
+			if (ValueBlock.isValueBlock(block.getBlockType())) {
+				Double value = null;
+				for (String key : ((ValueBlock)block).getValues().getType().getKeys()) {
+					try { value = ((ValueBlock)block).getValues().getValue(key); }
+					catch (Exception e) { ;; }
+					if (value == null)
+						throw new RuntimeException("Schema has uninitialized ValueBlock");
+				}
+			}
 			String blockId = Long.toString(block.getId());
 			for (BlockPort port : block.getBlockType().getInputPorts()) {
 				if (!block.isConnected(port.getName()))

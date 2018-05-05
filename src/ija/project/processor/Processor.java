@@ -67,13 +67,13 @@ public class Processor {
 	private void everyPortConnected() {
 		for (Block block: schema.getBlockCollection()) {
 			if (block.hasUnpluggedInputPort())
-				throw new ApplicationException(
-						"Block '" + block.getBlockType().getDisplayName()
-						+ "' has unplugged input");
+					throw new ApplicationException(
+							"Block '" + block.getBlockType().getDisplayName()
+							+ "' (ID " + block.getId() + ")\nUnplugged input port");
 			if (block.hasUnpluggedOutputPort())
 				throw new ApplicationException(
 						"Block '" + block.getBlockType().getDisplayName()
-						+ "' has unplugged output");
+						+ "' (ID " + block.getId() + ")\nUnplugged output port");
 		}
 	}
 
@@ -103,7 +103,7 @@ public class Processor {
 	private void moveOutputToInput(Block block) throws ApplicationException {
 		for (BlockPort port: block.getBlockType().getOutputPorts()) {
 			Pair<Block, String> connected = block.getConnectedBlockAndPort(port.getName());
-			if (connected == null)
+			if (connected == null || connected.getValue().equals(""))
 				continue;
 
 			TypeValues result = block.getOutputPortValues().get(port.getName());
@@ -111,9 +111,10 @@ public class Processor {
 				try {
 					result.getValue(key);
 				} catch (KeyException e) {
-					throw new ApplicationException("Missing formula in block '"
-							+ block.getBlockType().getDisplayName() + "' port '"
-							+ port.getName() + "'");
+					throw new ApplicationException(
+							"Block '" + block.getBlockType().getDisplayName()
+							+ "' (ID " + block.getId() + ")\nMissing formula for "
+							+ "port '" + port.getName() + "'");
 				}
 			}
 			connected.getKey().getInputPortValues().put(connected.getValue(), result);

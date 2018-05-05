@@ -1,6 +1,7 @@
 package ija.project.schema;
 
 import ija.project.processor.Processor;
+import ija.project.exception.ApplicationException;
 import ija.project.exception.XMLParsingException;
 import ija.project.register.BlockTypeRegister;
 import ija.project.xml.XmlActiveNode;
@@ -43,8 +44,13 @@ public class SchemaBlock extends Block {
 	@Override
 	public void calculate() {
 		getInputForComputation();
+		dummyOutputConnections();
 		Processor processor = new Processor(getBlockType().getSchema());
-		processor.calculateAll();
+		try { processor.calculateAll(); }
+		catch (ApplicationException e) {
+			throw new ApplicationException("Block '" + getBlockType().getDisplayName()
+					+ "' (ID " + getId() + ")\n" + e.getMessage());
+		}
 		transferResultToOutput();
 	}
 
@@ -56,6 +62,14 @@ public class SchemaBlock extends Block {
 			Block block = getBlockType().getSchema().getBlock(idPort[0]);
 
 			block.getInputPortValues().put(idPort[1], input);
+			block.makeDummyConnection(idPort[1]);
+		}
+	}
+
+	private void dummyOutputConnections() {
+		for (BlockPort port: getBlockType().getOutputPorts()) {
+			String[] idPort = port.getName().split("_", 2);
+			Block block = getBlockType().getSchema().getBlock(idPort[0]);
 			block.makeDummyConnection(idPort[1]);
 		}
 	}
