@@ -228,6 +228,8 @@ public class SchemaControl extends VBox {
 			if (dstBlock != null && dstPort != null) {
 				connector.connect(dstBlock, dstPort);
 				setChanged(true);
+			} else {
+				connector.getSrcPort().setConnectionLine(null);
 			}
 		} catch (ApplicationException e) {
 			exceptionAlert("Cannot connect ports", e);

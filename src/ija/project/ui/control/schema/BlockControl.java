@@ -219,6 +219,8 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		for (BlockPortControl blockPortControl : blockPortControls.values()) {
 			blockPortControl.onRemove();
 		}
+		if (this.schemaControl.getSelectionModel().getSelectedNode() == this)
+			this.schemaControl.getSelectionModel().setSelectedNode(null);
 		this.schemaControl.getSchema().removeBlock(block);
 	}
 

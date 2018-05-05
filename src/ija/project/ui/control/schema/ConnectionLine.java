@@ -25,6 +25,10 @@ public class ConnectionLine extends Path implements Removable {
 		this.outputPort = outputPort;
 		this.inputPort = inputPort;
 
+
+		inputPort.setConnectionLine(this);
+		outputPort.setConnectionLine(this);
+
 		this.setStrokeWidth(2);
 		this.setStroke(Color.color(0.4,0.4,0.4));
 		this.layoutXProperty().bind(outputPort.connectionXProperty());
@@ -109,5 +113,7 @@ public class ConnectionLine extends Path implements Removable {
 	public void onRemove() {
 		outputPort.getBlockControl().getBlock().disconnectPort(outputPort.getBlockPort().getName());
 		inputPort.getBlockControl().getBlock().disconnectPort(inputPort.getBlockPort().getName());
+		outputPort.setConnectionLine(null);
+		inputPort.setConnectionLine(null);
 	}
 }
