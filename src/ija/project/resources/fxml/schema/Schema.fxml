@@ -19,7 +19,7 @@
 				<Button mnemonicParsing="false" text="Stop calculation" onAction="#calculationStopActionHandler" />
 			</items>
 		</ToolBar>
-		<ScrollPane>
+		<ScrollPane styleClass="edge-to-edge">
 			<content>
 				<AnchorPane fx:id="schemaPane"
 							onMouseClicked="#onMouseClicked"

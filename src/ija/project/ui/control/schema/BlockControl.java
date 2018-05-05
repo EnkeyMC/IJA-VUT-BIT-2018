@@ -5,6 +5,7 @@ import ija.project.schema.BlockPort;
 import ija.project.schema.BlockType;
 import ija.project.ui.control.Spacer;
 import ija.project.ui.utils.UIContolLoader;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
@@ -90,6 +91,13 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 
 		displayNameLabel.setText(blockType.getDisplayName());
 		this.schemaControl.toolRemoveSelectedProperty().addListener((observable, oldValue, newValue) -> updateCursor());
+		this.schemaControl.readOnlyProperty().addListener((observable, oldValue, newValue) -> {
+			updateCursor();
+			if (newValue)
+				addEventFilter(MouseEvent.MOUSE_PRESSED, SchemaControl.eventConsume);
+			else
+				removeEventFilter(MouseEvent.MOUSE_PRESSED, SchemaControl.eventConsume);
+		});
 		updateCursor();
 
 		HBox inputPorts = new HBox(5);
@@ -203,7 +211,7 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 	 * Update cursor to default if is remove mode, open hand otherwise
 	 */
 	private void updateCursor() {
-		if (schemaControl.isModeRemove())
+		if (schemaControl.isModeRemove() || schemaControl.isReadOnly())
 			setCursor(null);
 		else
 			setCursor(Cursor.OPEN_HAND);

@@ -47,6 +47,10 @@ public class BlockEditor extends Application {
 
 		primaryStage.show();
 
+		loadDefaults();
+	}
+
+	private void loadDefaults() {
 		BlockFactory.registerBlock(Block.XML_TAG, Block.class);
 		BlockFactory.registerBlock(ValueBlock.XML_TAG, ValueBlock.class);
 		BlockFactory.registerBlock(ResultBlock.XML_TAG, ResultBlock.class);

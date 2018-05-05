@@ -1,11 +1,13 @@
 package ija.project.ui.control.schema;
 
 import ija.project.schema.BlockPort;
+import ija.project.schema.Schema;
 import ija.project.ui.utils.UIContolLoader;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Tooltip;
@@ -54,6 +56,14 @@ public class BlockPortControl extends AnchorPane {
 
 		updateCursor();
 		blockControl.getSchemaControl().toolRemoveSelectedProperty().addListener((observable, oldValue, newValue) -> updateCursor());
+		blockControl.getSchemaControl().readOnlyProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue) {
+				this.addEventFilter(MouseEvent.MOUSE_CLICKED, SchemaControl.eventConsume);
+			} else {
+				this.addEventFilter(MouseEvent.MOUSE_CLICKED, SchemaControl.eventConsume);
+			}
+			updateCursor();
+		});
 	}
 
 	@FXML
@@ -109,7 +119,7 @@ public class BlockPortControl extends AnchorPane {
 	}
 
 	private void updateCursor() {
-		if (blockControl.getSchemaControl().isModeRemove())
+		if (blockControl.getSchemaControl().isModeRemove() || blockControl.getSchemaControl().isReadOnly())
 			setCursor(null);
 		else
 			setCursor(Cursor.CROSSHAIR);

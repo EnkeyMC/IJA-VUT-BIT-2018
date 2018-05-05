@@ -12,7 +12,7 @@ import javafx.scene.shape.*;
 
 import java.util.Map;
 
-public class ConnectionLine extends Path implements Removable {
+public class ConnectionLine extends Path implements Removable, Selectable {
 
 	private BlockPortControl outputPort;
 	private BlockPortControl inputPort;
@@ -115,5 +115,15 @@ public class ConnectionLine extends Path implements Removable {
 		inputPort.getBlockControl().getBlock().disconnectPort(inputPort.getBlockPort().getName());
 		outputPort.setConnectionLine(null);
 		inputPort.setConnectionLine(null);
+	}
+
+	@Override
+	public void onSelected() {
+		this.getStyleClass().add(Selectable.SELECTED_CLASS);
+	}
+
+	@Override
+	public void onDeselected() {
+		this.getStyleClass().remove(Selectable.SELECTED_CLASS);
 	}
 }

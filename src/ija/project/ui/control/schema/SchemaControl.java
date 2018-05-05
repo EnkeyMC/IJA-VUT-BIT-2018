@@ -11,13 +11,14 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
@@ -47,6 +48,12 @@ public class SchemaControl extends VBox {
 
 	private SchemaSelectionModel selectionModel;
 
+	private BooleanProperty readOnly;
+
+	public static final EventHandler<Event> eventConsume = event -> event.consume();
+
+	private static final String READ_ONLY_CLASS = "readonly";
+
 	public static String getFXMLPath() {
 		return "schema/Schema.fxml";
 	}
@@ -57,6 +64,7 @@ public class SchemaControl extends VBox {
 		this.schema = schema;
 		blockControls = new HashMap<>();
 		selectionModel = new SchemaSelectionModel(getSchemaPane());
+		readOnly = new SimpleBooleanProperty(false);
 
 		Collection<Block> blocks = schema.getBlockCollection();
 		BlockControl blockControl;
@@ -87,6 +95,21 @@ public class SchemaControl extends VBox {
 		}
 
 		schemaPane.getChildren().addListener((ListChangeListener<Node>) c -> setChanged(true));
+		this.sceneProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				newValue.setOnKeyPressed(event -> {
+					if (event.getCode() == KeyCode.DELETE) {
+						Selectable selectable = selectionModel.getSelectedNode();
+						if (selectable instanceof Removable) {
+							Removable removable = (Removable) selectable;
+							removable.onRemove();
+							if (removable instanceof Node)
+								schemaPane.getChildren().remove(removable);
+						}
+					}
+				});
+			}
+		});
 	}
 
 	public void bindDisplayNameTo(StringProperty property) {
@@ -159,6 +182,7 @@ public class SchemaControl extends VBox {
 
 	private Processor initProcessor() {
 		if (this.processor == null) {
+			setReadOnly(true);
 			this.processor = new Processor(schema);
 		}
 		return this.processor;
@@ -193,12 +217,14 @@ public class SchemaControl extends VBox {
 		} catch (ApplicationException | ParseCancellationException e) {
 			exceptionAlert("Error occurred during calculation", e);
 		} finally {
+			setReadOnly(false);
 		}
 	}
 
 	@FXML
 	private void calculationStopActionHandler(ActionEvent event) {
 		processor = null;
+		setReadOnly(false);
 	}
 
 	protected void addBlockControl(BlockControl blockControl) {
@@ -283,5 +309,30 @@ public class SchemaControl extends VBox {
 		alert.setHeaderText(header);
 		alert.setContentText(e.getMessage());
 		alert.showAndWait();
+	}
+
+	public boolean isReadOnly() {
+		return readOnly.get();
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		if (readOnly != this.readOnly.get()) {
+			if (readOnly) {
+				getStyleClass().add(READ_ONLY_CLASS);
+				toolRemove.setDisable(true);
+				schemaPane.addEventFilter(DragEvent.ANY, eventConsume);
+				schemaPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, eventConsume);
+			} else {
+				getStyleClass().remove(READ_ONLY_CLASS);
+				toolRemove.setDisable(false);
+				schemaPane.removeEventFilter(DragEvent.ANY, eventConsume);
+				schemaPane.removeEventFilter(MouseEvent.MOUSE_DRAGGED, eventConsume);
+			}
+			this.readOnly.setValue(readOnly);
+		}
+	}
+
+	public BooleanProperty readOnlyProperty() {
+		return readOnly;
 	}
 }

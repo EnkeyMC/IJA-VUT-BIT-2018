@@ -35,6 +35,10 @@
 	-fx-padding:0;
 }
 
+.scroll-pane {
+	-fx-border-color: transparent;
+}
+
 /* Making from round items square items */
 .tab-header-area .tab,
 .titled-pane .title,
@@ -64,7 +68,7 @@
 
 .tab-pane .tool-bar {
 	-fx-background-color: #EFEFEF;
-	-fx-border-style: solid hidden solid solid;
+	-fx-border-style: solid hidden solid hidden;
 	-fx-border-color: #EFEFEF #EFEFEF #B9B9B9 #B9B9B9;
 }
 
@@ -89,6 +93,12 @@
 
 .schema {
 	-fx-background-color: #fff,
+	linear-gradient(from 0.5px 0px to 10.5px 0px, repeat, gainsboro 5%, transparent 5%),
+	linear-gradient(from 0px 0.5px to 0px 10.5px, repeat, gainsboro 5%, transparent 5%);
+}
+
+.readonly .schema {
+	-fx-background-color: #eee,
 	linear-gradient(from 0.5px 0px to 10.5px 0px, repeat, gainsboro 5%, transparent 5%),
 	linear-gradient(from 0px 0.5px to 0px 10.5px, repeat, gainsboro 5%, transparent 5%);
 }
@@ -151,7 +161,7 @@
 	-fx-background-color: #fafafa;
 }
 
-.schema-block.selected {
+.selected {
 	-fx-effect: dropshadow(three-pass-box, rgba(0, 150, 210, 0.8), 10, 0, 0, 0);
 }
 
