@@ -88,8 +88,7 @@ public class ComponentLoader {
 		}
 		blockType.setSchema(schema);
 		blockType.setBlockXmlTag(SchemaBlock.XML_TAG);
-		try { BlockTypeRegister.reg(category, blockType); }
-		catch (RuntimeException e) { ;; }
+		BlockTypeRegister.reg(category, blockType);
 	}
 
 	/**
