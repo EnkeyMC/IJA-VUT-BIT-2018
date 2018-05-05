@@ -105,7 +105,6 @@ public class Block implements XmlRepresentable {
 
 	@Override
 	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
-		xmlDom.getCurrentNode(blockType.getBlockXmlTag());
 		String blockTypeCat = xmlDom.getAttribute("block-type-cat");
 		String blockTypeId = xmlDom.getAttribute("block-type-id");
 		BlockType blockType = BlockTypeRegister.getBlockTypeById(blockTypeCat, blockTypeId);
