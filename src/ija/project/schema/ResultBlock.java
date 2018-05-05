@@ -33,8 +33,8 @@ public class ResultBlock extends Block {
 	@Override
 	public void calculate() {
 		try {
-			for (Map.Entry<String, Double> entry : values.getValuesMap().entrySet()) {
-				getInputPortValues().get("value").setValue(entry.getKey(), entry.getValue());
+			for (Map.Entry<String, Double> entry : getInputPortValues().get("value").getValuesMap().entrySet()) {
+				values.setValue(entry.getKey(), entry.getValue());
 			}
 		} catch (KeyException e) {
 			e.printStackTrace();
