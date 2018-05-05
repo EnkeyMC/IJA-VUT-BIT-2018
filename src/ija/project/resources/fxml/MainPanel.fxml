@@ -40,6 +40,7 @@
 				<Menu text="_Components">
 					<items>
 						<MenuItem text="Load Components..." onAction="#handleComponentsLoadComponents" />
+						<MenuItem text="Load Schema As Block" onAction="#handleComponentsLoadSchemaAsBlock" />
 					</items>
 				</Menu>
 				<Menu text="_Help">

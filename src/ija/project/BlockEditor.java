@@ -5,6 +5,7 @@ import ija.project.schema.BlockFactory;
 import ija.project.schema.Block;
 import ija.project.schema.ResultBlock;
 import ija.project.schema.ValueBlock;
+import ija.project.schema.SchemaBlock;
 import ija.project.ui.control.schema.BlockControl;
 import ija.project.ui.control.schema.BlockControlFactory;
 import ija.project.ui.control.schema.ResultBlockControl;
@@ -49,8 +50,10 @@ public class BlockEditor extends Application {
 		BlockFactory.registerBlock(Block.XML_TAG, Block.class);
 		BlockFactory.registerBlock(ValueBlock.XML_TAG, ValueBlock.class);
 		BlockFactory.registerBlock(ResultBlock.XML_TAG, ResultBlock.class);
+		BlockFactory.registerBlock(SchemaBlock.XML_TAG, SchemaBlock.class);
 
 		BlockControlFactory.registerControl(Block.class, BlockControl.class);
+		BlockControlFactory.registerControl(SchemaBlock.class, BlockControl.class);
 		BlockControlFactory.registerControl(ValueBlock.class, ValueBlockControl.class);
 		BlockControlFactory.registerControl(ResultBlock.class, ResultBlockControl.class);
 

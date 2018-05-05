@@ -7,12 +7,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
+import java.util.ArrayList;
 import java.net.URL;
 
 /**
  * Static class containing all registered block types in their categories
  */
 public class BlockTypeRegister {
+
+	/**
+	 * Types of schema blocks that have been already saved
+	 */
+	public static ArrayList<String> savedTypes = new ArrayList<>();
+
+	/**
+	 * Builtion schema blocks
+	 */
+	public static String[] builtins = { "value_double", "result_double",
+		"double_add", "double_sub", "double_mul", "double_div" };
 
 	/**
 	 * BlockType registry with categories.

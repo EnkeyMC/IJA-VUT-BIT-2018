@@ -1,5 +1,7 @@
 package ija.project.schema;
 
+import ija.project.register.BlockTypeRegister;
+import ija.project.register.ComponentLoader;
 import ija.project.exception.XMLParsingException;
 import ija.project.xml.XmlActiveNode;
 import ija.project.xml.XmlRepresentable;
@@ -56,6 +58,14 @@ public class Schema implements XmlRepresentable {
 	}
 
 	/**
+	 * Get block corresponding to the given ID
+	 * @return block
+	 */
+	public Block getBlock(String id) {
+		return this.blocks.get(Long.valueOf(id));
+	}
+
+	/**
 	 * Add block to schema
 	 * @param block block
 	 */
@@ -74,7 +84,10 @@ public class Schema implements XmlRepresentable {
 
 	@Override
 	public void fromXML(XmlActiveNode xmlDom) throws XMLParsingException {
-		xmlDom.getCurrentNode("schema");
+		if (xmlDom.getTag().equals("register")) {
+			ComponentLoader.loadFromXML(xmlDom);
+			xmlDom.nextNode("schema");
+		}
 
 		Block block;
 		for (XmlActiveNode childNode : xmlDom.childIterator()) {
@@ -102,8 +115,38 @@ public class Schema implements XmlRepresentable {
 
 	@Override
 	public void toXML(XmlActiveNode xmlDom) {
-		xmlDom.createChildElement("schema");
+		xmlDom.createChildElement("register");
+		xmlDom.createChildElement("blocktypes");
+		xmlDom.createChildElement("category");
+		xmlDom.setAttribute("name", "SchemaBlocks");
 
+		for (Block block: blocks.values()) {
+			boolean newType = true;
+			for (String builtinType : BlockTypeRegister.builtins) {
+				if (builtinType.equals(block.getBlockType().getId())) {
+					newType = false;
+					break;
+				}
+			}
+			if (!newType)
+				continue;
+
+			for (String saved : BlockTypeRegister.savedTypes) {
+				if (saved.equals(block.getBlockType().getId())) {
+					newType = false;
+					break;
+				}
+			}
+			if (newType) {
+				block.getBlockType().toXML(xmlDom);
+				BlockTypeRegister.savedTypes.add(block.getBlockType().getId());
+			}
+		}
+		xmlDom.parentNode();
+		xmlDom.parentNode();
+		xmlDom.parentNode();
+
+		xmlDom.createChildElement("schema");
 		xmlDom.createChildElement("blocks");
 		for (Block block : blocks.values()) {
 			block.toXML(xmlDom);

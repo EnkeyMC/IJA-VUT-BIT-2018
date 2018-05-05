@@ -192,6 +192,7 @@ public class MainPanelController implements Initializable {
 	}
 
 	private void saveSchema(SchemaControl schemaControl, boolean as) {
+		BlockTypeRegister.savedTypes.clear();
 		Schema schema = schemaControl.getSchema();
 		File file;
 		if (as ||schema.getFile() == null) {
@@ -298,6 +299,25 @@ public class MainPanelController implements Initializable {
 
 		try {
 			ComponentLoader.loadFromXML(file);
+		} catch (Exception e) {
+			exceptionAlert("Could not load components", e);
+		}
+	}
+
+	@FXML
+	private void handleComponentsLoadSchemaAsBlock(ActionEvent event) {
+		fileChooser.setTitle("Load Schema As Block");
+		fileChooser.getExtensionFilters().addAll(
+			new FileChooser.ExtensionFilter("XML", "*.xml"),
+			new FileChooser.ExtensionFilter("All", "*.*")
+		);
+
+		File file = fileChooser.showOpenDialog(tabs.getScene().getWindow());
+		if (file == null)
+			return;
+
+		try {
+			ComponentLoader.loadSchemaAsBlock(file);
 		} catch (Exception e) {
 			exceptionAlert("Could not load components", e);
 		}

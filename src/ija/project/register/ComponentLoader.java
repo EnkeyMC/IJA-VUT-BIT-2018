@@ -1,6 +1,10 @@
 package ija.project.register;
 
+import ija.project.schema.Schema;
+import ija.project.schema.SchemaBlock;
 import ija.project.schema.BlockType;
+import ija.project.schema.BlockPort;
+import ija.project.schema.Block;
 import ija.project.schema.Type;
 import ija.project.xml.XmlActiveNode;
 import ija.project.xml.XmlDom;
@@ -33,6 +37,12 @@ public class ComponentLoader {
 		loadFromXML(xmlDom);
 	}
 
+	public static void loadSchemaAsBlock(File file) {
+		XmlDom xmlDom = new XmlDom();
+		xmlDom.parseFile(file);
+		loadSchemaAsBlockFromXML(xmlDom, file.getAbsolutePath(), file.getName());
+	}
+
 	/**
 	 * Load and register components from XML
 	 * @param node XML node
@@ -46,6 +56,30 @@ public class ComponentLoader {
 				loadDataTypes(child);
 			}
 		}
+	}
+
+	public static void loadSchemaAsBlockFromXML(XmlActiveNode node, String id, String displayName) {
+		node.firstChildNode();
+		String category = "SchemaBlocks";
+		BlockType blockType = new BlockType(id, category, displayName);
+
+		Schema schema = new Schema();
+		schema.fromXML(node);
+
+		for (Block block : schema.getBlockCollection()) {
+			String blockId = Long.toString(block.getId());
+			for (BlockPort port : block.getBlockType().getInputPorts()) {
+				if (!block.isConnected(port.getName()))
+					blockType.addInputPort(blockId + "_" + port.getName(), port.getType());
+			}
+			for (BlockPort port : block.getBlockType().getOutputPorts())
+				if (!block.isConnected(port.getName()))
+					blockType.addOutputPort(blockId + "_" + port.getName(), port.getType());
+		}
+		blockType.setSchema(schema);
+		blockType.setBlockXmlTag(SchemaBlock.XML_TAG);
+		try { BlockTypeRegister.reg(category, blockType); }
+		catch (RuntimeException e) { ;; }
 	}
 
 	/**
@@ -63,7 +97,12 @@ public class ComponentLoader {
 					blockType = new BlockType();
 					blockType.fromXML(blockTypeNode);
 					blockType.setCategory(catName);
-					BlockTypeRegister.reg(catName, blockType);
+					if (catName.equals("SchemaBlocks")) {
+						try { BlockTypeRegister.reg(catName, blockType); }
+						catch (RuntimeException e) { ;; }
+					}
+					else
+						BlockTypeRegister.reg(catName, blockType);
 				}
 			}
 		}

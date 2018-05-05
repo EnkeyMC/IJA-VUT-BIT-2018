@@ -181,6 +181,14 @@ public class Block implements XmlRepresentable {
 	}
 
 	/**
+	 * Add dummy connection to the given port. Used during calculation of schema blocks
+	 */
+	public void makeDummyConnection(String portName) {
+		if (connections.get(portName) == null)
+			connections.put(portName, new Pair<>(null, ""));
+	}
+
+	/**
 	 * Disconnect input port, does not disconnect port on the other side of the connection
 	 * @param portName port name
 	 */

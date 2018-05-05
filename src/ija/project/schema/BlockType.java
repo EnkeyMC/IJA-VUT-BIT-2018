@@ -1,5 +1,6 @@
 package ija.project.schema;
 
+import ija.project.register.ComponentLoader;
 import ija.project.exception.XMLParsingException;
 import ija.project.xml.XmlActiveNode;
 import ija.project.xml.XmlRepresentable;
@@ -37,6 +38,11 @@ public class BlockType implements XmlRepresentable {
 	 * Blocks formulas
 	 */
 	private ArrayList<Formula> formulas;
+
+	/**
+	 * Inner schema of schema block
+	 */
+	private Schema schema;
 
 	/**
 	 * Create blank block types
@@ -211,6 +217,17 @@ public class BlockType implements XmlRepresentable {
 					}
 					break;
 				}
+
+				case "register": {
+					ComponentLoader.loadFromXML(typeChildren);
+					break;
+				}
+
+				case "schema": {
+					this.schema = new Schema();
+					this.schema.fromXML(typeChildren);
+					break;
+				}
 			}
 		}
 	}
@@ -240,6 +257,9 @@ public class BlockType implements XmlRepresentable {
 		}
 		xmlDom.parentNode();
 
+		if (this.schema != null)
+			this.schema.toXML(xmlDom);
+
 		xmlDom.parentNode();
 	}
 
@@ -265,5 +285,27 @@ public class BlockType implements XmlRepresentable {
 	 */
 	public String getBlockXmlTag() {
 		return blockXmlTag;
+	}
+
+	/**
+	 * Set block XML tag. Used when loading schema blocks.
+	 */
+	public void setBlockXmlTag(String xmlTag) {
+		this.blockXmlTag = xmlTag;
+	}
+
+	/**
+	 * Set inner schema of schema block
+	 */
+	public void setSchema(Schema schema) {
+		this.schema = schema;
+	}
+
+	/**
+	 * Get inner schema of schema block
+	 * @return schema
+	 */
+	public Schema getSchema() {
+		return this.schema;
 	}
 }
