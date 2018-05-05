@@ -105,7 +105,7 @@ public class SchemaControl extends VBox {
 	private void onDragDropped(DragEvent event) {
 		Dragboard db = event.getDragboard();
 		if (db.hasString()) {
-			String[] parts = db.getString().split(":", 2);
+			String[] parts = db.getString().split("@", 2);
 			BlockType type;
 			try {
 				type = BlockTypeRegister.getBlockTypeById(parts[0], parts[1]);

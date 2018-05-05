@@ -55,7 +55,7 @@ public class BlockListController implements Initializable {
 							Dragboard db = cell.startDragAndDrop(TransferMode.COPY);
 							ClipboardContent content = new ClipboardContent();
 							BlockType blockType = cell.getItem();
-							content.putString(pane.getText() + ":" + blockType.getId());
+							content.putString(pane.getText() + "@" + blockType.getId());
 							db.setContent(content);
 							event.consume();
 						}
