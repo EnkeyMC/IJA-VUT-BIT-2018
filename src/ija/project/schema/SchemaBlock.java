@@ -42,11 +42,10 @@ public class SchemaBlock extends Block {
 
 	@Override
 	public void calculate() {
-		// TODO
-		//getInputForComputation();
-		//Processor processor = new Processor(getBlockType().getSchema());
-		//processor.calculateAll();
-		//transferResultToOutput();
+		getInputForComputation();
+		Processor processor = new Processor(getBlockType().getSchema());
+		processor.calculateAll();
+		transferResultToOutput();
 	}
 
 	private void getInputForComputation() {

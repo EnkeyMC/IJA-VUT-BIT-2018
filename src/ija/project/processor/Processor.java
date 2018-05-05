@@ -44,28 +44,36 @@ public class Processor {
 	 * Find value blocks
 	 * @return list of value blocks
 	 */
-	private ArrayList<Block> getValueBlocks() {
-		ArrayList<Block> valueBlocks = new ArrayList<>();
+	private ArrayList<Block> getStarterBlocks() {
+		ArrayList<Block> starterBlocks = new ArrayList<>();
 		for (Block block: schema.getBlockCollection()) {
-			if (ValueBlock.isValueBlock(block.getBlockType()))
-				valueBlocks.add(block);
+			if (block.getBlockType().getInputPorts().isEmpty())
+				starterBlocks.add(block);
 		}
-		return valueBlocks;
+		return starterBlocks;
 	}
 
 	/**
 	 * Initialize processor if it is not initialized already
 	 */
-	private void initCalculation() throws ApplicationException {
+	private void initCalculation() {
 		if (!isRunning) {
+			everyPortConnected();
 			findCircularDeps();
-			for (Block block: compOrder) {
-				if (block.hasUnpluggedInputPort())
-					throw new ApplicationException(
-							"Block '" + block.getBlockType().getDisplayName()
-							+ "' has unplugged input");
-			}
 			this.isRunning = true;
+		}
+	}
+
+	private void everyPortConnected() {
+		for (Block block: schema.getBlockCollection()) {
+			if (block.hasUnpluggedInputPort())
+				throw new ApplicationException(
+						"Block '" + block.getBlockType().getDisplayName()
+						+ "' has unplugged input");
+			if (block.hasUnpluggedInputPort())
+				throw new ApplicationException(
+						"Block '" + block.getBlockType().getDisplayName()
+						+ "' has unplugged output");
 		}
 	}
 
@@ -130,8 +138,8 @@ public class Processor {
 	 * Fills compOrder attribute with blocks in order
 	 * in which the computation will be performed.
 	 */
-	private void findCircularDeps() throws ApplicationException {
-		ArrayList<Block> blockList = getValueBlocks();
+	private void findCircularDeps() {
+		ArrayList<Block> blockList = getStarterBlocks();
 		HashMap<Block, ArrayList<Block>> connections = new HashMap<>();
 		for (Block block: schema.getBlockCollection()) {
 			if (!blockList.contains(block)) {
