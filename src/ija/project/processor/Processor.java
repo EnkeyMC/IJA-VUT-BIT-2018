@@ -70,7 +70,7 @@ public class Processor {
 				throw new ApplicationException(
 						"Block '" + block.getBlockType().getDisplayName()
 						+ "' has unplugged input");
-			if (block.hasUnpluggedInputPort())
+			if (block.hasUnpluggedOutputPort())
 				throw new ApplicationException(
 						"Block '" + block.getBlockType().getDisplayName()
 						+ "' has unplugged output");
