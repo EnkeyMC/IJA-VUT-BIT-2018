@@ -27,6 +27,11 @@ public class ResultBlock extends Block {
 	 */
 	public ResultBlock(BlockType blockType) {
 		super(blockType);
+	}
+
+	@Override
+	protected void initFromBlockType(BlockType blockType) {
+		super.initFromBlockType(blockType);
 		values = new TypeValues(blockType.getInputPort("value").getType());
 	}
 
