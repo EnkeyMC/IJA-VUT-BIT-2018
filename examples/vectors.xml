@@ -53,7 +53,8 @@
 					<blockport name="result" type="vector2d" />
 				</outputs>
 				<formulas>
-
+					<formula>result.x = a.x + b.x</formula>
+					<formula>result.y = a.y + b.y</formula>
 				</formulas>
 			</blocktype>
 
@@ -66,7 +67,8 @@
 					<blockport name="result" type="vector2d" />
 				</outputs>
 				<formulas>
-
+					<formula>result.x = a.x - b.x</formula>
+					<formula>result.y = a.y - b.y</formula>
 				</formulas>
 			</blocktype>
 
@@ -79,7 +81,8 @@
 					<blockport name="result" type="vector2d" />
 				</outputs>
 				<formulas>
-
+					<formula>result.x = vector.x * scalar.value</formula>
+					<formula>result.y = vector.y * scalar.value</formula>
 				</formulas>
 			</blocktype>
 
@@ -92,7 +95,8 @@
 					<blockport name="result" type="vector2d" />
 				</outputs>
 				<formulas>
-
+					<formula>result.x = vector.x / scalar.value</formula>
+					<formula>result.y = vector.y / scalar.value</formula>
 				</formulas>
 			</blocktype>
 
@@ -104,6 +108,9 @@
 				<outputs>
 					<blockport name="product" type="double" />
 				</outputs>
+				<formulas>
+					<formula>product.value = (a.x * b.x) + (a.y * b.y)</formula>
+				</formulas>
 			</blocktype>
 		</category>
 		<category name="Vector3D">
@@ -116,7 +123,9 @@
 					<blockport name="result" type="vector3d" />
 				</outputs>
 				<formulas>
-
+					<formula>result.x = a.x + b.x</formula>
+					<formula>result.y = a.y + b.y</formula>
+					<formula>result.z = a.z + b.z</formula>
 				</formulas>
 			</blocktype>
 
@@ -129,7 +138,9 @@
 					<blockport name="result" type="vector3d" />
 				</outputs>
 				<formulas>
-
+					<formula>result.x = a.x - b.x</formula>
+					<formula>result.y = a.y - b.y</formula>
+					<formula>result.z = a.z - b.z</formula>
 				</formulas>
 			</blocktype>
 
@@ -142,7 +153,9 @@
 					<blockport name="result" type="vector3d" />
 				</outputs>
 				<formulas>
-
+					<formula>result.x = vector.x * scalar.value</formula>
+					<formula>result.y = vector.y * scalar.value</formula>
+					<formula>result.z = vector.z * scalar.value</formula>
 				</formulas>
 			</blocktype>
 
@@ -155,7 +168,9 @@
 					<blockport name="result" type="vector3d" />
 				</outputs>
 				<formulas>
-
+					<formula>result.x = vector.x / scalar.value</formula>
+					<formula>result.y = vector.y / scalar.value</formula>
+					<formula>result.z = vector.z / scalar.value</formula>
 				</formulas>
 			</blocktype>
 
@@ -167,6 +182,9 @@
 				<outputs>
 					<blockport name="product" type="double" />
 				</outputs>
+				<formulas>
+					<formula>product.value = (a.x * b.x) + (a.y * b.y) + (a.z * b.z)</formula>
+				</formulas>
 			</blocktype>
 		</category>
 	</blocktypes>
