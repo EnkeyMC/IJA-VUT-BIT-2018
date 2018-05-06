@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+    <register>
+        <blocktypes>
+            <category name="SchemaBlocks"/>
+        </blocktypes>
+    </register>
+    <schema>
+        <blocks>
+            <valueblock block-type-cat="Special" block-type-id="value_double" id="3" x="99" y="28">
+                <values>
+                    <value name="value" value="9.0"/>
+                </values>
+            </valueblock>
+            <valueblock block-type-cat="Special" block-type-id="value_double" id="4" x="216" y="21">
+                <values>
+                    <value name="value" value="3.0"/>
+                </values>
+            </valueblock>
+            <block block-type-cat="Double" block-type-id="double_copy" id="5" x="200" y="136"/>
+            <block block-type-cat="Double" block-type-id="double_pow" id="6" x="171" y="242"/>
+            <block block-type-cat="Double" block-type-id="double_pow" id="7" x="272" y="245"/>
+            <valueblock block-type-cat="Special" block-type-id="value_double" id="8" x="360" y="11">
+                <values>
+                    <value name="value" value="4.0"/>
+                </values>
+            </valueblock>
+            <block block-type-cat="Double" block-type-id="double_div" id="9" x="229" y="369"/>
+            <resultblock block-type-cat="Special" block-type-id="result_double" id="10" x="189" y="484"/>
+        </blocks>
+        <connections>
+            <connection dst-block-id="6" dst-port="base" src-block-id="3" src-port="value"/>
+            <connection dst-block-id="5" dst-port="x" src-block-id="4" src-port="value"/>
+            <connection dst-block-id="6" dst-port="exponent" src-block-id="5" src-port="x1"/>
+            <connection dst-block-id="7" dst-port="exponent" src-block-id="5" src-port="x2"/>
+            <connection dst-block-id="9" dst-port="x" src-block-id="6" src-port="result"/>
+            <connection dst-block-id="9" dst-port="y" src-block-id="7" src-port="result"/>
+            <connection dst-block-id="7" dst-port="base" src-block-id="8" src-port="value"/>
+            <connection dst-block-id="10" dst-port="value" src-block-id="9" src-port="result"/>
+        </connections>
+    </schema>
+</root>
