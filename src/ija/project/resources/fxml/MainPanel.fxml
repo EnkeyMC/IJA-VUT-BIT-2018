@@ -45,11 +45,6 @@
 				</Menu>
 				<Menu text="_Help">
 					<items>
-						<MenuItem text="How to" >
-							<accelerator>
-								<KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
-							</accelerator>
-						</MenuItem>
 						<MenuItem text="About" onAction="#handleAboutAction" />
 					</items>
 				</Menu>

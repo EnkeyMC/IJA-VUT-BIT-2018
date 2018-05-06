@@ -39,9 +39,9 @@
 		<HBox styleClass="about_hbox">
 			<children>
 				<Spacer />
-				<Label text="Trial version 42" />
+				<Label text="Version 42" />
 				<Spacer />
-				<Label text="© 2018, FIT VUT" />
+				<Label text="© 2018, MZP" />
 				<Spacer />
 			</children>
 		</HBox>
