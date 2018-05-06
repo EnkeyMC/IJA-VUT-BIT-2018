@@ -157,7 +157,9 @@ public class Schema implements XmlRepresentable {
 		xmlDom.createChildElement("connections");
 		for (Block block : blocks.values()) {
 			for (Map.Entry<String, Pair<Block, String>> connection : block.getConnections().entrySet()) {
-				if (connection.getValue() != null && !block.isInputPort(connection.getKey())) {
+				if (connection.getValue() != null
+						&& !connection.getValue().getValue().equals("")
+						&& !block.isInputPort(connection.getKey())) {
 					xmlDom.createChildElement("connection");
 					xmlDom.setAttribute("src-block-id", Long.toString(block.getId()));
 					xmlDom.setAttribute("src-port", connection.getKey());
