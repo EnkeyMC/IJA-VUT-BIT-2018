@@ -97,7 +97,8 @@ public class BlockType implements XmlRepresentable {
 	}
 
 	/**
-	 * Get certain formulas
+	 * Get all formulas
+	 * @return formulas
 	 */
 	public ArrayList<Formula> getFormulas() {
 		return formulas;
@@ -289,6 +290,7 @@ public class BlockType implements XmlRepresentable {
 
 	/**
 	 * Set block XML tag. Used when loading schema blocks.
+	 * @param xmlTag xml tag
 	 */
 	public void setBlockXmlTag(String xmlTag) {
 		this.blockXmlTag = xmlTag;
@@ -296,6 +298,7 @@ public class BlockType implements XmlRepresentable {
 
 	/**
 	 * Set inner schema of schema block
+	 * @param schema schema
 	 */
 	public void setSchema(Schema schema) {
 		this.schema = schema;

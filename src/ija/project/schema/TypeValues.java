@@ -36,6 +36,7 @@ public class TypeValues {
 	 * Set key and value to types
 	 * @param key value key
 	 * @param value value
+	 * @throws KeyException when there is no existing type with this key
 	 */
 	public void setValue(String key, Double value) throws KeyException {
 		if (valuesMap.containsKey(key)) {
@@ -48,6 +49,7 @@ public class TypeValues {
 	/**
 	 * Get key value
 	 * @param key value key
+	 * @throws KeyException when no existing types with this key
 	 * @return value
 	 */
 	public Double getValue(String key) throws KeyException {

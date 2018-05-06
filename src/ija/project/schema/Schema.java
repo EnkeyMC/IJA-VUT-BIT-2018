@@ -59,6 +59,7 @@ public class Schema implements XmlRepresentable {
 
 	/**
 	 * Get block corresponding to the given ID
+	 * @param id id
 	 * @return block
 	 */
 	public Block getBlock(String id) {

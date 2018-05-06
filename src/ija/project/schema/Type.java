@@ -41,6 +41,7 @@ public class Type implements XmlRepresentable {
 	/**
 	 * Add key to types
 	 * @param key value key
+	 * @throws KeyException when type already contains given key
 	 */
 	public void addKey(String key) throws KeyException {
 		if (keys.contains(key)) {

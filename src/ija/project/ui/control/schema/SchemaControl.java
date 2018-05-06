@@ -290,7 +290,7 @@ public class SchemaControl extends VBox {
 
 	/**
 	 * Add block control to schema pane and to blockControls map
-	 * @param blockControl
+	 * @param blockControl block control
 	 */
 	protected void addBlockControl(BlockControl blockControl) {
 		schemaPane.getChildren().add(blockControl);

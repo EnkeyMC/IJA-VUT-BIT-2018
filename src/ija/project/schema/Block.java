@@ -181,6 +181,7 @@ public class Block implements XmlRepresentable {
 
 	/**
 	 * Add dummy connection to the given port. Used during calculation of schema blocks
+	 * @param portName port name
 	 */
 	public void makeDummyConnection(String portName) {
 		if (connections.get(portName) == null)
@@ -339,7 +340,7 @@ public class Block implements XmlRepresentable {
 
 	/**
 	 * Get connections on all ports, unconnected ports are mapped to null
-	 * @return port name => block & port name pair mapping
+	 * @return port name =&gt; block &amp; port name pair mapping
 	 */
 	public MapProperty<String, Pair<Block, String>> getConnections() {
 		return connections;

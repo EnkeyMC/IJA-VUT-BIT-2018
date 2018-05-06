@@ -67,7 +67,7 @@ public class ComponentLoader {
 	 * Register new block type based on schema
 	 * @param node XML node
 	 * @param id absolute path to the schema file
-	 * @param displaName schema file name
+	 * @param displayName schema file name
 	 */
 	public static void loadSchemaAsBlockFromXML(XmlActiveNode node, String id, String displayName) {
 		node.firstChildNode();
