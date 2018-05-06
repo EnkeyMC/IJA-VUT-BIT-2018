@@ -38,6 +38,10 @@ public class ComponentLoader {
 		loadFromXML(xmlDom);
 	}
 
+	/**
+	 * Load new block type out of an existing schema
+	 * @param file schema file
+	 */
 	public static void loadSchemaAsBlock(File file) {
 		XmlDom xmlDom = new XmlDom();
 		xmlDom.parseFile(file);
@@ -59,6 +63,12 @@ public class ComponentLoader {
 		}
 	}
 
+	/**
+	 * Register new block type based on schema
+	 * @param node XML node
+	 * @param id absolute path to the schema file
+	 * @param displaName schema file name
+	 */
 	public static void loadSchemaAsBlockFromXML(XmlActiveNode node, String id, String displayName) {
 		node.firstChildNode();
 		String category = "SchemaBlocks";
