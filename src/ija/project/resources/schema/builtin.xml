@@ -75,6 +75,33 @@
 					<formula>result.value = x.value / y.value</formula>
 				</formulas>
 			</blocktype>
+
+			<blocktype id="double_pow" display-name="Power">
+				<inputs>
+					<blockport name="base" type="double" />
+					<blockport name="exponent" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="result" type="double" />
+				</outputs>
+				<formulas>
+					<formula>result.value = base.value ^ exponent.value</formula>
+				</formulas>
+			</blocktype>
+
+			<blocktype id="double_copy" display-name="Copy Value">
+				<inputs>
+					<blockport name="x" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="x1" type="double" />
+					<blockport name="x2" type="double" />
+				</outputs>
+				<formulas>
+					<formula>x1.value = x.value</formula>
+					<formula>x2.value = x.value</formula>
+				</formulas>
+			</blocktype>
 		</category>
 	</blocktypes>
 </register>

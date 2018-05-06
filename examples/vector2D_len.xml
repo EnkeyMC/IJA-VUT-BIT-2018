@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+    <register>
+        <blocktypes>
+            <category name="SchemaBlocks">
+                <blocktype block-xml-tag="block" display-name="Vector2D To Doubles" id="vector2d_from">
+                    <inputs>
+                        <blockport name="vector" type="vector2d"/>
+                    </inputs>
+                    <outputs>
+                        <blockport name="x" type="double"/>
+                        <blockport name="y" type="double"/>
+                    </outputs>
+                    <formulas>
+                        <formula>x.value = vector.x</formula>
+                        <formula>y.value = vector.y</formula>
+                    </formulas>
+                </blocktype>
+                <blocktype block-xml-tag="block" display-name="Power" id="double_pow">
+                    <inputs>
+                        <blockport name="base" type="double"/>
+                        <blockport name="exponent" type="double"/>
+                    </inputs>
+                    <outputs>
+                        <blockport name="result" type="double"/>
+                    </outputs>
+                    <formulas>
+                        <formula>result.value = base.value ^ exponent.value</formula>
+                    </formulas>
+                </blocktype>
+                <blocktype block-xml-tag="block" display-name="Copy Value" id="double_copy">
+                    <inputs>
+                        <blockport name="x" type="double"/>
+                    </inputs>
+                    <outputs>
+                        <blockport name="x1" type="double"/>
+                        <blockport name="x2" type="double"/>
+                    </outputs>
+                    <formulas>
+                        <formula>x1.value = x.value</formula>
+                        <formula>x2.value = x.value</formula>
+                    </formulas>
+                </blocktype>
+            </category>
+        </blocktypes>
+    </register>
+    <schema>
+        <blocks>
+            <block block-type-cat="Vector2D" block-type-id="vector2d_from" id="1" x="408" y="144"/>
+            <block block-type-cat="Double" block-type-id="double_pow" id="2" x="419" y="284"/>
+            <block block-type-cat="Double" block-type-id="double_pow" id="3" x="523" y="294"/>
+            <valueblock block-type-cat="Special" block-type-id="value_double" id="4" x="687" y="70">
+                <values>
+                    <value name="value" value="2.0"/>
+                </values>
+            </valueblock>
+            <block block-type-cat="Double" block-type-id="double_copy" id="5" x="659" y="175"/>
+            <block block-type-cat="Double" block-type-id="double_add" id="6" x="466" y="409"/>
+            <block block-type-cat="Double" block-type-id="double_pow" id="7" x="471" y="519"/>
+            <valueblock block-type-cat="Special" block-type-id="value_double" id="8" x="595" y="395">
+                <values>
+                    <value name="value" value="0.5"/>
+                </values>
+            </valueblock>
+        </blocks>
+        <connections>
+            <connection dst-block-id="2" dst-port="base" src-block-id="1" src-port="x"/>
+            <connection dst-block-id="3" dst-port="base" src-block-id="1" src-port="y"/>
+            <connection dst-block-id="6" dst-port="x" src-block-id="2" src-port="result"/>
+            <connection dst-block-id="6" dst-port="y" src-block-id="3" src-port="result"/>
+            <connection dst-block-id="5" dst-port="x" src-block-id="4" src-port="value"/>
+            <connection dst-block-id="2" dst-port="exponent" src-block-id="5" src-port="x1"/>
+            <connection dst-block-id="3" dst-port="exponent" src-block-id="5" src-port="x2"/>
+            <connection dst-block-id="7" dst-port="base" src-block-id="6" src-port="result"/>
+            <connection dst-block-id="7" dst-port="exponent" src-block-id="8" src-port="value"/>
+        </connections>
+    </schema>
+</root>

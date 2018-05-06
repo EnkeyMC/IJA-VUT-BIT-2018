@@ -112,6 +112,35 @@
 					<formula>product.value = (a.x * b.x) + (a.y * b.y)</formula>
 				</formulas>
 			</blocktype>
+
+			<blocktype id="vector2d_from" display-name="Vector2D To Doubles">
+				<inputs>
+					<blockport name="vector" type="vector2d" />
+				</inputs>
+				<outputs>
+					<blockport name="x" type="double" />
+					<blockport name="y" type="double" />
+				</outputs>
+				<formulas>
+					<formula>x.value = vector.x</formula>
+					<formula>y.value = vector.y</formula>
+				</formulas>
+			</blocktype>
+
+
+			<blocktype id="vector2d_to" display-name="Doubles To Vector2D">
+				<inputs>
+					<blockport name="x" type="double" />
+					<blockport name="y" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="vector" type="vector2d" />
+				</outputs>
+				<formulas>
+					<formula>vector.x = x.value</formula>
+					<formula>vector.y = y.value</formula>
+				</formulas>
+			</blocktype>
 		</category>
 		<category name="Vector3D">
 			<blocktype id="vector3d_add" display-name="Vector3D Add">
@@ -184,6 +213,39 @@
 				</outputs>
 				<formulas>
 					<formula>product.value = (a.x * b.x) + (a.y * b.y) + (a.z * b.z)</formula>
+				</formulas>
+			</blocktype>
+
+			<blocktype id="vector3d_from" display-name="Vector3D To Doubles">
+				<inputs>
+					<blockport name="vector" type="vector3d" />
+				</inputs>
+				<outputs>
+					<blockport name="x" type="double" />
+					<blockport name="y" type="double" />
+					<blockport name="z" type="double" />
+				</outputs>
+				<formulas>
+					<formula>x.value = vector.x</formula>
+					<formula>y.value = vector.y</formula>
+					<formula>z.value = vector.z</formula>
+				</formulas>
+			</blocktype>
+
+
+			<blocktype id="vector3d_to" display-name="Doubles To Vector3D">
+				<inputs>
+					<blockport name="x" type="double" />
+					<blockport name="y" type="double" />
+					<blockport name="z" type="double" />
+				</inputs>
+				<outputs>
+					<blockport name="vector" type="vector3d" />
+				</outputs>
+				<formulas>
+					<formula>vector.x = x.value</formula>
+					<formula>vector.y = y.value</formula>
+					<formula>vector.z = z.value</formula>
 				</formulas>
 			</blocktype>
 		</category>
