@@ -11,6 +11,6 @@
 		 xmlns="http://javafx.com/javafx"
 		 xmlns:fx="http://javafx.com/fxml/1">
 	<center>
-		<Label fx:id="displayNameLabel" />
+		<Label fx:id="displayNameLabel" styleClass="name_label"/>
 	</center>
 </fx:root>

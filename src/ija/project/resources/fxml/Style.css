@@ -165,12 +165,12 @@
 	-fx-effect: dropshadow(three-pass-box, rgba(0, 150, 210, 0.8), 10, 0, 0, 0);
 }
 
-.schema-block .label {
-	-fx-padding: 5;
+.value-label {
+	-fx-padding: 0 5 5 5;
 }
 
-.value-label .label {
-	-fx-padding: 2;
+.name_label {
+	-fx-padding: 5;
 }
 
 .hbox-up {

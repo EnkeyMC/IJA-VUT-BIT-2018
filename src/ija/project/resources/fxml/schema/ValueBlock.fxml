@@ -19,7 +19,7 @@
 			<children>
 				<HBox>
 					<Spacer/>
-					<Label fx:id="displayNameLabel" alignment="CENTER"/>
+					<Label fx:id="displayNameLabel" alignment="CENTER" styleClass="name_label"/>
 					<Spacer/>
 				</HBox>
 				<HBox>
