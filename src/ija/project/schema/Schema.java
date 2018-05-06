@@ -122,6 +122,8 @@ public class Schema implements XmlRepresentable {
 		xmlDom.setAttribute("name", "SchemaBlocks");
 
 		for (Block block: blocks.values()) {
+			if (!block.getBlockType().getCategory().equals("SchemaBlocks"))
+				continue;
 			boolean newType = true;
 			for (String builtinType : BlockTypeRegister.builtins) {
 				if (builtinType.equals(block.getBlockType().getId())) {
