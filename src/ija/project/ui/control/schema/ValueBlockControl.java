@@ -28,7 +28,9 @@ public class ValueBlockControl extends BlockControl {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Create ValueBlockControl from BlockType, creates the block
+	 * @param schemaControl parent schema control
+	 * @param blockType BlockType
 	 */
 	public ValueBlockControl(SchemaControl schemaControl, BlockType blockType) {
 		super(schemaControl, blockType);
@@ -39,7 +41,9 @@ public class ValueBlockControl extends BlockControl {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Create ValueBlockControl displaying given block
+	 * @param schemaControl parent schema control
+	 * @param block Block to display
 	 */
 	public ValueBlockControl(SchemaControl schemaControl, Block block) {
 		super(schemaControl, block);
