@@ -12,7 +12,7 @@
     <property name="main-class"  value="ija.project.BlockEditor"/>
 
 
-    <target name="compile" depends="antlr">
+    <target name="compile" depends="antlr,doc">
         <mkdir dir="${classes.dir}" />
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpath="${libs.cp}" />
         <copy todir="${classes.dir}">
@@ -37,6 +37,9 @@
 
     <target name="clean">
         <delete dir="${build.dir}" />
+		<delete includeemptydirs="true">
+			<fileset dir="doc/" includes="**/*"/>
+		</delete>
     </target>
 
 	<target name="test" depends="compile">
@@ -62,5 +65,15 @@
 			<arg value="${antlr.grammar}"/>
 			<classpath path="${libs.cp}"/>
 		</java>
+	</target>
+
+	<target name="doc">
+		<javadoc destdir="doc/">
+			<packageset dir="src/" defaultexcludes="yes">
+				<exclude name="ija/project/parser/*"/>
+				<exclude name="antlr/**"/>
+				<exclude name="test/**"/>
+			</packageset>
+		</javadoc>
 	</target>
 </project>

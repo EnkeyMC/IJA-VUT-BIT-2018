@@ -129,7 +129,7 @@ public class Processor {
 	}
 
 	/**
-	 * Perform calculation on blocks, which have not been processed already
+	 * Perform calculation on blocks that have not been processed already
 	 */
 	public void calculateAll() throws ApplicationException, ParseCancellationException {
 		initCalculation();
