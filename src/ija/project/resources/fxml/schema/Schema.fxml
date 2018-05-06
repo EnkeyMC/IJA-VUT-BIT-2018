@@ -10,7 +10,7 @@
 <?import javafx.scene.control.Button?>
 <fx:root type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<ToolBar prefHeight="40.0" VBox.vgrow="NEVER">
+		<ToolBar prefHeight="40.0" VBox.vgrow="NEVER" fx:id="toolbar">
 			<items>
             	<ToggleButton mnemonicParsing="false" text="Remove" fx:id="toolRemove" />
 				<Separator />

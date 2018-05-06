@@ -120,6 +120,11 @@ public class MainPanelController implements Initializable {
 				}
 			}
 		});
+
+		fileChooser.getExtensionFilters().addAll(
+			new FileChooser.ExtensionFilter("XML", "*.xml"),
+			new FileChooser.ExtensionFilter("All", "*.*")
+		);
 	}
 
 	/**
@@ -208,10 +213,6 @@ public class MainPanelController implements Initializable {
 		File file;
 		if (as ||schema.getFile() == null) {
 			fileChooser.setTitle("Save Schema" + (as ? " As" : ""));
-			fileChooser.getExtensionFilters().addAll(
-				new FileChooser.ExtensionFilter("XML", "*.xml"),
-				new FileChooser.ExtensionFilter("All", "*.*")
-			);
 
 			file = fileChooser.showSaveDialog(tabs.getScene().getWindow());
 			if (file == null)
@@ -236,10 +237,6 @@ public class MainPanelController implements Initializable {
 	@FXML
 	private void handleOpenSchemaAction(ActionEvent event) {
 		fileChooser.setTitle("Open Schema");
-		fileChooser.getExtensionFilters().addAll(
-			new FileChooser.ExtensionFilter("XML", "*.xml"),
-			new FileChooser.ExtensionFilter("All", "*.*")
-		);
 
 		File file = fileChooser.showOpenDialog(tabs.getScene().getWindow());
 		if (file == null)
@@ -299,10 +296,6 @@ public class MainPanelController implements Initializable {
 	@FXML
 	private void handleComponentsLoadComponents(ActionEvent event) {
 		fileChooser.setTitle("Load Components");
-		fileChooser.getExtensionFilters().addAll(
-			new FileChooser.ExtensionFilter("XML", "*.xml"),
-			new FileChooser.ExtensionFilter("All", "*.*")
-		);
 
 		File file = fileChooser.showOpenDialog(tabs.getScene().getWindow());
 		if (file == null)
@@ -318,10 +311,7 @@ public class MainPanelController implements Initializable {
 	@FXML
 	private void handleComponentsLoadSchemaAsBlock(ActionEvent event) {
 		fileChooser.setTitle("Load Schema As Block");
-		fileChooser.getExtensionFilters().addAll(
-			new FileChooser.ExtensionFilter("XML", "*.xml"),
-			new FileChooser.ExtensionFilter("All", "*.*")
-		);
+
 
 		File file = fileChooser.showOpenDialog(tabs.getScene().getWindow());
 		if (file == null)

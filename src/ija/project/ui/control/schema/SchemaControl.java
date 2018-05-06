@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -39,6 +40,10 @@ public class SchemaControl extends VBox {
 	/** Button for toggling removal of removable nodes (see {@link Removable}) */
 	@FXML
 	private ToggleButton toolRemove;
+
+	/** Toolbar object injected from FXML */
+	@FXML
+	private ToolBar toolbar;
 
 	/** Schema this control displays */
 	private Schema schema;
@@ -463,5 +468,12 @@ public class SchemaControl extends VBox {
 	 */
 	public BooleanProperty readOnlyProperty() {
 		return readOnly;
+	}
+
+	/**
+	 * Disable schema toolbar
+	 */
+	public void disableToolbar() {
+		toolbar.setDisable(true);
 	}
 }

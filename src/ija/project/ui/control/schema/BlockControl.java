@@ -3,17 +3,24 @@ package ija.project.ui.control.schema;
 import ija.project.schema.Block;
 import ija.project.schema.BlockPort;
 import ija.project.schema.BlockType;
+import ija.project.schema.SchemaBlock;
 import ija.project.ui.control.Spacer;
+import ija.project.ui.utils.UIComponentLoader;
 import ija.project.ui.utils.UIContolLoader;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,6 +139,31 @@ public class BlockControl extends BorderPane implements Removable, Selectable {
 		block.yProperty().bindBidirectional(this.layoutYProperty());
 		block.setX(x);
 		block.setY(y);
+
+		if (block instanceof SchemaBlock) {
+			this.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, contextMenuEvent -> {
+				ContextMenu menu = new ContextMenu();
+				MenuItem item = new MenuItem("Show schema");
+				item.setOnAction(event -> {
+					Stage stage = new Stage();
+					stage.setMinHeight(400);
+					stage.setMinWidth(400);
+					stage.setTitle(block.getBlockType().getDisplayName());
+					SchemaControl schemaControl = new SchemaControl(block.getBlockType().getSchema());
+					schemaControl.setPrefSize(600, 400);
+					Scene scene = new Scene(schemaControl);
+					scene.getStylesheets().add("ija/project/resources/fxml/Style.css");
+					stage.setScene(scene);
+					schemaControl.setReadOnly(true);
+					schemaControl.disableToolbar();
+					stage.show();
+				});
+				menu.getItems().add(item);
+				menu.show(this, contextMenuEvent.getScreenX(), contextMenuEvent.getScreenY());
+				contextMenuEvent.consume();
+			});
+
+		}
 	}
 
 	/**

@@ -52,6 +52,7 @@ public class BlockEditor extends Application {
 
 		primaryStage.setOnCloseRequest(event -> loader.getController().onExit(event));
 
+		primaryStage.setMaximized(true);
 		primaryStage.show();
 
 		loadDefaults();
