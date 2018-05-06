@@ -15,6 +15,6 @@ Spočítat jdou pouze validní schémata. Validní schéma je takové, které ne
 
 Pomocí "Components > Load Components..." lze načíst další datové typy a bloky (např. soubor examples/vectors.xml).
 
-Pokud chceme použít schéma jako blok vybereme "Components > Load Schema As Block". Všechny nepřipojené vstupní/výstupní porty ve schématu pak slouží jako vstupní/výstupní porty v takto načteném bloku.
+Pokud chceme použít schéma jako blok vybereme "Components > Load Schema As Block". Všechny nepřipojené vstupní/výstupní porty ve schématu pak slouží jako vstupní/výstupní porty v takto načteném bloku. Interní schéma složeného bloku lze zobrazít pravým kliknutím na takovýto blok ve schématu a zvolením položky "Show schema".
 
 Mazání bloků nebo propojů ve schématu se provádí buď zvolením nástroje Remove a následným kliknutím na blok nebo propoj a nebo zvolením bloku či propoje a zmáčknutím klávesy Delete.
