@@ -108,7 +108,7 @@ public class SchemaControl extends VBox {
 
 		for (Block block : blocks) {
 			for (Map.Entry<String, Pair<Block, String>> connection : block.getConnections().entrySet()) {
-				if (connection.getValue() != null) {
+				if (connection.getValue() != null && block.getPluggedBlock(connection.getKey()) != null) {
 					blockControl = blockControls.get(block.getId());
 					blockPortControlOutput = blockControl.getPortControl(connection.getKey());
 

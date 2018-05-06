@@ -13,46 +13,7 @@
                     <formulas/>
                     <register>
                         <blocktypes>
-                            <category name="SchemaBlocks">
-                                <blocktype block-xml-tag="block" display-name="Vector2D To Doubles" id="vector2d_from">
-                                    <inputs>
-                                        <blockport name="vector" type="vector2d"/>
-                                    </inputs>
-                                    <outputs>
-                                        <blockport name="x" type="double"/>
-                                        <blockport name="y" type="double"/>
-                                    </outputs>
-                                    <formulas>
-                                        <formula>x.value = vector.x</formula>
-                                        <formula>y.value = vector.y</formula>
-                                    </formulas>
-                                </blocktype>
-                                <blocktype block-xml-tag="block" display-name="Power" id="double_pow">
-                                    <inputs>
-                                        <blockport name="base" type="double"/>
-                                        <blockport name="exponent" type="double"/>
-                                    </inputs>
-                                    <outputs>
-                                        <blockport name="result" type="double"/>
-                                    </outputs>
-                                    <formulas>
-                                        <formula>result.value = base.value ^ exponent.value</formula>
-                                    </formulas>
-                                </blocktype>
-                                <blocktype block-xml-tag="block" display-name="Copy Value" id="double_copy">
-                                    <inputs>
-                                        <blockport name="x" type="double"/>
-                                    </inputs>
-                                    <outputs>
-                                        <blockport name="x1" type="double"/>
-                                        <blockport name="x2" type="double"/>
-                                    </outputs>
-                                    <formulas>
-                                        <formula>x1.value = x.value</formula>
-                                        <formula>x2.value = x.value</formula>
-                                    </formulas>
-                                </blocktype>
-                            </category>
+                            <category name="SchemaBlocks"/>
                         </blocktypes>
                     </register>
                     <schema>
@@ -60,7 +21,7 @@
                             <block block-type-cat="Vector2D" block-type-id="vector2d_from" id="1" x="408" y="144"/>
                             <block block-type-cat="Double" block-type-id="double_pow" id="2" x="419" y="284"/>
                             <block block-type-cat="Double" block-type-id="double_pow" id="3" x="523" y="294"/>
-                            <valueblock block-type-cat="Special" block-type-id="value_double" id="4" x="687" y="70">
+                            <valueblock block-type-cat="Special" block-type-id="value_double" id="4" x="664" y="71">
                                 <values>
                                     <value name="value" value="2.0"/>
                                 </values>
@@ -87,20 +48,13 @@
                         </connections>
                     </schema>
                 </blocktype>
-                <blocktype block-xml-tag="valueblock" display-name="Vector2D" id="value_vector2d">
-                    <inputs/>
-                    <outputs>
-                        <blockport name="value" type="vector2d"/>
-                    </outputs>
-                    <formulas/>
-                </blocktype>
             </category>
         </blocktypes>
     </register>
     <schema>
         <blocks>
             <schemablock block-type-cat="SchemaBlocks" block-type-id="/home/martin/projects/github/ija/examples/vector2D_len.xml" id="1" x="446" y="337"/>
-            <valueblock block-type-cat="Special" block-type-id="value_vector2d" id="2" x="438" y="83">
+            <valueblock block-type-cat="Special" block-type-id="value_vector2d" id="2" x="458" y="78">
                 <values>
                     <value name="x" value="1.0"/>
                     <value name="y" value="1.0"/>
