@@ -68,9 +68,8 @@
 	</target>
 
 	<target name="doc">
-		<javadoc destdir="doc/">
+		<javadoc destdir="doc/" classpath="${libs.cp}">
 			<packageset dir="src/" defaultexcludes="yes">
-				<exclude name="ija/project/parser/*"/>
 				<exclude name="antlr/**"/>
 				<exclude name="test/**"/>
 			</packageset>
