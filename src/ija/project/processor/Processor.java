@@ -47,7 +47,12 @@ public class Processor {
 	private ArrayList<Block> getStarterBlocks() {
 		ArrayList<Block> starterBlocks = new ArrayList<>();
 		for (Block block: schema.getBlockCollection()) {
-			if (block.getBlockType().getInputPorts().isEmpty())
+			boolean add = true;
+			for (BlockPort port : block.getBlockType().getInputPorts()) {
+				if (block.getPluggedBlock(port.getName()) != null)
+					add = false;
+			}
+			if (add)
 				starterBlocks.add(block);
 		}
 		return starterBlocks;
@@ -111,9 +116,8 @@ public class Processor {
 
 			TypeValues result = block.getOutputPortValues().get(port.getName());
 			for (String key: result.getType().getKeys()) {
-				try {
-					result.getValue(key);
-				} catch (KeyException e) {
+				try { result.getValue(key); }
+				catch (KeyException e) {
 					throw new ApplicationException(
 							"Block '" + block.getBlockType().getDisplayName()
 							+ "' (ID " + block.getId() + ")\nMissing formula for "
